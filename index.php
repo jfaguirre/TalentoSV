@@ -1,7 +1,7 @@
 
 <?php
 
-require_once 'controller/plantillaControlador.php';
+require_once 'controller/PlantillaControlador.php';
 
 
 $plantilla = new PlantillaControlador();
