@@ -1,8 +1,11 @@
 <?php
 
+namespace App\helpers;
+
 class Alert {
 
-    static public function success($title, $text){
+
+    static public function success(string $title, string $text){
 
         echo "
             <script>
@@ -15,7 +18,7 @@ class Alert {
         ";        
     }
 
-    static public function info($title, $text){
+    static public function info(string $title, string $text){
 
         echo "
             <script>
@@ -28,7 +31,7 @@ class Alert {
         ";        
     }
 
-    static public function error($title, $text){
+    static public function error(string $title, string $text){
 
         echo "
             <script>

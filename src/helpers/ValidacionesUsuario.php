@@ -1,5 +1,7 @@
 <?php
 
+namespace App\helpers;
+
 class Validacion {
 
     static public function validacion($datos){
