@@ -9,7 +9,7 @@ class Conexion {
         // 2. nombre del usuario
         // 3. password del usuario
 
-        $enlace = new PDO("mysql:host=localhost; dbname=mvc_data", "root", "");
+        $enlace = new PDO("mysql:host=localhost; dbname=bolsa_empleo", "root", "");
         $enlace->exec("set names utf8");
 
         return $enlace;
