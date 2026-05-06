@@ -71,6 +71,67 @@ class Usuario {
         }
     }
 
+    // altualizar informaciondel usuario
+    public static function actualizarUsuario($id_usuario, Usuario $usuario)
+    {
+        try {
+            $consultaSQL = Conexion::conexion()
+            ->prepare("UPDATE usuarios 
+                SET nombre = :nombre,
+                    apellido = :apellido,
+                    correo = :correo,
+                    password = :password
+                WHERE id_usuario = :id_usuario");
+
+            $consultaSQL->bindParam(":nombre", $usuario->nombre, PDO::PARAM_STR);
+            $consultaSQL->bindParam(":apellido", $usuario->apellido, PDO::PARAM_STR);
+            $consultaSQL->bindParam(":correo", $usuario->correo, PDO::PARAM_STR);
+            $consultaSQL->bindParam(":password", $usuario->password, PDO::PARAM_STR);
+            $consultaSQL->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
+
+            return $consultaSQL->execute();
+
+        } catch (\Throwable $th) {
+            return 'Error: '.$th->getMessage();
+        }
+    }
+
+
+    // para eiminar usuario
+    public static function eliminarUsuario($id_usuario)
+    {
+        try {
+            $consultaSQL = Conexion::conexion()
+            ->prepare("DELETE FROM usuarios WHERE id_usuario = :id_usuario");
+
+            $consultaSQL->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
+
+            return $consultaSQL->execute();
+
+        } catch (\Throwable $th) {
+            return 'Error: '.$th->getMessage();
+        }
+    }
+
+
+    // este esta penado para que se inserte en la tabla perfil_usuarios, son los que vienen la vista del formulario CV
+    public static function crearPerfil($data)
+    {
+        try {
+            $consultaSQL = Conexion::conexion()->prepare("
+                INSERT INTO perfil_usuarios
+                (id_usuario, id_departamento, id_zona_id_municipios, id_profesion, id_experiencia, id_habilidades, nacionalidad, telefono, foto, genero)
+                VALUES
+                (:id_usuario, :id_departamento, :id_municipio, :id_profesion, :id_experiencia, :id_habilidad, :nacionalidad, :telefono, :foto, :genero)
+            ");
+
+            return $consultaSQL->execute($data);
+
+        } catch (\Throwable $th) {
+            return 'Error: '.$th->getMessage();
+        }
+    }
+
     
     // Para determinar que role tiene el usuario
     static public function checkRole(array $respuesta)
