@@ -4,6 +4,7 @@ namespace App\controller;
 
 use App\helpers\Validacion;
 use App\helpers\Alert;
+use App\controller\Auth;
 
 class UsuarioControlador {
 
@@ -23,7 +24,7 @@ class UsuarioControlador {
 
 
     // Crear usuario
-    public function crear_usuario() 
+    public function crearUsuario() 
     {
 
         if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre_usuario']))
@@ -48,7 +49,7 @@ class UsuarioControlador {
             if(empty($validacion))
             {
                 // Aqui enviamos los datos al modelo
-                $respuesta = Usuario::crear_usuario($datos, $tabla);
+                $respuesta = Usuario::crearUsuario($datos);
 
                 if($respuesta)
                 {
@@ -69,33 +70,44 @@ class UsuarioControlador {
 
 
     // Mostrar usuarios
-    public function mostrar_usuarios()
+    public function mostrarUsuarios()
     {            
         // Solicitamos los usuarios al modelo
-        $usuarios = Usuario::mostrar_usuarios();
+        $usuarios = Usuario::mostrarUsuarios();
         return $usuarios;
     }        
 
 
     // Mostrar un solo usuario
-    public function mostrar_usuario(int $id)
+    public function mostrarUsuario(int $id)
     {
-        
-    }
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && $id > 0) {
+            
+            $usuario = Usuario::mostrarUsuario($id);    
+            return $usuario;
+        }
 
+    return false;             
+    }
+ 
 
     // Actualizar usuario
-    public function actualizar_usuario(int $id)
+    public function actualizarUsuario(int $id)
     {
 
     }
 
 
     // Eliminar usuario
-    public function eliminar_usuario(int $id)
-    {
+    public function eliminarUsuario(int $id)
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && $id > 0) {
 
+        return Usuario::eliminarUsuario($id);
     }
+
+    return false;
+}
 
 
     // Iniciar sesion
@@ -104,7 +116,6 @@ class UsuarioControlador {
 
         if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ingreso_correo'])){
 
-            $tabla = 'usuarios';
             $correo = $_POST['ingreso_correo'];
             $password = $_POST['ingreso_password'];
 
@@ -115,7 +126,7 @@ class UsuarioControlador {
             if(empty($validacion)){
                 
               // Solicitamos la informacion al modelo
-                $respuesta = Usuario::iniciar_sesion($tabla, $datos);
+                $respuesta = Usuario::Login($datos);
                         
                 if(isset($respuesta['correo'])){
                         if($respuesta['correo'] == $datos->correo && $respuesta['password'] == $datos->password){                                                 
@@ -147,12 +158,5 @@ class UsuarioControlador {
                 return $validacion;                
             }
         }
-    }
-
-
-    // Cerrar sesion
-    public function logout()
-    {
-        
     }
 }

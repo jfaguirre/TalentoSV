@@ -77,7 +77,7 @@ CREATE TABLE `perfil_empresas` (
 CREATE TABLE `perfil_usuarios` (
   `id_perfil` int(11) NOT NULL,
   `id_usuario` int(11) DEFAULT NULL,
-  `id_departamento` int(11) DEFAULT NULL,
+  `id_departamento` int(11) DEFAULT NULL, 
   `id_zona_id_municipios` int(11) DEFAULT NULL,
   `id_profesion` int(11) DEFAULT NULL,
   `id_experiencia` int(11) DEFAULT NULL,
