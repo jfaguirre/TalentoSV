@@ -83,6 +83,7 @@ class UsuarioControlador {
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && $id > 0) {
             
+            // Solicitamos el usuario al modelo
             $usuario = Usuario::mostrarUsuario($id);    
             return $usuario;
         }
@@ -94,6 +95,7 @@ class UsuarioControlador {
     // Actualizar usuario
     public function actualizarUsuario(int $id)
     {
+        
 
     }
 
@@ -103,6 +105,7 @@ class UsuarioControlador {
 {
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && $id > 0) {
 
+        // Solicitamos la eliminacion al modelo
         return Usuario::eliminarUsuario($id);
     }
 
