@@ -152,4 +152,14 @@ CREATE TABLE `zonas` (
   `zona` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--modificacion de la db: 14-05-2026--
+
+ALTER TABLE usuarios
+DROP COLUMN contraseña ,
+ADD COLUMN password varchar(255) NOT NULL;
+
+
+ALTER TABLE usuarios
+MODIFY COLUMN password VARCHAR(255) NOT NULL
+AFTER correo;
 
