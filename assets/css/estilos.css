@@ -1,0 +1,216 @@
+/* ====== RESET ====== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+    background:#f4f5fb;
+    display:flex;
+    justify-content:center;
+    padding:40px 15px;
+}
+
+/* ===== CONTENEDOR ===== */
+.contenedor-registro{
+    width:100%;
+    max-width:430px;
+}
+
+/* ===== ICONO ===== */
+.logo-box{
+    width:95px;
+    height:95px;
+    background:#1453c8;
+    margin:0 auto 25px;
+    border-radius:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    font-size:38px;
+    box-shadow:0 8px 20px rgba(0,0,0,.10);
+}
+
+/* ===== TITULOS ===== */
+h1{
+    text-align:center;
+    font-size:42px;
+    color:#111827;
+    margin-bottom:10px;
+}
+
+.subtitulo{
+    text-align:center;
+    color:#6b7280;
+    font-size:18px;
+    line-height:1.5;
+    margin-bottom:35px;
+}
+
+/* ===== FORMULARIO ===== */
+.form-registro{
+    background:white;
+    padding:28px;
+    border-radius:22px;
+    box-shadow:0 4px 20px rgba(0,0,0,.05);
+}
+
+/* ===== TABS ===== */
+.tabs{
+    display:flex;
+    background:#dfe6f8;
+    border-radius:12px;
+    padding:5px;
+    margin-bottom:25px;
+}
+
+.tab{
+    width:50%;
+    border:none;
+    background:transparent;
+    padding:14px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:18px;
+    color:#444;
+}
+
+.tab.activo{
+    background:white;
+    color:#1453c8;
+    font-weight:600;
+}
+
+/* ===== LABELS ===== */
+label{
+    display:block;
+    margin-bottom:10px;
+    margin-top:18px;
+    color:#2d3748;
+    font-size:17px;
+    font-weight:500;
+}
+
+/* ===== INPUTS ===== */
+.input-group{
+    position:relative;
+}
+
+.input-group i{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    left:16px;
+    color:#6b7280;
+    font-size:18px;
+}
+
+.input-group .ojo{
+    left:auto;
+    right:16px;
+    cursor:pointer;
+}
+
+.input-group input{
+    width:100%;
+    height:62px;
+    border:2px solid #e5e7eb;
+    border-radius:14px;
+    padding-left:50px;
+    padding-right:50px;
+    font-size:18px;
+    outline:none;
+    transition:.3s;
+}
+
+.input-group input:focus{
+    border-color:#1453c8;
+}
+
+/* ===== BOTON ===== */
+.btn-registro{
+    width:100%;
+    height:60px;
+    border:none;
+    background:#1453c8;
+    color:white;
+    font-size:22px;
+    border-radius:16px;
+    cursor:pointer;
+    margin-top:30px;
+    transition:.3s;
+}
+
+.btn-registro:hover{
+    background:#0f46aa;
+}
+
+/* ===== TERMINOS ===== */
+.terminos{
+    text-align:center;
+    margin-top:22px;
+    color:#6b7280;
+    line-height:1.6;
+}
+
+.terminos a{
+    color:#123ea5;
+    font-weight:600;
+    text-decoration:none;
+}
+
+/* ===== BANNER ===== */
+.banner{
+    margin-top:30px;
+    height:150px;
+    border-radius:20px;
+    background:
+    linear-gradient(rgba(11,26,74,.7), rgba(11,26,74,.7)),
+    url('img/banner.jpg');
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    align-items:end;
+    padding:25px;
+    color:white;
+    font-size:22px;
+    font-weight:500;
+}
+
+/* ===== LOGIN ===== */
+.login-link{
+    text-align:center;
+    margin-top:30px;
+    font-size:20px;
+    color:#4b5563;
+}
+
+.login-link a{
+    color:#1453c8;
+    text-decoration:none;
+    font-weight:700;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:500px){
+
+    h1{
+        font-size:34px;
+    }
+
+    .subtitulo{
+        font-size:16px;
+    }
+
+    .input-group input{
+        font-size:16px;
+    }
+
+    .btn-registro{
+        font-size:20px;
+    }
+
+}
