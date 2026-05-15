@@ -1,74 +1,75 @@
 <?php
-
 namespace App\helpers;
+
+use App\models\Usuario;
 
 class Validacion {
 
-    static public function validacion($datos){
-        
-    $errores = [];
+    static public function validacion(Usuario $usuario)
+    {            
+        $errores = [];
 
         $nombre = "/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{3,50}$/";
         $apellido = "/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{3,50}$/";
-        $telefono = "/^\d{8,15}$/";
+        // $telefono = "/^\d{8,15}$/";
         $correo = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
         $password = "/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+\-=\[\]{};:\"\\|,.<>\/?]{8,}$/";
 
         // nombre
-        if(isset($datos->nombre)){
-            if(empty($datos->nombre)){
+        if(isset($usuario->nombre)){
+            if(empty($usuario->nombre)){
                 $errores['nombre'] =  'El campo nombre no debe ir vacío.';
             } else {
-                if(!preg_match($nombre, $datos->nombre)){
+                if(!preg_match($nombre, $usuario->nombre)){
                     $errores['nombre'] =  'Solo se aceptan letras y un minimo 3 caracteres-';
                 }
             }
         }       
 
         // apellido
-        if(isset($datos->apellido)){
-            if(empty($datos->apellido)){
+        if(isset($usuario->apellido)){
+            if(empty($usuario->apellido)){
                 $errores['apellido'] =  'El campo apellido no debe ir vacío.';
             } else {
-                if(!preg_match($apellido, $datos->apellido)){
+                if(!preg_match($apellido, $usuario->apellido)){
                     $errores['apellido'] =  'Solo se aceptan letras y un minimo 3 caracteres-';
                 }
             }
         }       
 
         // telefono
-        if(isset($datos->telefono)){
-            if(empty($datos->telefono)){
-                $errores['telefono'] =  'El campo telefono no debe ir vacío.';
-            } else {
-                if(!preg_match($telefono, $datos->telefono)){
-                    $errores['telefono'] =  'Solo se aceptan numeros y un minimo 8 numeros.';
-                }
-            }
-        }       
+        // if(isset($datos->telefono)){
+        //     if(empty($datos->telefono)){
+        //         $errores['telefono'] =  'El campo telefono no debe ir vacío.';
+        //     } else {
+        //         if(!preg_match($telefono, $datos->telefono)){
+        //             $errores['telefono'] =  'Solo se aceptan numeros y un minimo 8 numeros.';
+        //         }
+        //     }
+        // }       
 
         // correo
-        if(isset($datos->correo)){
-            if(empty($datos->correo)){
+        if(isset($usuario->correo)){
+            if(empty($usuario->correo)){
                 $errores['correo'] =  'El campo correo no debe ir vacío.';
             } else {
-                if(!preg_match($correo, $datos->correo)){
+                if(!preg_match($correo, $usuario->correo)){
                     $errores['correo'] =  'Por favor, ingrese un correo valido.';
                 }
             }
         }       
 
-        // correo
-        if(isset($datos->password)){
-            if(empty($datos->password)){
+        // password
+        if(isset($usuario->password)){
+            if(empty($usuario->password)){
                 $errores['password'] =  'El campo password no debe ir vacío.';
             } else {
-                if(!preg_match($password, $datos->password)){
+                if(!preg_match($password, $usuario->password)){
                     $errores['password'] =  'Password ingresada no es correcta.';
                 }
             }
         }
-        
+            
     return $errores;
     }
 }

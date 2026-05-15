@@ -5,51 +5,32 @@ namespace App\controller;
 use App\helpers\Validacion;
 use App\helpers\Alert;
 use App\controller\Auth;
+use App\models\Usuario;
 
 class UsuarioControlador {
 
-    public function 
-    __construct(        
-        public ?string $nombre, 
-        public ?string $apellido,
-        public string $correo,
-        public string $password        
-    )
-    {        
-        $this->nombre = $nombre;
-        $this->apellido = $apellido;
-        $this->correo = $correo;        
-        $this->password = $password;                       
-    }
-
-
     // Crear usuario
     public function crearUsuario() 
-    {
+    {   
+    
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombreUsuario']))
+        {            
+        
+            $usuario = new Usuario(
+                $_POST['nombreUsuario'],
+                $_POST['apellidoUsuario'],
+                $_POST['correoUsuario'],
+                $_POST['passwordUsuario']
+            );                      
 
-        if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre_usuario']))
-        {
-            $tabla = "usuarios";
-
-            $nombre = $_POST['nombre_usuario'];
-            $apellido = $_POST['apellido_usuario'];
-            $correo = $_POST['correo_usuario'];
-            $password = $_POST['password_usuario'];
-
-            $datos = new UsuarioControlador(
-                $nombre,
-                $apellido,
-                $correo,
-                $password
-            );
-
+            
             // Validamos que los datos sean correctos
-            $validacion = Validacion::validacion($datos);
+            $validacion = Validacion::validacion($usuario);            
 
             if(empty($validacion))
             {
                 // Aqui enviamos los datos al modelo
-                $respuesta = Usuario::crearUsuario($datos);
+                $respuesta = Usuario::crearUsuario($usuario);
 
                 if($respuesta)
                 {
@@ -61,10 +42,6 @@ class UsuarioControlador {
                 // Mensaje de error para el formulario
                 return $validacion;
             }
-        }
-        else
-        {
-            // Mensaje de error
         }
     }
 

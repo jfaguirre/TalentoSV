@@ -6,6 +6,11 @@
     <title>TalentoSV</title>    
 
     <!-- Estilos -->
+    <link rel="stylesheet" href="../../assets/css/registro.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- Scripts -->
     <script src="../../assets/js/sweetalert2.all.min.js"></script>
@@ -25,7 +30,8 @@
                 if($_GET['pagina'] == 'inicio'   ||
                    $_GET['pagina'] == 'registro' ||
                    $_GET['pagina'] == 'ingreso'  ||
-                   $_GET['pagina'] == 'salir'                
+                   $_GET['pagina'] == 'salir'    
+                   
                 ){                                    
                     include "views//paginas/".$_GET['pagina'].".php";
                 } else {
