@@ -5,10 +5,10 @@ namespace App\controller;
 class Auth {
 
     // Para determinar que role tiene el usuario
-    static public function checkRole(array $datos)
+    static public function checkRole(array $rol)
     {            
 
-        return $datos;
+        return $rol;
     }
 
     // Para verificar si el usuario esta logeado

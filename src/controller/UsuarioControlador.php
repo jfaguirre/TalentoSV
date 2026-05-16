@@ -2,10 +2,11 @@
 
 namespace App\controller;
 
-use App\helpers\Validacion;
+use App\Request\UsuarioRequest;
 use App\helpers\Alert;
 use App\controller\Auth;
 use App\models\Usuario;
+use App\Request\LoginRequest;
 
 class UsuarioControlador {
 
@@ -25,8 +26,8 @@ class UsuarioControlador {
 
             
             // Validamos que los datos sean correctos
-            $validacion = Validacion::validacion($usuario);            
-
+            $validacion = UsuarioRequest::validacion($usuario);               
+                                                
             if(empty($validacion))
             {
                 // Aqui enviamos los datos al modelo
@@ -34,15 +35,19 @@ class UsuarioControlador {
 
                 if($respuesta)
                 {
-                    Alert::success('Crear usuario', "Registro creado con exito.");
+                    Alert::success('Usuario', "Registro creado con exito.");
                 }
+
+                return [];
             }
             else
             {
-                // Mensaje de error para el formulario
+                // Mensaje de error para el formulario                
                 return $validacion;
             }
         }
+
+    return [];
     }
 
 
@@ -96,31 +101,33 @@ class UsuarioControlador {
 
         if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ingreso_correo'])){
 
-            $correo = $_POST['ingreso_correo'];
-            $password = $_POST['ingreso_password'];
-
-            $datos = new UsuarioControlador(null, null, $correo, $password);
-
-            $validacion = Validacion::validacion($datos);            
+            $usuario = new Usuario( 
+                $nombre = Null,
+                $apellido = Null,
+                $correo = $_POST['correoUsuario'],
+                $password = $_POST['passwordUsuario']
+            );
+                                    
+            $validacion = LoginRequest::validacion($usuario);            
             
             if(empty($validacion)){
                 
-              // Solicitamos la informacion al modelo
-                $respuesta = Usuario::Login($datos);
+                // Solicitamos la informacion al modelo
+                $respuesta = Usuario::Login($usuario);
                         
                 if(isset($respuesta['correo'])){
-                        if($respuesta['correo'] == $datos->correo && $respuesta['password'] == $datos->password){                                                 
+                        if($respuesta['correo'] == $usuario->correo && $respuesta['password'] == $usuario->password){                                                 
 
                         // Consultamos el rol del usuario                        
                         $user_role = Auth::checkRole($respuesta);  
-                         
-                            // Usuario inicio sesion
-                            if($user_role['role'] === 'admin') {                               
-                                $_SESSION['user_auth'] = json_encode($user_role);
-                            } else {
-                                $_SESSION['user_auth'] = json_encode($respuesta);
-                            }   
-
+                        
+                        $_SESSION['userAuth'] = [
+                            'id' => $respuesta['id'],
+                            'nombre' => $respuesta['nombre'],
+                            'correo' => $respuesta['correo'],
+                            'role' => $user_role['role']
+                        ];
+                        
                         header('location: dashboard.php');
                         exit; 
                             

@@ -124,7 +124,7 @@ CREATE TABLE `referencias` (
 CREATE TABLE `roles` (
   `id_rol` int(11) NOT NULL,
   `id_usuario` int(11) DEFAULT NULL,
-  `rol` enum('admin','usuario','empresa') NOT NULL
+  `rol` enum('admin','usuario','empresa') NOT NULL  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
