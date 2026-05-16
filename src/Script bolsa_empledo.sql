@@ -163,3 +163,10 @@ ALTER TABLE usuarios
 MODIFY COLUMN password VARCHAR(255) NOT NULL
 AFTER correo;
 
+--modificacion de la db: 16-05-2026--
+
+ALTER TABLE roles
+MODIFY COLUMN rol enum('admin','usuario','empresa') DEFAULT 'usuario' NOT NULL;
+
+ALTER TABLE usuarios
+ADD COLUMN apellido VARCHAR(100) NOT NULL AFTER nombre;
