@@ -170,3 +170,17 @@ MODIFY COLUMN rol enum('admin','usuario','empresa') DEFAULT 'usuario' NOT NULL;
 
 ALTER TABLE usuarios
 ADD COLUMN apellido VARCHAR(100) NOT NULL AFTER nombre;
+
+--modificacion de la db: 18-05-2026--
+
+ALTER TABLE roles
+MODIFY COLUMN rol ENUM('admin','usuario') DEFAULT 'usuario' NOT NULL;
+
+
+CREATE TABLE roles_usuarios (
+    id_rolesUsuarios INT PRIMARY KEY AUTO_INCREMENT,
+    id_usuario INT NOT NULL,
+    id_rol INT NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
+    FOREIGN KEY (id_rol) REFERENCES roles(id_rol)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
