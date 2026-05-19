@@ -128,16 +128,16 @@ class UsuarioControlador {
 
                         // Consultamos el rol del usuario                        
                         $user_role = AuthControlador::checkRole($respuesta);  
-                                                                        
+                                                                                                
                         $_SESSION['userAuth'] = [
-                            'id' => $respuesta['id'],
+                            'id' => $respuesta['id_usuario'],
                             'nombre' => $respuesta['nombre'],
                             'correo' => $respuesta['correo'],
-                            'role' => $user_role['rol'],
+                            'rol' => $user_role['rol'],
                             'modo' => 'usuario',
                             'empresa_id' => null
-                        ];
-
+                        ];                       
+                                                
                             header('Location: index.php');
                             exit;
                                                                             

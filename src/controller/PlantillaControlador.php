@@ -6,19 +6,21 @@ class PlantillaControlador
 {
     public function plantilla()
     {        
+        
         if(!isset($_SESSION['userAuth']))
         {
             include 'views/layouts/plantilla.php';
             return;
         }
-        
-        $rol = $_SESSION['userAuth']['role'];
+                
+        $rol = $_SESSION['userAuth']['rol'];
         $modo = $_SESSION['userAuth']['modo'];
+        
 
         // Admin
         if($rol === 'admin')
-        {
-            include 'views/layouts/admin.php';
+        {        
+            include 'views/layouts/admin.php';            
             return;
         }
 
@@ -30,6 +32,6 @@ class PlantillaControlador
         }
 
         // Modo usuario
-        include 'views/layouts/usuario.php';
+        include 'views/layouts/usuarios.php';
     }
 }

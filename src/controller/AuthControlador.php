@@ -10,15 +10,15 @@ class AuthControlador {
     static public function checkRole(array $respuesta)
     {
                 
-        $role = Usuario::checkRole($respuesta);        
-        return $role;
+        $rol = Usuario::checkRole($respuesta);        
+        return $rol;
     }
 
     // Para verificar si el usuario esta logeado
     static public function isLogin()
     {
-        if (isset($_SESSION['user_auth'])) {
-            return json_decode($_SESSION['user_auth'], true);
+        if (isset($_SESSION['userAuth'])) {
+            return json_decode($_SESSION['userAuth'], true);
         }
         return null;
     }
@@ -26,7 +26,7 @@ class AuthControlador {
     // Cerrar sesion
     static public function logout()
     {
-        unset($_SESSION['user_auth']);
+        unset($_SESSION['userAuth']);
         session_destroy();
     }
 }

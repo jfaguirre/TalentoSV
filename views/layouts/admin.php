@@ -19,15 +19,17 @@
 <body>
 
 <header>
-    <h1>Aqui ira el Menu</h1>
+    <?php include 'views/componentes/menu_admin.php'; ?>
 </header>
 
 <main>
-    <section class="contenido">
+   <section class="contenido">
         <!-- Contenido -->
-
-        <h1>Estamos en modo admin</h1>
-      
+      Administrador
+      <h1>
+        Bienvenido <?= $_SESSION['userAuth']['nombre']; ?>
+    </h1>
+    
     </section>
 </main>
     

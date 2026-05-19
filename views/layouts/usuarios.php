@@ -18,16 +18,24 @@
 </head>
 <body>
 
+
 <header>
-    <h1>Aqui ira el Menu</h1>
+    <?php include 'views/componentes/menu_usuario.php'; ?>
 </header>
 
 <main>
     <section class="contenido">
-        <!-- Contenido -->
+    <!-- Contenido -->
 
-        <h1>Estamos en modo usuario</h1>
-      
+     <h1>
+        Bienvenido <?= $_SESSION['userAuth']['nombre']; ?>
+        <?= $_SESSION['userAuth']['rol']; ?>
+        <?= $_SESSION['userAuth']['modo']; ?>
+        <?= $_SESSION['userAuth']['id']; ?>
+        <?= $_SESSION['userAuth']['correo']; ?>
+
+    </h1>        
+
     </section>
 </main>
     
