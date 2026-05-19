@@ -1,3 +1,14 @@
+<?php
+
+namespace App\controller;
+use App\controller\UsuarioControlador;
+
+$usuarioControlador = new UsuarioControlador();
+$login = $usuarioControlador->login();
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -38,7 +49,7 @@
             <label>Correo electrónico</label>
             <div class="input-group">
                 <i class="fa-regular fa-envelope"></i>
-                <input type="email" name="ingreso_correo" placeholder="ejemplo@talento.sv" required>
+                <input type="email" name="correoUsuario" placeholder="ejemplo@talento.sv" required>
             </div>
         </div>
 
@@ -49,7 +60,7 @@
             </div>
             <div class="input-group">
                 <i class="fa-solid fa-lock"></i>
-                <input  type="password" name="ingreso_password" placeholder="••••••••" required>
+                <input  type="password" name="passwordUsuario" required>
             </div>
         </div>
         <!-- Botón -->

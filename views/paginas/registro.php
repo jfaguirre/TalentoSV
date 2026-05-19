@@ -1,8 +1,9 @@
 <?php
 
-use App\controller\UsuarioControlador;
-    $usuario = new UsuarioControlador();
-    $usuario->crearUsuario();
+use App\controller\UsuarioControlador;  
+$usuario = new UsuarioControlador();
+$respuesta = $usuario->crearUsuario();            
+
 ?>
 
 <!-- Regresar -->
@@ -35,11 +36,16 @@ use App\controller\UsuarioControlador;
 
        <!-- Rol usuario -->
       <input type="hidden" name="tipo_usuario" id="tipo_usuario" value="usuario">
-           
-      <div class="form-body">
-        <div class="form-panel active" id="panel-candidato" role="tabpanel" aria-labelledby="tab-candidato">
 
-          <!-- Nombre  -->
+       <?php if(isset($respuesta['nombre'])): ?>
+                <h6><?php echo $respuesta['nombre']  ?></h6>                
+            <?php endif ?>
+
+      <!-- Nombre  -->
+      <div class="form-body">
+        <div class="form-panel active" id="panel-candidato" role="tabpanel" aria-labelledby="tab-candidato">        
+          
+        <!-- Nombre  -->
           <div class="field">
             <label for="nombreUsuario">Nombre <span class="req">*</span></label>
             <div class="input-wrap">
@@ -48,9 +54,9 @@ use App\controller\UsuarioControlador;
               </span>
               <input type="text" id="nombreUsuario" name="nombreUsuario" placeholder="Tu nombre real" autocomplete="name" required maxlength="100">
             </div>
-            <span class="field-error" id="err-nombreUsuario"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Ingresa tu nombre completo</span>
+            <span class="field-error" id="err-nombreUsuario"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Ingresa tu nombre completo</span>                     
           </div>
-
+  
           <!-- Apellido -->
           <div class="field">
             <label for="apellidoUsuario">Apellido <span class="req">*</span></label>
@@ -112,7 +118,7 @@ use App\controller\UsuarioControlador;
         <!-- Submit -->
         <button type="button" class="btn-primary" id="btn-submit" onclick="handleSubmit(event)">
           Registrarse
-        </button>
+        </button>            
 
       </div>
     </form>

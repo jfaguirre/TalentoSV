@@ -2,13 +2,18 @@
 
 namespace App\controller;
 
-class Auth {
+use App\models\Usuario;
+
+class AuthControlador {
 
     // Para determinar que role tiene el usuario
-    static public function checkRole(array $datos)
-    {            
+    static public function checkRole(array $respuesta)
+    {
+                
+        $role = Usuario::checkRole($respuesta);
 
-        return $datos;
+        die(var_dump($role));
+        return $role;
     }
 
     // Para verificar si el usuario esta logeado

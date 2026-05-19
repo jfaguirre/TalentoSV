@@ -2,11 +2,34 @@
 
 namespace App\controller;
 
-class PlantillaControlador {
-
-    public function plantilla(){
+class PlantillaControlador
+{
+    public function plantilla()
+    {        
+        if(!isset($_SESSION['userAuth']))
+        {
+            include 'views/layouts/plantilla.php';
+            return;
+        }
         
-        include 'views/layouts/plantilla.php';
+        $rol = $_SESSION['userAuth']['role'];
+        $modo = $_SESSION['userAuth']['modo'];
 
+        // Admin
+        if($rol === 'admin')
+        {
+            include 'views/layouts/admin.php';
+            return;
+        }
+
+        // Modo empresa
+        if($modo === 'empresa')
+        {
+            include 'views/layouts/empresa.php';
+            return;
+        }
+
+        // Modo usuario
+        include 'views/layouts/usuario.php';
     }
 }
