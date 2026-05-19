@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TalentoSV</title>    
+    <title>Dashboard empresa</title>    
 
     <!-- Estilos -->
     <link rel="stylesheet" href="../../assets/css/registro.css">
@@ -19,29 +19,15 @@
 <body>
 
 <header>
-    <?php include 'views/componentes/menu.php'; ?>
+    <h1>Aqui ira el Menu</h1>
 </header>
 
 <main>
     <section class="contenido">
         <!-- Contenido -->
-        <?php             
-            if(isset($_GET['pagina'])){
-                if($_GET['pagina'] == 'inicio'   ||
-                   $_GET['pagina'] == 'registro' ||
-                   $_GET['pagina'] == 'ingreso'  ||
-                   $_GET['pagina'] == 'salir'    
-                   
-                ){                                    
-                    include "views//paginas/".$_GET['pagina'].".php";
-                } else {
-                    include "views/paginas/error404.php";
-                }
-            } else {
-                include 'views/paginas/inicio.php';
-            }            
-        ?>
 
+        <h1>Estamos en modo empresa</h1>
+      
     </section>
 </main>
     

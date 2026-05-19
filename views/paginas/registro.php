@@ -1,10 +1,8 @@
 <?php
 
-use App\controller\UsuarioControlador;
-  
+use App\controller\UsuarioControlador;  
 $usuario = new UsuarioControlador();
 $respuesta = $usuario->crearUsuario();            
-
 
 ?>
 
@@ -46,7 +44,8 @@ $respuesta = $usuario->crearUsuario();
       <!-- Nombre  -->
       <div class="form-body">
         <div class="form-panel active" id="panel-candidato" role="tabpanel" aria-labelledby="tab-candidato">        
-          <!-- Nombre  -->
+          
+        <!-- Nombre  -->
           <div class="field">
             <label for="nombreUsuario">Nombre <span class="req">*</span></label>
             <div class="input-wrap">

@@ -70,27 +70,34 @@ class Usuario {
 
     
     // Para determinar que role tiene el usuario
-    static public function checkRole($rol){
-
+    static public function checkRole(array $respuesta)
+    {
         try {
+
             $consultaSQL = Conexion::conexion()->prepare(
-                "SELECT u.id, u.nombre, u.apellido, r.role  
-                 FROM usuarios u
-                 JOIN roles_usuarios ur ON u.id = ur.usuario_id
-                 JOIN roles r ON ur.role_id = r.id
-                 WHERE u.id = :id"
+                "SELECT u.id, r.role
+                FROM usuarios u
+                JOIN roles_usuarios ur ON u.id = ur.usuario_id
+                JOIN roles r ON ur.role_id = r.id
+                WHERE u.id = :id"
             );
-            $consultaSQL->bindParam(":id", $rol['id'], PDO::PARAM_INT);     
-                        
-            if($consultaSQL->execute()){                        
+
+            $consultaSQL->bindParam(':id', $respuesta['id'], PDO::PARAM_INT);
+
+            if($consultaSQL->execute()){
+
                 return $consultaSQL->fetch(PDO::FETCH_ASSOC);
+
             } else {
+
                 return null;
+
             }
-        } catch (\Throwable $th) {            
-            return 'Error: '.$th->getMessage();
+
+        } catch (\Throwable $th) {
+
+            return 'Error: ' . $th->getMessage();
+
         }
     }
-
-
 }
