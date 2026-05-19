@@ -21,6 +21,8 @@ class Usuario {
         $this->password = $password;                       
     }
 
+
+    // Metodo para crear un nuevo usuario
     public static function crearUsuario(Usuario $usuario)
     {
          try {
@@ -47,6 +49,7 @@ class Usuario {
         }
     }
 
+
     // Metodo para iniciar sesion de usuario
     static public function login(Usuario $usuario){
 
@@ -71,33 +74,26 @@ class Usuario {
     
     // Para determinar que role tiene el usuario
     static public function checkRole(array $respuesta)
-    {
+    {        
         try {
-
             $consultaSQL = Conexion::conexion()->prepare(
-                "SELECT u.id, r.role
+                "SELECT 
+                    u.nombre, 
+                    r.rol 
                 FROM usuarios u
-                JOIN roles_usuarios ur ON u.id = ur.usuario_id
-                JOIN roles r ON ur.role_id = r.id
-                WHERE u.id = :id"
+                JOIN roles_usuarios ru ON u.id_usuario = ru.id_usuario
+                JOIN roles r ON ru.id_rol = r.id_rol
+                WHERE u.id_usuario = :id_usuario;"
             );
-
-            $consultaSQL->bindParam(':id', $respuesta['id'], PDO::PARAM_INT);
-
-            if($consultaSQL->execute()){
-
+            $consultaSQL->bindParam(":id_usuario", $respuesta['id_usuario'], PDO::PARAM_INT);     
+                        
+            if($consultaSQL->execute()){                        
                 return $consultaSQL->fetch(PDO::FETCH_ASSOC);
-
             } else {
-
                 return null;
-
             }
-
-        } catch (\Throwable $th) {
-
-            return 'Error: ' . $th->getMessage();
-
+        } catch (\Throwable $th) {            
+            return 'Error: '.$th->getMessage();
         }
     }
 }

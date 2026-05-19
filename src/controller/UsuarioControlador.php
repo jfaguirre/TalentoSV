@@ -10,7 +10,7 @@ use App\Request\LoginRequest;
 
 class UsuarioControlador {
 
-    // Crear usuario
+    // Metodo para crear usuario
     public function crearUsuario() 
     {   
     
@@ -59,7 +59,7 @@ class UsuarioControlador {
     }
 
 
-    // Mostrar usuarios
+    // Metodo para mostrar todos los usuarios
     public function mostrarUsuarios()
     {            
         // Solicitamos los usuarios al modelo
@@ -68,7 +68,7 @@ class UsuarioControlador {
     }        
 
 
-    // Mostrar un solo usuario
+    // Metodo para mostrar un solo usuario
     public function mostrarUsuario(int $id)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && $id > 0) {
@@ -82,7 +82,7 @@ class UsuarioControlador {
     }
  
 
-    // Actualizar usuario
+    // Metodo para actualizar usuario
     public function actualizarUsuario(int $id)
     {
         
@@ -90,7 +90,7 @@ class UsuarioControlador {
     }
 
 
-    // Eliminar usuario
+    // Metodo para eliminar usuario
     public function eliminarUsuario(int $id)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $id > 0) {
@@ -103,7 +103,7 @@ class UsuarioControlador {
     }
 
 
-    // Iniciar sesion
+    // Metodo para iniciar sesion
     public function login()
     {     
 
@@ -128,12 +128,12 @@ class UsuarioControlador {
 
                         // Consultamos el rol del usuario                        
                         $user_role = AuthControlador::checkRole($respuesta);  
-                                                
+                                                                        
                         $_SESSION['userAuth'] = [
                             'id' => $respuesta['id'],
                             'nombre' => $respuesta['nombre'],
                             'correo' => $respuesta['correo'],
-                            'role' => $user_role['role'],
+                            'role' => $user_role['rol'],
                             'modo' => 'usuario',
                             'empresa_id' => null
                         ];

@@ -6,13 +6,11 @@ use App\models\Usuario;
 
 class AuthControlador {
 
-    // Para determinar que role tiene el usuario
+    // Para determinar que rol tiene el usuario
     static public function checkRole(array $respuesta)
     {
                 
-        $role = Usuario::checkRole($respuesta);
-
-        die(var_dump($role));
+        $role = Usuario::checkRole($respuesta);        
         return $role;
     }
 
