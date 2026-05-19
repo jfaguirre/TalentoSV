@@ -184,3 +184,10 @@ CREATE TABLE roles_usuarios (
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
     FOREIGN KEY (id_rol) REFERENCES roles(id_rol)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--eliminamos la fk porque id_usuario está protegido por una clave foránea (FOREIGN KEY)--
+ALTER TABLE roles 
+DROP FOREIGN KEY roles_ibfk_1;
+
+ALTER TABLE roles
+DROP COLUMN id_usuario;
