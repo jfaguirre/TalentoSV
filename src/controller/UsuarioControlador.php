@@ -121,7 +121,7 @@ class UsuarioControlador {
             if(empty($validacion)){
                 
                 // Solicitamos la informacion al modelo
-                $respuesta = Usuario::login($usuario);
+                $respuesta = Usuario::autenticar($usuario);
                         
                 if(isset($respuesta['correo'])){
                         if($respuesta['correo'] == $usuario->correo && $respuesta['password'] == $usuario->password){                                                 

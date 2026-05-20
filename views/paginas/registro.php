@@ -1,8 +1,9 @@
 <?php
 
 use App\controller\UsuarioControlador;  
-$usuario = new UsuarioControlador();
-$respuesta = $usuario->crearUsuario();            
+
+$login = new UsuarioControlador();
+$respuesta = $login->crearUsuario();            
 
 ?>
 

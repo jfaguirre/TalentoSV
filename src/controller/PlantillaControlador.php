@@ -2,10 +2,17 @@
 
 namespace App\controller;
 
+use App\controller\AuthControlador;
+
 class PlantillaControlador
 {
     public function plantilla()
     {        
+        if (isset($_GET['pagina']) && $_GET['pagina'] === 'salir') {
+            AuthControlador::logout();
+            header('Location: index.php');
+            exit;
+        }
         
         if(!isset($_SESSION['userAuth']))
         {

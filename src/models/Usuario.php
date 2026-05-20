@@ -51,7 +51,7 @@ class Usuario {
 
 
     // Metodo para iniciar sesion de usuario
-    static public function login(Usuario $usuario){
+    static public function autenticar(Usuario $usuario){
 
         try {
             

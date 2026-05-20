@@ -29,14 +29,6 @@ CREATE TABLE `roles` (
   PRIMARY KEY (`id_rol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE `salarios` (
-  `id_salario` int(11) NOT NULL AUTO_INCREMENT,
-  `rango_salario` varchar(50) NOT NULL,
-  `descripcion` varchar(100) DEFAULT NULL,
-  `estado` enum('activo','inactivo') DEFAULT 'activo',
-  PRIMARY KEY (`id_salario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 CREATE TABLE `usuarios` (
   `id_usuario` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
@@ -50,20 +42,20 @@ CREATE TABLE `usuarios` (
 
 
 -- 2. TABLAS CON DEPENDENCIAS SIMPLES
-CREATE TABLE `zonas` (
-  `id_zona` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `distritos` (
+  `id_distrito` int(11) NOT NULL AUTO_INCREMENT,
   `id_departamento` int(11) DEFAULT NULL,
-  `zona` varchar(100) NOT NULL,
-  PRIMARY KEY (`id_zona`),
+  `distrito` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_distrito`),
   FOREIGN KEY (`id_departamento`) REFERENCES `departamentos` (`id_departamento`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `municipios` (
   `id_municipios` int(11) NOT NULL AUTO_INCREMENT,
-  `id_zona` int(11) DEFAULT NULL,
+  `id_distrito` int(11) DEFAULT NULL,
   `municipio` varchar(100) NOT NULL,
   PRIMARY KEY (`id_municipios`),
-  FOREIGN KEY (`id_zona`) REFERENCES `zonas` (`id_zona`) ON DELETE SET NULL
+  FOREIGN KEY (`id_distrito`) REFERENCES `distritos` (`id_distrito`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `permisos` (
@@ -135,14 +127,12 @@ CREATE TABLE `perfil_usuarios` (
 -- 4. TABLAS DE OPERACIONES (Ofertas y Postulaciones)
 CREATE TABLE `oferta_empleo` (
   `id_oferta` int(11) NOT NULL AUTO_INCREMENT,
-  `id_empresa` int(11) DEFAULT NULL,
-  `id_salario` int(11) DEFAULT NULL,
+  `id_empresa` int(11) DEFAULT NULL,  
   `titulo` varchar(200) NOT NULL,
   `descripcion` text NOT NULL,
   `tipo_contrato` enum('tiempo_completo','medio_tiempo','temporal','freelance') DEFAULT NULL,
   PRIMARY KEY (`id_oferta`),
-  FOREIGN KEY (`id_empresa`) REFERENCES `empresa` (`id_empresa`) ON DELETE CASCADE,
-  FOREIGN KEY (`id_salario`) REFERENCES `salarios` (`id_salario`) ON DELETE SET NULL
+  FOREIGN KEY (`id_empresa`) REFERENCES `empresa` (`id_empresa`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `postulacion` (
