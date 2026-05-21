@@ -50,16 +50,20 @@ $respuesta = $login->login();
             <button class="topbar-back" aria-label="Volver" onclick="location.href='index.php'">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-            </button>
-            <span class="topbar-brand">Ta<span>lento</span>ES</span>
+                </svg>                           
+                <span class="topbar-brand">Talento<span>ES</span></span>
+            </button>            
         </div>
 
         <div class="auth-card-wrapper">
             <!-- Hero -->
             <div class="hero">
-                <div class="hero-icon">
-                    <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v9a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+                <div class="hero-icon">                    
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                        <polyline points="10 17 15 12 10 7"/>
+                        <line x1="15" y1="12" x2="3" y2="12"/>
+                    </svg>
                 </div>
                 <h2>Bienvenido de nuevo</h2>
                 <p>Ingresa tus credenciales para acceder a tu cuenta.</p>

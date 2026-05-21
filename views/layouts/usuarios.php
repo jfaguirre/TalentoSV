@@ -28,7 +28,8 @@
     <!-- Contenido -->
 
      <h1>
-        Bienvenido <?= $_SESSION['userAuth']['nombre']; ?>
+        Bienvenido:
+        <?= $_SESSION['userAuth']['nombre']; ?>
         <?= $_SESSION['userAuth']['rol']; ?>
         <?= $_SESSION['userAuth']['modo']; ?>
         <?= $_SESSION['userAuth']['id']; ?>

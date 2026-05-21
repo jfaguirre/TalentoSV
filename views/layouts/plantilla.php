@@ -27,8 +27,12 @@ if (isset($_GET['pagina'])) {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <?php else: ?>
         <link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/registro.css">
+        <link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/inicio.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <?php endif; ?>
+
+
+    
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,7 +46,7 @@ if (isset($_GET['pagina'])) {
 
 <?php if (!$is_auth_page): ?>
 <header>
-    <?php include 'views/componentes/menu.php'; ?>
+    <!-- <?php include 'views/componentes/menu.php'; ?> -->
 </header>
 <?php endif; ?>
 

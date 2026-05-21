@@ -33,27 +33,19 @@ class Usuario {
             $conexion->beginTransaction();
             
             $consultaSQL = $conexion
-            ->prepare("INSERT INTO usuarios(nombre, apellido, correo, password)        
-            VALUES(:nombre, :apellido, :correo, :password)");
+            ->prepare("INSERT INTO usuarios(nombre, apellido, correo, password, id_rol)        
+            VALUES(:nombre, :apellido, :correo, :password, :id_rol)");
 
             $consultaSQL->bindParam(":nombre", $usuario->nombre, PDO::PARAM_STR);
             $consultaSQL->bindParam(":apellido", $usuario->apellido, PDO::PARAM_STR);
             $consultaSQL->bindParam(":correo", $usuario->correo, PDO::PARAM_STR);
             $consultaSQL->bindParam(":password", $usuario->password, PDO::PARAM_STR);
+            $consultaSQL->bindValue(":id_rol", 2, PDO::PARAM_INT);
             $consultaSQL->execute();
-
-            // Agregar el rol de usuario
-            $id = $conexion->lastInsertId();                            
-            $consultaRol = $conexion
-                ->prepare("INSERT INTO roles_usuarios (id_usuario, id_rol) VALUES (:id_usuario, :id_rol)");
-                $consultaRol->bindParam(":id_usuario", $id, PDO::PARAM_INT);
-                $consultaRol->bindValue(":id_rol", 2, PDO::PARAM_INT); 
-                $consultaRol->execute();
-
+                        
             $conexion->commit();
             return true;
             
-
         } catch (\Throwable $th) {
 
             Conexion::conexion()->rollBack();            
@@ -144,7 +136,6 @@ class Usuario {
             return 'Error: '.$th->getMessage();
         }
     }
-
     
     // Para determinar que role tiene el usuario
     static public function checkRole(array $respuesta)
@@ -155,10 +146,10 @@ class Usuario {
                     u.nombre, 
                     r.rol 
                 FROM usuarios u
-                JOIN roles_usuarios ru ON u.id_usuario = ru.id_usuario
-                JOIN roles r ON ru.id_rol = r.id_rol
-                WHERE u.id_usuario = :id_usuario;"
+                JOIN roles r ON u.id_rol = r.id_rol
+                WHERE u.id_usuario = :id_usuario"
             );
+
             $consultaSQL->bindParam(":id_usuario", $respuesta['id_usuario'], PDO::PARAM_INT);     
                         
             if($consultaSQL->execute()){                        
