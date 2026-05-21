@@ -34,16 +34,17 @@ class UsuarioControlador {
                 $respuesta = Usuario::crearUsuario($usuario);
 
                 if($respuesta)
-                {
-                    Alert::success('Usuario', "Registro creado con exito.");
-                    
-                    echo "
+                {                                        
+                    echo '
                         <script>
-                            setTimeout(() => {
-                            window.location = 'views/paginas/ingreso.php';
-                            }, 3000);
+                            if(window.history.replaceState){
+                                window.history.replaceState(null, null, window.location.href);
+                            }                 
                         </script>
-                    ";
+                    ';                                          
+                    header("Refresh: 2; url=index.php?pagina=ingreso");
+                    Alert::success('Usuario', "Registro creado con exito."); 
+                    exit;
                 }
 
                 return [];
@@ -56,6 +57,61 @@ class UsuarioControlador {
         }
 
     return [];
+    }
+
+
+    // Metodo para iniciar sesion
+    public function login()
+    {     
+
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['correoUsuario'])){
+
+            $usuario = new Usuario( 
+                $nombre = Null,
+                $apellido = Null,
+                $correo = $_POST['correoUsuario'],
+                $password = $_POST['passwordUsuario']
+            );
+                                                
+            $validacion = LoginRequest::validacion($usuario);            
+            
+            if(empty($validacion)){
+                
+                // Solicitamos la informacion al modelo
+                $respuesta = Usuario::autenticar($usuario);
+                        
+                if(isset($respuesta['correo'])){
+                        if($respuesta['correo'] == $usuario->correo && $respuesta['password'] == $usuario->password){                                                 
+
+                        // Consultamos el rol del usuario                        
+                        $user_role = AuthControlador::checkRole($respuesta);  
+                                                                                                
+                        $_SESSION['userAuth'] = [
+                            'id' => $respuesta['id_usuario'],
+                            'nombre' => $respuesta['nombre'],
+                            'correo' => $respuesta['correo'],
+                            'rol' => $user_role['rol'],
+                            'modo' => 'usuario',
+                            'empresa_id' => null
+                        ];                       
+                                                
+                            header("Refresh: 2; url=index.php?pagina=ingreso");
+                            exit;
+                                                                            
+                        } else {
+
+                            $validacion['error_credenciales'] = 'El correo o password es incorrectos.';                   
+                            return $validacion;
+                        }
+                } else {       
+
+                        $validacion['error_credenciales'] = 'El correo o password es incorrectos.';                   
+                        return $validacion;
+                }
+            } else {                
+                return $validacion;                
+            }
+        }
     }
 
 
@@ -102,58 +158,4 @@ class UsuarioControlador {
         return false;
     }
 
-
-    // Metodo para iniciar sesion
-    public function login()
-    {     
-
-        if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['correoUsuario'])){
-
-            $usuario = new Usuario( 
-                $nombre = Null,
-                $apellido = Null,
-                $correo = $_POST['correoUsuario'],
-                $password = $_POST['passwordUsuario']
-            );
-                                                
-            $validacion = LoginRequest::validacion($usuario);            
-            
-            if(empty($validacion)){
-                
-                // Solicitamos la informacion al modelo
-                $respuesta = Usuario::autenticar($usuario);
-                        
-                if(isset($respuesta['correo'])){
-                        if($respuesta['correo'] == $usuario->correo && $respuesta['password'] == $usuario->password){                                                 
-
-                        // Consultamos el rol del usuario                        
-                        $user_role = AuthControlador::checkRole($respuesta);  
-                                                                                                
-                        $_SESSION['userAuth'] = [
-                            'id' => $respuesta['id_usuario'],
-                            'nombre' => $respuesta['nombre'],
-                            'correo' => $respuesta['correo'],
-                            'rol' => $user_role['rol'],
-                            'modo' => 'usuario',
-                            'empresa_id' => null
-                        ];                       
-                                                
-                            header('Location: index.php');
-                            exit;
-                                                                            
-                        } else {
-
-                            $validacion['error_credenciales'] = 'El correo o password es incorrectos.';                   
-                            return $validacion;
-                        }
-                } else {       
-
-                        $validacion['error_credenciales'] = 'El correo o password es incorrectos.';                   
-                        return $validacion;
-                }
-            } else {                
-                return $validacion;                
-            }
-        }
-    }
 }

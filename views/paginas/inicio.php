@@ -552,7 +552,7 @@ footer{
     TalentoES
   </a>
   <div class="nav-actions">
-    <a class="btn-nav-login" href="/TalentoSV/views/paginas/ingreso.php">Login</a>
+    <a class="btn-nav-login" href="index.php?pagina=ingreso">Login</a>
   </div>
 </nav>
 
@@ -572,11 +572,11 @@ footer{
   </p>
 
   <div class="hero-cta fade d3">
-    <a href="/TalentoSV/views/paginas/registro.php" class="btn-hero-primary">
+    <a href="index.php?pagina=registro" class="btn-hero-primary">
       Registrarse
       <span class="arrow">→</span>
     </a>
-    <a href="/TalentoSV/views/paginas/ingreso.php" class="btn-hero-secondary">Iniciar Sesión</a>
+    <a href="index.php?pagina=ingreso" class="btn-hero-secondary">Iniciar Sesión</a>
   </div>
 
   <div class="hero-stats fade d4">
@@ -659,7 +659,7 @@ footer{
       </div>
     </div>
 
-    <a href="/TalentoSV/views/paginas/registro.php" class="btn-candidate">Crear mi perfil gratis</a>
+    <a href="index.php?pagina=registro" class="btn-candidate">Crear mi perfil gratis</a>
   </div>
 </section>
 
@@ -685,7 +685,7 @@ footer{
       </div>
     </div>
 
-    <a href="/TalentoSV/views/paginas/ingreso.php" class="btn-empresa">Publicar Oferta</a>
+    <a href="index.php?pagina=ingreso" class="btn-empresa">Publicar Oferta</a>
   </div>
 </section>
 
@@ -697,7 +697,7 @@ footer{
   <p class="cta-desc fade d1">
     Únete a miles de profesionales y empresas que ya están transformando el mercado laboral en El Salvador.
   </p>
-  <a href="/TalentoSV/views/paginas/ingreso.php" class="btn-cta-final fade d2">
+  <a href="index.php?pagina=ingreso" class="btn-cta-final fade d2">
     Comenzar Ahora
     <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
   </a>
@@ -721,7 +721,7 @@ footer{
       <div class="footer-col-title">Recursos</div>
       <ul class="footer-links">
         <li><a href="#">Find Jobs</a></li>
-        <li><a href="/TalentoSV/views/paginas/registro.php">Post a Job</a></li>
+        <li><a href="index.php?pagina=registro">Post a Job</a></li>
         <li><a href="#">Blog</a></li>
       </ul>
     </div>

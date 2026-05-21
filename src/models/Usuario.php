@@ -25,9 +25,14 @@ class Usuario {
     // Metodo para crear un nuevo usuario
     public static function crearUsuario(Usuario $usuario)
     {
-         try {
+        $conexion = null;
+        
+         try {         
+
+            $conexion = Conexion::conexion();
+            $conexion->beginTransaction();
             
-            $consultaSQL = Conexion::conexion()
+            $consultaSQL = $conexion
             ->prepare("INSERT INTO usuarios(nombre, apellido, correo, password)        
             VALUES(:nombre, :apellido, :correo, :password)");
 
@@ -35,14 +40,23 @@ class Usuario {
             $consultaSQL->bindParam(":apellido", $usuario->apellido, PDO::PARAM_STR);
             $consultaSQL->bindParam(":correo", $usuario->correo, PDO::PARAM_STR);
             $consultaSQL->bindParam(":password", $usuario->password, PDO::PARAM_STR);
+            $consultaSQL->execute();
 
-            if($consultaSQL->execute()){
-                return 'true';
-            } else {
-                return 'false';
-            }
+            // Agregar el rol de usuario
+            $id = $conexion->lastInsertId();                            
+            $consultaRol = $conexion
+                ->prepare("INSERT INTO roles_usuarios (id_usuario, id_rol) VALUES (:id_usuario, :id_rol)");
+                $consultaRol->bindParam(":id_usuario", $id, PDO::PARAM_INT);
+                $consultaRol->bindValue(":id_rol", 2, PDO::PARAM_INT); 
+                $consultaRol->execute();
+
+            $conexion->commit();
+            return true;
+            
 
         } catch (\Throwable $th) {
+
+            Conexion::conexion()->rollBack();            
             
             Alert::success('Ups!', 'Al parecer hubo un error. Intenta de nuevo.');            
             return 'Error: '.$th->getMessage();
@@ -72,7 +86,7 @@ class Usuario {
     }
 
     // altualizar informaciondel usuario
-    public static function actualizarUsuario($id_usuario, Usuario $usuario)
+    public static function actualizarUsuario(int $id_usuario, Usuario $usuario)
     {
         try {
             $consultaSQL = Conexion::conexion()
@@ -98,7 +112,7 @@ class Usuario {
 
 
     // para eiminar usuario
-    public static function eliminarUsuario($id_usuario)
+    public static function eliminarUsuario(int $id_usuario)
     {
         try {
             $consultaSQL = Conexion::conexion()
@@ -113,9 +127,8 @@ class Usuario {
         }
     }
 
-
     // este esta penado para que se inserte en la tabla perfil_usuarios, son los que vienen la vista del formulario CV
-    public static function crearPerfil($data)
+    public static function crearPerfil(array $data)
     {
         try {
             $consultaSQL = Conexion::conexion()->prepare("

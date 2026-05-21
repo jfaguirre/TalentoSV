@@ -1,3 +1,5 @@
+-- Nombre de la base de datos: bolsadb
+
 -- 1. TABLAS BASE (Sin dependencias)
 CREATE TABLE `departamentos` (
   `id_departamento` int(11) NOT NULL AUTO_INCREMENT,
@@ -36,6 +38,8 @@ CREATE TABLE `usuarios` (
   `correo` varchar(100) NOT NULL UNIQUE,
   `password` varchar(255) NOT NULL,
   `estado` enum('activo','inactivo') DEFAULT 'activo',
+  `id_rol` int(11) NOT NULL,
+  FOREIGN KEY (id_rol) REFERENCES roles(id_rol) ON DELETE CASCADE,  
   `fecha_registro` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`id_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -168,13 +172,4 @@ CREATE TABLE `referencias` (
   `correo_contacto` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id_referencias`),
   FOREIGN KEY (`id_postulacion`) REFERENCES `postulacion` (`id_postulacion`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-CREATE TABLE roles_usuarios (
-    id_rolesUsuarios INT NOT NULL AUTO_INCREMENT,
-    id_usuario INT NOT NULL,
-    id_rol INT NOT NULL,
-    PRIMARY KEY (id_rolesUsuarios),
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE,
-    FOREIGN KEY (id_rol) REFERENCES roles(id_rol) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

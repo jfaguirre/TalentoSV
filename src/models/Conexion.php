@@ -12,7 +12,7 @@ class Conexion {
         // 2. nombre del usuario
         // 3. password del usuario
 
-        $enlace = new PDO("mysql:host=localhost; dbname=bolsa_empleo", "root", "");
+        $enlace = new PDO("mysql:host=localhost; dbname=bolsadb", "root", "");
         $enlace->exec("set names utf8");
 
         return $enlace;
