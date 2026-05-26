@@ -26,16 +26,22 @@
 <main>
     <section class="contenido">
     <!-- Contenido -->
-
-     <h1>
-        Bienvenido:
-        <?= $_SESSION['userAuth']['nombre']; ?>
-        <?= $_SESSION['userAuth']['rol']; ?>
-        <?= $_SESSION['userAuth']['modo']; ?>
-        <?= $_SESSION['userAuth']['id']; ?>
-        <?= $_SESSION['userAuth']['correo']; ?>
-
-    </h1>        
+    <?php             
+            if(isset($_GET['pagina'])){
+                if($_GET['pagina'] == 'inicio'   ||
+                   $_GET['pagina'] == 'perfil' ||
+                   $_GET['pagina'] == 'curriculum'  ||
+                   $_GET['pagina'] == 'configuraciones'    
+                   
+                ){                                    
+                    include "views//usuarios/".$_GET['pagina'].".php";
+                } else {
+                    include "views/paginas/error404.php";
+                }
+            } else {
+                include 'views/paginas/inicio.php';
+            }            
+        ?>
 
     </section>
 </main>
