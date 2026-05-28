@@ -26,6 +26,7 @@
 <main>
     <section class="contenido">
     <!-- Contenido -->
+<<<<<<< HEAD
         <?php             
             // Páginas permitidas
             $paginasPermitidas = 
@@ -45,6 +46,25 @@
             }            
         ?>
              
+=======
+    <?php             
+            if(isset($_GET['pagina'])){
+                if($_GET['pagina'] == 'inicio'   ||
+                   $_GET['pagina'] == 'perfil' ||
+                   $_GET['pagina'] == 'curriculum'  ||
+                   $_GET['pagina'] == 'configuraciones'    
+                   
+                ){                                    
+                    include "views//usuarios/".$_GET['pagina'].".php";
+                } else {
+                    include "views/paginas/error404.php";
+                }
+            } else {
+                include 'views/paginas/inicio.php';
+            }            
+        ?>
+
+>>>>>>> 45275fce6be8a7d061cdcb0a518f5879f13b653f
     </section>
 </main>
     

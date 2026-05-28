@@ -11,5 +11,18 @@
         <?php else: ?>            
             <li><a class="inactivo" href="index.php?pagina=salir">Salir</a></li>
         <?php endif ?>
+
+         <?php if(isset($_GET['pagina'])): ?>        
+            <!-- Salir -->
+            <?php if($_GET['pagina'] == 'perfil'): ?>
+                <li><a class="activo" href="index.php?pagina=perfil">Perfil</a></li>
+            <?php else: ?>
+                <li><a class="inactivo" href="index.php?pagina=perfil">Perfil</a></li>
+            <?php endif ?>
+
+        <?php else: ?>            
+            <li><a class="inactivo" href="index.php?pagina=perfil">Perfil</a></li>
+        <?php endif ?>
+
     </ul>
 </nav>
