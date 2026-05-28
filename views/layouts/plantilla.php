@@ -1,7 +1,7 @@
 <?php
 $base_path = (strpos($_SERVER['SCRIPT_NAME'], 'views/') !== false) ? '../../' : '';
 
-$titulo = "TalentoSV — El talento que tu empresa necesita";
+$titulo = "TalentoSV";
 $is_auth_page = false;
 
 if (isset($_GET['pagina'])) {
@@ -31,9 +31,6 @@ if (isset($_GET['pagina'])) {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <?php endif; ?>
 
-
-    
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -52,21 +49,23 @@ if (isset($_GET['pagina'])) {
 
 <main>
     <section class="contenido">
-        <!-- Contenido -->
+        <!-- Contenido -->        
         <?php             
-            if(isset($_GET['pagina'])){
-                if($_GET['pagina'] == 'inicio'   ||
-                   $_GET['pagina'] == 'registro' ||
-                   $_GET['pagina'] == 'ingreso'  ||
-                   $_GET['pagina'] == 'salir'    
-                   
-                ){                                    
-                    include "views//paginas/".$_GET['pagina'].".php";
-                } else {
-                    include "views/paginas/error404.php";
-                }
+            // Páginas permitidas
+            $paginasPermitidas = 
+            [
+                'inicio',
+                'registro',
+                'ingreso',
+                'salir',
+            ];                        
+            
+            $pagina = $_GET['pagina'] ?? 'inicio';                       
+                        
+            if (in_array($pagina, $paginasPermitidas, true)) {
+                include "views/paginas/{$pagina}.php";
             } else {
-                include 'views/paginas/inicio.php';
+                include 'views/paginas/error404.php';
             }            
         ?>
 

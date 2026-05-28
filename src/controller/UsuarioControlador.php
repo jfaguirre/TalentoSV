@@ -95,7 +95,7 @@ class UsuarioControlador {
                             'empresa_id' => null
                         ];                       
                                                 
-                            header("Refresh: 2; url=index.php?pagina=ingreso");
+                            header("Refresh: 2; url=index.php?pagina=inicio");
                             exit;
                                                                             
                         } else {

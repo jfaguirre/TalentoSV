@@ -26,17 +26,25 @@
 <main>
     <section class="contenido">
     <!-- Contenido -->
-
-     <h1>
-        Bienvenido:
-        <?= $_SESSION['userAuth']['nombre']; ?>
-        <?= $_SESSION['userAuth']['rol']; ?>
-        <?= $_SESSION['userAuth']['modo']; ?>
-        <?= $_SESSION['userAuth']['id']; ?>
-        <?= $_SESSION['userAuth']['correo']; ?>
-
-    </h1>        
-
+        <?php             
+            // Páginas permitidas
+            $paginasPermitidas = 
+            [
+                'inicio',
+                'perfil',
+                'curriculum',
+                'configuracion',
+            ];                        
+            
+            $pagina = $_GET['pagina'] ?? 'inicio';                       
+                        
+            if (in_array($pagina, $paginasPermitidas, true)) {
+                include "views/usuarios/{$pagina}.php";
+            } else {
+                include 'views/paginas/error404.php';
+            }            
+        ?>
+             
     </section>
 </main>
     

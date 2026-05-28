@@ -39,6 +39,6 @@ class PlantillaControlador
         }
 
         // Modo usuario
-        include 'views/layouts/usuarios.php';
+        include 'views/layouts/usuarios.php';       
     }
 }
