@@ -24,9 +24,25 @@
 
 <main>
     <section class="contenido">
-        <!-- Contenido -->
-
-        <h1>Estamos en modo empresa</h1>
+         <!-- Contenido -->
+        <?php             
+            // Páginas permitidas
+            $paginasPermitidas = 
+            [
+                'inicio',
+                'perfil',
+                'ofertas',
+                'configuracion',
+            ];                        
+            
+            $pagina = $_GET['pagina'] ?? 'inicio';                       
+                        
+            if (in_array($pagina, $paginasPermitidas, true)) {
+                include "views/empresas/{$pagina}.php";
+            } else {
+                include 'views/paginas/error404.php';
+            }            
+        ?>
       
     </section>
 </main>

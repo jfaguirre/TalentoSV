@@ -1,5 +1,4 @@
 -- Nombre de la base de datos: bolsadb
-
 -- 1. TABLAS BASE (Sin dependencias)
 CREATE TABLE `departamentos` (
   `id_departamento` int(11) NOT NULL AUTO_INCREMENT,
@@ -9,7 +8,11 @@ CREATE TABLE `departamentos` (
 
 CREATE TABLE `experiencia` (
   `id_experiencia` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(200) NOT NULL,
+  `empresa` VARCHAR(150) NOT NULL,
+  `puesto` VARCHAR(255) NOT NULL,
+  `descripcion` TEXT NOT NULL,
+  `fecha_inicio` DATE NOT NULL,
+  `fecha_fin` DATE DEFAULT NULL,  
   PRIMARY KEY (`id_experiencia`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -71,7 +74,7 @@ CREATE TABLE `permisos` (
   FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id_rol`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE `notificacion` (
+CREATE TABLE `notificaciones` (
   `id_notificacion` int(11) NOT NULL AUTO_INCREMENT,
   `id_usuario` int(11) DEFAULT NULL,
   `mensaje` text NOT NULL,
@@ -81,7 +84,7 @@ CREATE TABLE `notificacion` (
   FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE `empresa` (
+CREATE TABLE `empresas` (
   `id_empresa` int(11) NOT NULL AUTO_INCREMENT,
   `id_usuario` int(11) DEFAULT NULL,
   `nombre_empresa` varchar(150) NOT NULL,
@@ -95,7 +98,7 @@ CREATE TABLE `empresa` (
 
 
 -- 3. TABLAS DE PERFILES Y ENTIDADES RELACIONADAS
-CREATE TABLE `perfil_empresas` (
+CREATE TABLE `perfil_empresa` (
   `id_perfil_empresa` int(11) NOT NULL AUTO_INCREMENT,
   `id_empresa` int(11) DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
@@ -103,14 +106,15 @@ CREATE TABLE `perfil_empresas` (
   `ubicacion` varchar(150) DEFAULT NULL,
   `sitio_web` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_perfil_empresa`),
-  FOREIGN KEY (`id_empresa`) REFERENCES `empresa` (`id_empresa`) ON DELETE CASCADE
+  FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`id_empresa`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE `perfil_usuarios` (
+CREATE TABLE `perfil_usuario` (
   `id_perfil` int(11) NOT NULL AUTO_INCREMENT,
   `id_usuario` int(11) DEFAULT NULL,
   `id_departamento` int(11) DEFAULT NULL, 
-  `id_municipio` int(11) DEFAULT NULL, -- Se corrigió el nombre para apuntar directamente a municipios
+  `id_distrito` int(11) DEFAULT NULL, 
+  `id_municipio` int(11) DEFAULT NULL, 
   `id_profesion` int(11) DEFAULT NULL,
   `id_experiencia` int(11) DEFAULT NULL,
   `id_habilidades` int(11) DEFAULT NULL,
@@ -121,6 +125,7 @@ CREATE TABLE `perfil_usuarios` (
   PRIMARY KEY (`id_perfil`),
   FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE,
   FOREIGN KEY (`id_departamento`) REFERENCES `departamentos` (`id_departamento`) ON DELETE SET NULL,
+  FOREIGN KEY (`id_distrito`) REFERENCES `distritos` (`id_distrito`) ON DELETE SET NULL,
   FOREIGN KEY (`id_municipio`) REFERENCES `municipios` (`id_municipios`) ON DELETE SET NULL,
   FOREIGN KEY (`id_profesion`) REFERENCES `profesion` (`id_profesion`) ON DELETE SET NULL,
   FOREIGN KEY (`id_experiencia`) REFERENCES `experiencia` (`id_experiencia`) ON DELETE SET NULL,
@@ -129,17 +134,17 @@ CREATE TABLE `perfil_usuarios` (
 
 
 -- 4. TABLAS DE OPERACIONES (Ofertas y Postulaciones)
-CREATE TABLE `oferta_empleo` (
+CREATE TABLE `oferta_empleos` (
   `id_oferta` int(11) NOT NULL AUTO_INCREMENT,
   `id_empresa` int(11) DEFAULT NULL,  
   `titulo` varchar(200) NOT NULL,
   `descripcion` text NOT NULL,
   `tipo_contrato` enum('tiempo_completo','medio_tiempo','temporal','freelance') DEFAULT NULL,
   PRIMARY KEY (`id_oferta`),
-  FOREIGN KEY (`id_empresa`) REFERENCES `empresa` (`id_empresa`) ON DELETE CASCADE
+  FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`id_empresa`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE `postulacion` (
+CREATE TABLE `postulaciones` (
   `id_postulacion` int(11) NOT NULL AUTO_INCREMENT,
   `id_usuario` int(11) DEFAULT NULL,
   `id_oferta` int(11) DEFAULT NULL,
@@ -147,12 +152,12 @@ CREATE TABLE `postulacion` (
   `estado` enum('pendiente','revisada','aceptada','rechazada') DEFAULT 'pendiente',
   PRIMARY KEY (`id_postulacion`),
   FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE,
-  FOREIGN KEY (`id_oferta`) REFERENCES `oferta_empleo` (`id_oferta`) ON DELETE CASCADE
+  FOREIGN KEY (`id_oferta`) REFERENCES `oferta_empleos` (`id_oferta`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 -- 5. TABLAS DEPENDIENTES DE PROCESOS
-CREATE TABLE `entrevista` (
+CREATE TABLE `entrevistas` (
   `id_entrevista` int(11) NOT NULL AUTO_INCREMENT,
   `id_empresa` int(11) DEFAULT NULL,
   `id_postulacion` int(11) DEFAULT NULL,
@@ -160,8 +165,8 @@ CREATE TABLE `entrevista` (
   `tipo` enum('presencial','virtual','telefonica') DEFAULT NULL,
   `estado` enum('programada','realizada','cancelada') DEFAULT 'programada',
   PRIMARY KEY (`id_entrevista`),
-  FOREIGN KEY (`id_empresa`) REFERENCES `empresa` (`id_empresa`) ON DELETE CASCADE,
-  FOREIGN KEY (`id_postulacion`) REFERENCES `postulacion` (`id_postulacion`) ON DELETE CASCADE
+  FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`id_empresa`) ON DELETE CASCADE,
+  FOREIGN KEY (`id_postulacion`) REFERENCES `postulaciones` (`id_postulacion`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `referencias` (
@@ -171,5 +176,8 @@ CREATE TABLE `referencias` (
   `telefono_contacto` varchar(20) DEFAULT NULL,
   `correo_contacto` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id_referencias`),
-  FOREIGN KEY (`id_postulacion`) REFERENCES `postulacion` (`id_postulacion`) ON DELETE CASCADE
+  FOREIGN KEY (`id_postulacion`) REFERENCES `postulaciones` (`id_postulacion`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+-- Cambios que haga Andrea de aqui para abajo
