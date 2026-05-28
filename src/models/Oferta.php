@@ -9,7 +9,6 @@ class Oferta {
     // recibe los datos de la oferta
     public function __construct(
         public ?int $id_empresa,
-        public ?int $id_salario,
         public ?string $titulo,
         public ?string $descripcion,
         public ?string $tipo_contrato
@@ -20,13 +19,12 @@ class Oferta {
     public static function crearOferta(Oferta $oferta)
     {
         $sql = Conexion::conexion()->prepare("
-            INSERT INTO oferta_empleo 
-            (id_empresa, id_salario, titulo, descripcion, tipo_contrato)
-            VALUES (:id_empresa, :id_salario, :titulo, :descripcion, :tipo)
+            INSERT INTO oferta_empleos 
+            (id_empresa, titulo, descripcion, tipo_contrato)
+            VALUES (:id_empresa, :titulo, :descripcion, :tipo)
         ");
 
         $sql->bindParam(":id_empresa", $oferta->id_empresa);
-        $sql->bindParam(":id_salario", $oferta->id_salario);
         $sql->bindParam(":titulo", $oferta->titulo);
         $sql->bindParam(":descripcion", $oferta->descripcion);
         $sql->bindParam(":tipo", $oferta->tipo_contrato);
@@ -38,7 +36,7 @@ class Oferta {
     // Devuelve todas las ofertas registradas
     public static function obtenerLista()
     {
-        $sql = Conexion::conexion()->prepare("SELECT * FROM oferta_empleo");
+        $sql = Conexion::conexion()->prepare("SELECT * FROM oferta_empleos ORDER BY id_oferta DESC");
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -48,9 +46,8 @@ class Oferta {
     public static function actualizarOferta($id_oferta, Oferta $oferta)
     {
         $sql = Conexion::conexion()->prepare("
-            UPDATE oferta_empleo 
+            UPDATE oferta_empleos 
             SET id_empresa = :id_empresa,
-                id_salario = :id_salario,
                 titulo = :titulo,
                 descripcion = :descripcion,
                 tipo_contrato = :tipo
@@ -58,7 +55,6 @@ class Oferta {
         ");
 
         $sql->bindParam(":id_empresa", $oferta->id_empresa);
-        $sql->bindParam(":id_salario", $oferta->id_salario);
         $sql->bindParam(":titulo", $oferta->titulo);
         $sql->bindParam(":descripcion", $oferta->descripcion);
         $sql->bindParam(":tipo", $oferta->tipo_contrato);
@@ -71,10 +67,38 @@ class Oferta {
     public static function eliminarOferta($id_oferta)
     {
         $sql = Conexion::conexion()->prepare("
-            DELETE FROM oferta_empleo WHERE id_oferta = :id_oferta
+            DELETE FROM oferta_empleos WHERE id_oferta = :id_oferta
         ");
 
         $sql->bindParam(":id_oferta", $id_oferta);
         return $sql->execute();
     }
-}
+
+    // --- MÉTODOS DE SOPORTE PARA EL DASHBOARD DE EMPRESAS ---
+
+    // Obtener las ofertas de una empresa específica
+    public static function obtenerListaPorEmpresa(int $id_empresa)
+    {
+        $sql = Conexion::conexion()->prepare("
+            SELECT * FROM oferta_empleos 
+            WHERE id_empresa = :id_empresa 
+            ORDER BY id_oferta DESC
+        ");
+        $sql->bindParam(":id_empresa", $id_empresa, PDO::PARAM_INT);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Obtener una oferta por su ID
+    public static function obtenerPorId(int $id_oferta)
+    {
+        $sql = Conexion::conexion()->prepare("
+            SELECT * FROM oferta_empleos 
+            WHERE id_oferta = :id_oferta 
+            LIMIT 1
+        ");
+        $sql->bindParam(":id_oferta", $id_oferta, PDO::PARAM_INT);
+        $sql->execute();
+        return $sql->fetch(PDO::FETCH_ASSOC);
+    }
+}

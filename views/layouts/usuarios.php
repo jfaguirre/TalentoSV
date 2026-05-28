@@ -34,6 +34,7 @@
                 'perfil',
                 'curriculum',
                 'configuracion',
+                'registrar_empresa',
             ];                        
             
             $pagina = $_GET['pagina'] ?? 'inicio';                       
