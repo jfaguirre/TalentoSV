@@ -31,4 +31,4 @@
             <li><a class="inactivo" href="index.php?pagina=registrar_empresa" style="background-color: rgba(16, 185, 129, 0.1); color: #10b981; border-radius: 6px; padding: 4px 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;"><i class="fa-solid fa-circle-plus"></i> Registrar mi empresa</a></li>
         <?php endif; ?>
     </ul>
-</nav>
+</nav>

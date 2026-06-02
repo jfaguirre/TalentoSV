@@ -101,4 +101,9 @@ class Oferta {
         $sql->execute();
         return $sql->fetch(PDO::FETCH_ASSOC);
     }
-}
+
+
+    // Aqui podes agregar más métodos relacionados con las ofertas, como buscar por título, filtrar por tipo de contrato, etc.
+    
+
+}

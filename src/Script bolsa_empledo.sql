@@ -58,10 +58,10 @@ CREATE TABLE `distritos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `municipios` (
-  `id_municipios` int(11) NOT NULL AUTO_INCREMENT,
+  `id_municipio` int(11) NOT NULL AUTO_INCREMENT,
   `id_distrito` int(11) DEFAULT NULL,
   `municipio` varchar(100) NOT NULL,
-  PRIMARY KEY (`id_municipios`),
+  PRIMARY KEY (`id_municipio`),
   FOREIGN KEY (`id_distrito`) REFERENCES `distritos` (`id_distrito`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -126,7 +126,7 @@ CREATE TABLE `perfil_usuario` (
   FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE,
   FOREIGN KEY (`id_departamento`) REFERENCES `departamentos` (`id_departamento`) ON DELETE SET NULL,
   FOREIGN KEY (`id_distrito`) REFERENCES `distritos` (`id_distrito`) ON DELETE SET NULL,
-  FOREIGN KEY (`id_municipio`) REFERENCES `municipios` (`id_municipios`) ON DELETE SET NULL,
+  FOREIGN KEY (`id_municipio`) REFERENCES `municipios` (`id_municipio`) ON DELETE SET NULL,
   FOREIGN KEY (`id_profesion`) REFERENCES `profesion` (`id_profesion`) ON DELETE SET NULL,
   FOREIGN KEY (`id_experiencia`) REFERENCES `experiencia` (`id_experiencia`) ON DELETE SET NULL,
   FOREIGN KEY (`id_habilidades`) REFERENCES `habilidades` (`id_habilidad`) ON DELETE SET NULL
@@ -136,12 +136,16 @@ CREATE TABLE `perfil_usuario` (
 -- 4. TABLAS DE OPERACIONES (Ofertas y Postulaciones)
 CREATE TABLE `oferta_empleos` (
   `id_oferta` int(11) NOT NULL AUTO_INCREMENT,
-  `id_empresa` int(11) DEFAULT NULL,  
+  `id_empresa` int(11) DEFAULT NULL,
+  `id_departamento` int(11) DEFAULT NULL,
+  `id_municipio` int(11) DEFAULT NULL,
   `titulo` varchar(200) NOT NULL,
   `descripcion` text NOT NULL,
   `tipo_contrato` enum('tiempo_completo','medio_tiempo','temporal','freelance') DEFAULT NULL,
   PRIMARY KEY (`id_oferta`),
-  FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`id_empresa`) ON DELETE CASCADE
+  FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`id_empresa`) ON DELETE CASCADE,
+  FOREIGN KEY (`id_departamento`) REFERENCES `departamentos` (`id_departamento`) ON DELETE SET NULL,
+  FOREIGN KEY (`id_municipio`) REFERENCES `municipios` (`id_municipio`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `postulaciones` (
@@ -182,7 +186,7 @@ CREATE TABLE `referencias` (
 
 -- Cambios que haga Andrea de aqui para abajo
 
---fecha de modificacion: 27-05-2026
+-- fecha de modificacion: 27-05-2026
 
 -- ROLES
 INSERT INTO `roles` (`rol`) VALUES
