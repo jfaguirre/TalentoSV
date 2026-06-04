@@ -102,6 +102,45 @@ class Oferta {
         return $sql->fetch(PDO::FETCH_ASSOC);
     }
 
+ 
+    public static function getDepartamentos(){
+   
+
+         $sql = Conexion::conexion()->prepare("
+            SELECT
+                d.id_departamento,
+                d.departamento,
+                COUNT(o.id_oferta) AS total_ofertas
+            FROM departamentos d
+            LEFT JOIN oferta_empleos o
+                ON d.id_departamento = o.id_departamento
+            GROUP BY d.id_departamento, d.departamento
+            ORDER BY d.departamento
+        ");
+
+        $sql->execute();
+
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function obtenerPorDepartamento(int $id_departamento)
+{
+    $sql = Conexion::conexion()->prepare("
+        SELECT 
+            o.*,
+            e.nombre_empresa AS empresa
+        FROM oferta_empleos o
+        LEFT JOIN empresas e 
+            ON o.id_empresa = e.id_empresa
+        WHERE o.id_departamento = :id
+        ORDER BY o.id_oferta DESC
+    ");
+
+    $sql->bindParam(":id", $id_departamento, PDO::PARAM_INT);
+    $sql->execute();
+
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+}
 
     // Aqui podes agregar más métodos relacionados con las ofertas, como buscar por título, filtrar por tipo de contrato, etc.
     
