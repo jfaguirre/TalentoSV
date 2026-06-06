@@ -19,7 +19,7 @@ class UsuarioRequest {
             $errores['nombre'] =  'El campo nombre no debe ir vacío.';
         } else {
             if(!preg_match($nombre, $usuario->nombre)){
-                $errores['nombre'] =  'Solo se aceptan letras y un minimo 3 caracteres-';
+                $errores['nombre'] =  'Solo se aceptan letras y un minimo 3 caracteres.';
             }
         }
                
@@ -29,7 +29,7 @@ class UsuarioRequest {
             $errores['apellido'] =  'El campo apellido no debe ir vacío.';
         } else {
             if(!preg_match($apellido, $usuario->apellido)){
-                $errores['apellido'] =  'Solo se aceptan letras y un minimo 3 caracteres-';
+                $errores['apellido'] =  'Solo se aceptan letras y un minimo 3 caracteres.';
             }
         }
                    
@@ -49,7 +49,7 @@ class UsuarioRequest {
             $errores['password'] =  'El campo password no debe ir vacío.';
         } else {
             if(!preg_match($password, $usuario->password)){
-                $errores['password'] =  'Password ingresada no es correcta.';
+                $errores['password'] =  'Debe ingresar una contraseña segura.';
             }
         }
                             

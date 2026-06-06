@@ -87,11 +87,11 @@ $respuesta = $login->crearUsuario();
                                     <span class="icon" aria-hidden="true">
                                         <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
                                     </span>
-                                    <input type="text" id="nombreUsuario" name="nombreUsuario" placeholder="Tu nombre" autocomplete="name" required maxlength="100">
+                                    <input type="text" id="nombreUsuario" name="nombreUsuario" placeholder="Tu nombre" autocomplete="name" required maxlength="100" class="<?php echo isset($respuesta['nombre']) ? 'error-field' : ''; ?>" value="<?php echo isset($_POST['nombreUsuario']) ? htmlspecialchars($_POST['nombreUsuario']) : ''; ?>">
                                 </div>
-                                <span class="field-error" id="err-nombreUsuario">
+                                <span class="field-error <?php echo isset($respuesta['nombre']) ? 'visible' : ''; ?>" id="err-nombreUsuario">
                                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                    Ingresa tu nombre completo
+                                    <span class="err-text"><?php echo isset($respuesta['nombre']) ? htmlspecialchars($respuesta['nombre']) : 'Ingresa tu nombre completo'; ?></span>
                                 </span>                     
                             </div>
                     
@@ -102,11 +102,11 @@ $respuesta = $login->crearUsuario();
                                     <span class="icon" aria-hidden="true">
                                         <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
                                     </span>
-                                    <input type="text" id="apellidoUsuario" name="apellidoUsuario" placeholder="Tu apellido" autocomplete="name" required maxlength="100">
+                                    <input type="text" id="apellidoUsuario" name="apellidoUsuario" placeholder="Tu apellido" autocomplete="name" required maxlength="100" class="<?php echo isset($respuesta['apellido']) ? 'error-field' : ''; ?>" value="<?php echo isset($_POST['apellidoUsuario']) ? htmlspecialchars($_POST['apellidoUsuario']) : ''; ?>">
                                 </div>
-                                <span class="field-error" id="err-apellidoUsuario">
+                                <span class="field-error <?php echo isset($respuesta['apellido']) ? 'visible' : ''; ?>" id="err-apellidoUsuario">
                                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                    Ingresa tu apellido completo
+                                    <span class="err-text"><?php echo isset($respuesta['apellido']) ? htmlspecialchars($respuesta['apellido']) : 'Ingresa tu apellido completo'; ?></span>
                                 </span>
                             </div>
 
@@ -117,11 +117,11 @@ $respuesta = $login->crearUsuario();
                                     <span class="icon" aria-hidden="true">
                                         <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
                                     </span>
-                                    <input type="email" id="correoUsuario" name="correoUsuario" placeholder="ejemplo@correo.com" autocomplete="email" required>
+                                    <input type="email" id="correoUsuario" name="correoUsuario" placeholder="ejemplo@correo.com" autocomplete="email" required class="<?php echo isset($respuesta['correo']) ? 'error-field' : ''; ?>" value="<?php echo isset($_POST['correoUsuario']) ? htmlspecialchars($_POST['correoUsuario']) : ''; ?>">
                                 </div>
-                                <span class="field-error" id="err-correoUsuario">
+                                <span class="field-error <?php echo isset($respuesta['correo']) ? 'visible' : ''; ?>" id="err-correoUsuario">
                                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                    Ingresa un correo válido
+                                    <span class="err-text"><?php echo isset($respuesta['correo']) ? htmlspecialchars($respuesta['correo']) : 'Ingresa un correo válido'; ?></span>
                                 </span>
                             </div>
 
@@ -132,14 +132,14 @@ $respuesta = $login->crearUsuario();
                                     <span class="icon" aria-hidden="true">
                                         <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
                                     </span>
-                                    <input type="password" id="passwordUsuario" name="passwordUsuario" placeholder="Mínimo 8 caracteres" autocomplete="new-password" required minlength="8">
+                                    <input type="password" id="passwordUsuario" name="passwordUsuario" placeholder="Mínimo 8 caracteres" autocomplete="new-password" required minlength="8" class="<?php echo isset($respuesta['password']) ? 'error-field' : ''; ?>">
                                     <button type="button" class="toggle-pass" onclick="togglePass('passwordUsuario', this)" aria-label="Mostrar contraseña">
                                         <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                                     </button>
                                 </div>
-                                <span class="field-error" id="err-passwordUsuario">
+                                <span class="field-error <?php echo isset($respuesta['password']) ? 'visible' : ''; ?>" id="err-passwordUsuario">
                                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                    Mínimo 8 caracteres
+                                    <span class="err-text"><?php echo isset($respuesta['password']) ? htmlspecialchars($respuesta['password']) : 'Mínimo 8 caracteres'; ?></span>
                                 </span>
                             </div>
 
@@ -158,7 +158,7 @@ $respuesta = $login->crearUsuario();
                                 <span class="match-indicator" id="match-c"></span>
                                 <span class="field-error" id="err-confirmarPassword">
                                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                    Las contraseñas no coinciden
+                                    <span class="err-text">Las contraseñas no coinciden</span>
                                 </span>
                             </div>
 
@@ -231,15 +231,15 @@ $respuesta = $login->crearUsuario();
       const pass    = document.getElementById('passwordUsuario');
       const confirm = document.getElementById('confirmarPassword');
 
-      if (!nombre.value.trim())                         { showErr('err-nombreUsuario', nombre); valid = false; }
+      if (!nombre.value.trim())                         { showErr('err-nombreUsuario', nombre, 'Ingresa tu nombre completo'); valid = false; }
       else                                              { clearErr('err-nombreUsuario', nombre); }
-      if (!apellido.value.trim())                       { showErr('err-apellidoUsuario', apellido); valid = false; }
+      if (!apellido.value.trim())                       { showErr('err-apellidoUsuario', apellido, 'Ingresa tu apellido completo'); valid = false; }
       else                                              { clearErr('err-apellidoUsuario', apellido); }
-      if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) { showErr('err-correoUsuario', email); valid = false; }
+      if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) { showErr('err-correoUsuario', email, 'Ingresa un correo válido'); valid = false; }
       else                                              { clearErr('err-correoUsuario', email); }
-      if (!pass.value || pass.value.length < 8)         { showErr('err-passwordUsuario', pass); valid = false; }
+      if (!pass.value || pass.value.length < 8)         { showErr('err-passwordUsuario', pass, 'Mínimo 8 caracteres'); valid = false; }
       else                                              { clearErr('err-passwordUsuario', pass); }
-      if (pass.value !== confirm.value || !confirm.value) { showErr('err-confirmarPassword', confirm); valid = false; }
+      if (pass.value !== confirm.value || !confirm.value) { showErr('err-confirmarPassword', confirm, 'Las contraseñas no coinciden'); valid = false; }
       else                                              { clearErr('err-confirmarPassword', confirm); }
     }
 
@@ -247,8 +247,13 @@ $respuesta = $login->crearUsuario();
     document.getElementById('register-form').submit();
   }
 
-  function showErr(errId, input) {
-    document.getElementById(errId).classList.add('visible');
+  function showErr(errId, input, msg) {
+    const errSpan = document.getElementById(errId);
+    errSpan.classList.add('visible');
+    const txtNode = errSpan.querySelector('.err-text');
+    if (txtNode && msg) {
+      txtNode.textContent = msg;
+    }
     input.classList.add('error-field');
     input.focus();
   }

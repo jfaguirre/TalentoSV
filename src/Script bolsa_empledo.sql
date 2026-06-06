@@ -593,3 +593,18 @@ INSERT INTO `municipios` (`id_distrito`, `municipio`) VALUES
 -- Usulután Oeste 
 (45, 'Colomoncagua'),
 (45, 'Santa María');
+
+-- 06 de junio de 2026
+
+CREATE TABLE estudios (
+    id_estudio INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    nivel_academico VARCHAR(100) NOT NULL,
+    carrera VARCHAR(150) NOT NULL,
+    institucion VARCHAR(150) NOT NULL,
+    fecha_inicio DATE,
+    fecha_fin DATE,
+    estado ENUM('En curso','Finalizado','Suspendido') DEFAULT 'Finalizado',
+    descripcion TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

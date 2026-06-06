@@ -74,15 +74,21 @@ $respuesta = $login->login();
                 <!-- Formulario -->
                 <form action="" method="POST" class="form-login">
                     <div class="form-body">
-                        <!-- Correo -->
+                         <!-- Correo -->
                         <div class="field">
                             <label for="correoUsuario">Correo electrónico <span class="req">*</span></label>
                             <div class="input-wrap">
                                 <span class="icon" aria-hidden="true">
                                     <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
                                 </span>
-                                <input type="email" id="correoUsuario" name="correoUsuario" placeholder="ejemplo@talento.sv" required>
+                                <input type="email" id="correoUsuario" name="correoUsuario" placeholder="ejemplo@talento.sv" required class="<?php echo isset($respuesta['correo']) ? 'error-field' : ''; ?>" value="<?php echo isset($_POST['correoUsuario']) ? htmlspecialchars($_POST['correoUsuario']) : ''; ?>">
                             </div>
+                            <?php if (isset($respuesta['correo'])): ?>
+                                <span class="field-error visible" id="err-correoUsuario">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                    <span class="err-text"><?php echo htmlspecialchars($respuesta['correo']); ?></span>
+                                </span>
+                            <?php endif; ?>
                         </div>
 
                         <!-- Password -->
@@ -92,8 +98,14 @@ $respuesta = $login->login();
                                 <span class="icon" aria-hidden="true">
                                     <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
                                 </span>
-                                <input type="password" id="passwordUsuario" name="passwordUsuario" required placeholder="••••••••">
+                                <input type="password" id="passwordUsuario" name="passwordUsuario" required placeholder="••••••••" class="<?php echo isset($respuesta['password']) ? 'error-field' : ''; ?>">
                             </div>
+                            <?php if (isset($respuesta['password'])): ?>
+                                <span class="field-error visible" id="err-passwordUsuario">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                    <span class="err-text"><?php echo htmlspecialchars($respuesta['password']); ?></span>
+                                </span>
+                            <?php endif; ?>
                         </div>
 
                         <?php if (isset($respuesta['error_credenciales'])): ?>

@@ -66,7 +66,7 @@ class Empresa {
         return $sql->execute();
     }
 
-    // --- MÉTODOS DE SOPORTE PARA EL DASHBOARD ---
+    // DASHBOARD ---
 
     // Obtener la empresa por id_usuario
     public static function obtenerPorUsuario(int $id_usuario)
@@ -243,4 +243,4 @@ class Empresa {
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
-}
+}

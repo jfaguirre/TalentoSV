@@ -27,7 +27,7 @@ class LoginRequest {
             $errores['password'] =  'El campo password no debe ir vacío.';
         } else {
             if(!preg_match($password, $usuario->password)){
-                $errores['password'] =  'Password ingresada no es correcta.';
+                $errores['password'] =  'Correo o contraseña ingresada no es correcta.';
             }
         }
                             

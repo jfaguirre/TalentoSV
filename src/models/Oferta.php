@@ -74,7 +74,7 @@ class Oferta {
         return $sql->execute();
     }
 
-    // --- MÉTODOS DE SOPORTE PARA EL DASHBOARD DE EMPRESAS ---
+    // DASHBOARD DE EMPRESAS
 
     // Obtener las ofertas de una empresa específica
     public static function obtenerListaPorEmpresa(int $id_empresa)
