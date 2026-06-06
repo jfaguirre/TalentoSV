@@ -1,3 +1,7 @@
+<?php
+$base_path = (strpos($_SERVER['SCRIPT_NAME'], 'views/') !== false) ? '../../' : '';
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,6 +11,11 @@
 
     <!-- Estilos -->
     <link rel="stylesheet" href="../../assets/css/registro.css">
+
+    
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/dashboard_usuario.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
