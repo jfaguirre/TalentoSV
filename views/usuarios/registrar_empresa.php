@@ -10,8 +10,8 @@ use App\helpers\Alert;
 use App\models\Ubicacion;
 
 $departamentos = Ubicacion::obtenerDepartamentos();
-// $distritos = Ubicacion::obtenerDistritos();
-// $municipios = Ubicacion::obtenerMunicipios();
+$distritos = Ubicacion::obtenerDistritos($departamentos[0]['id_departamento'] ?? 0 );
+$municipios = Ubicacion::obtenerMunicipios( $distritos[0]['id_distrito'] ?? 0 );
 
 
 $id_usuario = $_SESSION['userAuth']['id'] ?? null;
@@ -35,7 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $correo = trim($_POST['correo_empresa'] ?? '');
     $telefono = trim($_POST['telefono_empresa'] ?? '');
     $sector = trim($_POST['sector'] ?? '');
-    $ubicacion = trim($_POST['ubicacion'] ?? '');
+    $id_departamento = isset($_POST['id_departamento']) && $_POST['id_departamento'] !== '' ? (int)$_POST['id_departamento'] : null;
+    $id_distrito = isset($_POST['id_distrito']) && $_POST['id_distrito'] !== '' ? (int)$_POST['id_distrito'] : null;
+    $id_municipio = isset($_POST['id_municipio']) && $_POST['id_municipio'] !== '' ? (int)$_POST['id_municipio'] : null;
     $sitio_web = trim($_POST['sitio_web'] ?? '');
     $descripcion = trim($_POST['descripcion'] ?? '');
 
@@ -59,7 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $correo,
                 $telefono,
                 $sector,
-                $ubicacion,
+                $id_departamento,
+                $id_distrito,
+                $id_municipio,
                 $sitio_web,
                 $descripcion
             );
@@ -166,18 +170,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                            onfocus="this.style.borderColor='#4f46e5'" onblur="this.style.borderColor='#cbd5e1'">
                 </div>
 
-                <!-- Ubicación -->
-                <select id="departamento" name="id_departamento">
-                    <option value="">Seleccione un departamento</option>
-                </select>
-                    
-                <select id="distrito" name="id_distrito" disabled>
-                    <option value="">Seleccione un distrito</option>
-                </select>
+                <!-- Departamento -->
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <label for="departamento" style="font-size: 0.875rem; font-weight: 600; color: #475569; margin: 0;">
+                        Departamento
+                    </label>
+                    <select id="departamento" name="id_departamento"
+                            style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; outline: none; transition: border-color 0.2s; background-color: #fff;"
+                            onfocus="this.style.borderColor='#4f46e5'" onblur="this.style.borderColor='#cbd5e1'">
+                        <option value="">Seleccione un departamento</option>
+                    </select>
+                </div>
 
-                <select id="municipio" name="id_municipio" disabled>
-                    <option value="">Seleccione un municipio</option>
-                </select>
+                <!-- Distrito -->
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <label for="distrito" style="font-size: 0.875rem; font-weight: 600; color: #475569; margin: 0;">
+                        Distrito
+                    </label>
+                    <select id="distrito" name="id_distrito" disabled
+                            style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; outline: none; transition: border-color 0.2s; background-color: #fff;"
+                            onfocus="this.style.borderColor='#4f46e5'" onblur="this.style.borderColor='#cbd5e1'">
+                        <option value="">Seleccione un distrito</option>
+                    </select>
+                </div>
+
+                <!-- Municipio -->
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <label for="municipio" style="font-size: 0.875rem; font-weight: 600; color: #475569; margin: 0;">
+                        Municipio
+                    </label>
+                    <select id="municipio" name="id_municipio" disabled
+                            style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; outline: none; transition: border-color 0.2s; background-color: #fff;"
+                            onfocus="this.style.borderColor='#4f46e5'" onblur="this.style.borderColor='#cbd5e1'">
+                        <option value="">Seleccione un municipio</option>
+                    </select>
+                </div>
 
 
                 <!-- <div style="display: flex; flex-direction: column; gap: 0.5rem;">
@@ -253,100 +280,100 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Cargar departamentos, distritos y municipios
     document.addEventListener("DOMContentLoaded", () => {
+        const departamento = document.getElementById("departamento");
+        const distrito = document.getElementById("distrito");
+        const municipio = document.getElementById("municipio");
 
-    const departamento = document.getElementById("departamento");
-    const distrito = document.getElementById("distrito");
-    const municipio = document.getElementById("municipio");
+        // Preselección de valores en caso de recarga del formulario
+        const selectedDepartamento = <?= json_encode($_POST['id_departamento'] ?? null); ?>;
+        const selectedDistrito = <?= json_encode($_POST['id_distrito'] ?? null); ?>;
+        const selectedMunicipio = <?= json_encode($_POST['id_municipio'] ?? null); ?>;
 
-    // Cargar departamentos
-    fetch("obtener_departamentos.php")
-        .then(res => res.json())
-        .then(data => {
+        // Cargar departamentos
+        fetch("index.php?action=get_departamentos")
+            .then(res => res.json())
+            .then(data => {
+                departamento.innerHTML = '<option value="">Seleccione un departamento</option>';
+                data.forEach(dep => {
+                    departamento.innerHTML += `
+                        <option value="${dep.id_departamento}">
+                            ${dep.departamento}
+                        </option>
+                    `;
+                });
 
-            data.forEach(dep => {
+                if (selectedDepartamento) {
+                    departamento.value = selectedDepartamento;
+                    cargarDistritos(selectedDepartamento, selectedDistrito);
+                }
+            })
+            .catch(err => console.error("Error al cargar departamentos:", err));
 
-                departamento.innerHTML += `
-                    <option value="${dep.id_departamento}">
-                        ${dep.departamento}
-                    </option>
-                `;
+        function cargarDistritos(id_departamento, preselectId = null) {
+            distrito.innerHTML = '<option value="">Seleccione un distrito</option>';
+            municipio.innerHTML = '<option value="">Seleccione un municipio</option>';
+            municipio.disabled = true;
 
-            });
+            if (!id_departamento) {
+                distrito.disabled = true;
+                return;
+            }
 
+            fetch(`index.php?action=get_distritos&id_departamento=${id_departamento}`)
+                .then(res => res.json())
+                .then(data => {
+                    distrito.disabled = false;
+                    data.forEach(item => {
+                        distrito.innerHTML += `
+                            <option value="${item.id_distrito}">
+                                ${item.distrito}
+                            </option>
+                        `;
+                    });
+
+                    if (preselectId) {
+                        distrito.value = preselectId;
+                        cargarMunicipios(preselectId, selectedMunicipio);
+                    }
+                })
+                .catch(err => console.error("Error al cargar distritos:", err));
+        }
+
+        function cargarMunicipios(id_distrito, preselectId = null) {
+            municipio.innerHTML = '<option value="">Seleccione un municipio</option>';
+
+            if (!id_distrito) {
+                municipio.disabled = true;
+                return;
+            }
+
+            fetch(`index.php?action=get_municipios&id_distrito=${id_distrito}`)
+                .then(res => res.json())
+                .then(data => {
+                    municipio.disabled = false;
+                    data.forEach(item => {
+                        municipio.innerHTML += `
+                            <option value="${item.id_municipio}">
+                                ${item.municipio}
+                            </option>
+                        `;
+                    });
+
+                    if (preselectId) {
+                        municipio.value = preselectId;
+                    }
+                })
+                .catch(err => console.error("Error al cargar municipios:", err));
+        }
+
+        departamento.addEventListener("change", () => {
+            cargarDistritos(departamento.value);
         });
 
-    // Cambio de departamento
-    departamento.addEventListener("change", () => {
-
-        distrito.innerHTML =
-            '<option value="">Seleccione un distrito</option>';
-
-        municipio.innerHTML =
-            '<option value="">Seleccione un municipio</option>';
-
-        municipio.disabled = true;
-
-        if (!departamento.value) {
-
-            distrito.disabled = true;
-            return;
-
-        }
-
-        fetch(`obtener_distritos.php?id_departamento=${departamento.value}`)
-            .then(res => res.json())
-            .then(data => {
-
-                distrito.disabled = false;
-
-                data.forEach(item => {
-
-                    distrito.innerHTML += `
-                        <option value="${item.id_distrito}">
-                            ${item.distrito}
-                        </option>
-                    `;
-
-                });
-
-            });
-
+        distrito.addEventListener("change", () => {
+            cargarMunicipios(distrito.value);
+        });
     });
-
-    // Cambio de distrito
-    distrito.addEventListener("change", () => {
-
-        municipio.innerHTML =
-            '<option value="">Seleccione un municipio</option>';
-
-        if (!distrito.value) {
-
-            municipio.disabled = true;
-            return;
-
-        }
-
-        fetch(`obtener_municipios.php?id_distrito=${distrito.value}`)
-            .then(res => res.json())
-            .then(data => {
-
-                municipio.disabled = false;
-
-                data.forEach(item => {
-
-                    municipio.innerHTML += `
-                        <option value="${item.id_municipio}">
-                            ${item.municipio}
-                        </option>
-                    `;
-
-                });
-
-            });
-
-    });
-
-});
 
 
 

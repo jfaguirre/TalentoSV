@@ -96,8 +96,8 @@ class Empresa {
             $id_empresa = $db->lastInsertId();
 
             $sqlPerfil = $db->prepare("
-                INSERT INTO perfil_empresa (id_empresa, descripcion, sector, ubicacion, sitio_web)
-                VALUES (:id_empresa, '', '', '', '')
+                INSERT INTO perfil_empresa (id_empresa, descripcion, sector, sitio_web)
+                VALUES (:id_empresa, '', '', '')
             ");
             $sqlPerfil->bindParam(":id_empresa", $id_empresa, PDO::PARAM_INT);
             $sqlPerfil->execute();
@@ -116,7 +116,7 @@ class Empresa {
     public static function obtenerPerfil(int $id_empresa)
     {
         $sql = Conexion::conexion()->prepare("
-            SELECT e.*, p.descripcion, p.sector, p.ubicacion, p.sitio_web 
+            SELECT e.*, p.descripcion, p.sector, p.id_departamento, p.id_distrito, p.id_municipio, p.sitio_web 
             FROM empresas e
             LEFT JOIN perfil_empresa p ON e.id_empresa = p.id_empresa
             WHERE e.id_empresa = :id_empresa 
@@ -128,7 +128,7 @@ class Empresa {
     }
 
     // Actualizar datos de empresa y perfil
-    public static function actualizarPerfilEmpresa(int $id_empresa, string $nombre, string $correo, string $telefono, string $sector, string $ubicacion, string $sitio_web, string $descripcion)
+    public static function actualizarPerfilEmpresa(int $id_empresa, string $nombre, string $correo, string $telefono, string $sector, ?int $id_departamento, ?int $id_distrito, ?int $id_municipio, string $sitio_web, string $descripcion)
     {
         try {
             $db = Conexion::conexion();
@@ -156,19 +156,23 @@ class Empresa {
                 $sqlPerfil = $db->prepare("
                     UPDATE perfil_empresa 
                     SET sector = :sector,
-                        ubicacion = :ubicacion,
+                        id_departamento = :id_departamento,
+                        id_distrito = :id_distrito,
+                        id_municipio = :id_municipio,
                         sitio_web = :sitio_web,
                         descripcion = :descripcion
                     WHERE id_empresa = :id_empresa
                 ");
             } else {
                 $sqlPerfil = $db->prepare("
-                    INSERT INTO perfil_empresa (id_empresa, sector, ubicacion, sitio_web, descripcion)
-                    VALUES (:id_empresa, :sector, :ubicacion, :sitio_web, :descripcion)
+                    INSERT INTO perfil_empresa (id_empresa, sector, id_departamento, id_distrito, id_municipio, sitio_web, descripcion)
+                    VALUES (:id_empresa, :sector, :id_departamento, :id_distrito, :id_municipio, :sitio_web, :descripcion)
                 ");
             }
             $sqlPerfil->bindParam(":sector", $sector, PDO::PARAM_STR);
-            $sqlPerfil->bindParam(":ubicacion", $ubicacion, PDO::PARAM_STR);
+            $sqlPerfil->bindValue(":id_departamento", $id_departamento, $id_departamento === null ? PDO::PARAM_NULL : PDO::PARAM_INT);
+            $sqlPerfil->bindValue(":id_distrito", $id_distrito, $id_distrito === null ? PDO::PARAM_NULL : PDO::PARAM_INT);
+            $sqlPerfil->bindValue(":id_municipio", $id_municipio, $id_municipio === null ? PDO::PARAM_NULL : PDO::PARAM_INT);
             $sqlPerfil->bindParam(":sitio_web", $sitio_web, PDO::PARAM_STR);
             $sqlPerfil->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
             $sqlPerfil->bindParam(":id_empresa", $id_empresa, PDO::PARAM_INT);

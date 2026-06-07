@@ -51,10 +51,28 @@ $perfil = $controlador->gestionarPerfil($empresa_id);
                 <input type="tel" class="form-input" id="telefono_empresa" name="telefono_empresa" value="<?= htmlspecialchars($perfil['telefono_empresa'] ?? ''); ?>" placeholder="Ej. 2222-2222">
             </div>
 
-            <!-- Ubicación -->
+            <!-- Departamento -->
             <div class="form-group">
-                <label class="form-label" for="ubicacion">Dirección / Ubicación</label>
-                <input type="text" class="form-input" id="ubicacion" name="ubicacion" value="<?= htmlspecialchars($perfil['ubicacion'] ?? ''); ?>" placeholder="Ej. San Salvador, El Salvador">
+                <label class="form-label" for="departamento">Departamento</label>
+                <select class="form-input" id="departamento" name="id_departamento">
+                    <option value="">Seleccione un departamento</option>
+                </select>
+            </div>
+
+            <!-- Distrito -->
+            <div class="form-group">
+                <label class="form-label" for="distrito">Distrito</label>
+                <select class="form-input" id="distrito" name="id_distrito" disabled>
+                    <option value="">Seleccione un distrito</option>
+                </select>
+            </div>
+
+            <!-- Municipio -->
+            <div class="form-group">
+                <label class="form-label" for="municipio">Municipio</label>
+                <select class="form-input" id="municipio" name="id_municipio" disabled>
+                    <option value="">Seleccione un municipio</option>
+                </select>
             </div>
 
             <!-- Sitio Web -->
@@ -77,3 +95,101 @@ $perfil = $controlador->gestionarPerfil($empresa_id);
         </div>
     </form>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const departamento = document.getElementById("departamento");
+        const distrito = document.getElementById("distrito");
+        const municipio = document.getElementById("municipio");
+
+        // Preselección de valores guardados en el perfil de la empresa
+        const selectedDepartamento = <?= json_encode($perfil['id_departamento'] ?? null); ?>;
+        const selectedDistrito = <?= json_encode($perfil['id_distrito'] ?? null); ?>;
+        const selectedMunicipio = <?= json_encode($perfil['id_municipio'] ?? null); ?>;
+
+        // Cargar departamentos
+        fetch("index.php?action=get_departamentos")
+            .then(res => res.json())
+            .then(data => {
+                departamento.innerHTML = '<option value="">Seleccione un departamento</option>';
+                data.forEach(dep => {
+                    departamento.innerHTML += `
+                        <option value="${dep.id_departamento}">
+                            ${dep.departamento}
+                        </option>
+                    `;
+                });
+
+                if (selectedDepartamento) {
+                    departamento.value = selectedDepartamento;
+                    cargarDistritos(selectedDepartamento, selectedDistrito);
+                }
+            })
+            .catch(err => console.error("Error al cargar departamentos:", err));
+
+        function cargarDistritos(id_departamento, preselectId = null) {
+            distrito.innerHTML = '<option value="">Seleccione un distrito</option>';
+            municipio.innerHTML = '<option value="">Seleccione un municipio</option>';
+            municipio.disabled = true;
+
+            if (!id_departamento) {
+                distrito.disabled = true;
+                return;
+            }
+
+            fetch(`index.php?action=get_distritos&id_departamento=${id_departamento}`)
+                .then(res => res.json())
+                .then(data => {
+                    distrito.disabled = false;
+                    data.forEach(item => {
+                        distrito.innerHTML += `
+                            <option value="${item.id_distrito}">
+                                ${item.distrito}
+                            </option>
+                        `;
+                    });
+
+                    if (preselectId) {
+                        distrito.value = preselectId;
+                        cargarMunicipios(preselectId, selectedMunicipio);
+                    }
+                })
+                .catch(err => console.error("Error al cargar distritos:", err));
+        }
+
+        function cargarMunicipios(id_distrito, preselectId = null) {
+            municipio.innerHTML = '<option value="">Seleccione un municipio</option>';
+
+            if (!id_distrito) {
+                municipio.disabled = true;
+                return;
+            }
+
+            fetch(`index.php?action=get_municipios&id_distrito=${id_distrito}`)
+                .then(res => res.json())
+                .then(data => {
+                    municipio.disabled = false;
+                    data.forEach(item => {
+                        municipio.innerHTML += `
+                            <option value="${item.id_municipio}">
+                                ${item.municipio}
+                            </option>
+                        `;
+                    });
+
+                    if (preselectId) {
+                        municipio.value = preselectId;
+                    }
+                })
+                .catch(err => console.error("Error al cargar municipios:", err));
+        }
+
+        departamento.addEventListener("change", () => {
+            cargarDistritos(departamento.value);
+        });
+
+        distrito.addEventListener("change", () => {
+            cargarMunicipios(distrito.value);
+        });
+    });
+</script>

@@ -87,14 +87,16 @@ class EmpresaControlador {
             $correo = trim($_POST['correo_empresa']);
             $telefono = trim($_POST['telefono_empresa']);
             $sector = trim($_POST['sector']);
-            $ubicacion = trim($_POST['ubicacion']);
+            $id_departamento = isset($_POST['id_departamento']) && $_POST['id_departamento'] !== '' ? (int)$_POST['id_departamento'] : null;
+            $id_distrito = isset($_POST['id_distrito']) && $_POST['id_distrito'] !== '' ? (int)$_POST['id_distrito'] : null;
+            $id_municipio = isset($_POST['id_municipio']) && $_POST['id_municipio'] !== '' ? (int)$_POST['id_municipio'] : null;
             $sitio_web = trim($_POST['sitio_web']);
             $descripcion = trim($_POST['descripcion']);
 
             if (empty($nombre) || empty($correo)) {
                 Alert::error('Datos inválidos', 'El nombre y correo de la empresa son requeridos.');
             } else {
-                $res = Empresa::actualizarPerfilEmpresa($id_empresa, $nombre, $correo, $telefono, $sector, $ubicacion, $sitio_web, $descripcion);
+                $res = Empresa::actualizarPerfilEmpresa($id_empresa, $nombre, $correo, $telefono, $sector, $id_departamento, $id_distrito, $id_municipio, $sitio_web, $descripcion);
                 if ($res) {
                     Alert::success('Perfil Actualizado', 'Los datos de la empresa se actualizaron correctamente.');
                     header("Refresh: 1.5; url=index.php?pagina=perfil");
