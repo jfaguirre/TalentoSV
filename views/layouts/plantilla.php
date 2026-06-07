@@ -58,6 +58,7 @@ if (isset($_GET['pagina'])) {
                 'registro',
                 'ingreso',
                 'salir',
+                'error404'
             ];                        
             
             $pagina = $_GET['pagina'] ?? 'inicio';                       

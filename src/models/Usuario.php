@@ -3,6 +3,8 @@ namespace App\models;
 
 use App\models\Conexion;
 use App\helpers\Alert;
+
+
 use PDO;
 
 class Usuario {
@@ -60,7 +62,8 @@ class Usuario {
     static public function autenticar(Usuario $usuario){
 
         try {
-            
+        
+            // Valida si el correo existe en la base de datos
             $consultaSQL = Conexion::conexion()
             ->prepare("SELECT * FROM usuarios WHERE correo = :correo");
             $consultaSQL->bindParam(":correo", $usuario->correo, PDO::PARAM_STR);
@@ -132,6 +135,7 @@ class Usuario {
 
             return $consultaSQL->execute($data);
 
+
         } catch (\Throwable $th) {
             return 'Error: '.$th->getMessage();
         }
@@ -161,4 +165,14 @@ class Usuario {
             return 'Error: '.$th->getMessage();
         }
     }
+
+    public static function mostrarUsuarios()
+    {
+
+    $consultaSQL = Conexion::conexion()
+            ->prepare("SELECT * FROM usuarios");
+            $consultaSQL->execute();
+            return $consultaSQL->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

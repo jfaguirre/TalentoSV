@@ -51,8 +51,9 @@ use App\models\Empresa;
                 </svg>
                 Perfil
             </a>
+             
 
-            <a href="#" class="sidebar__nav-item" data-page="curriculum">
+            <a href="index.php?pagina=curriculum" class="sidebar__nav-item" data-page="curriculum">
                 <svg class="sidebar__nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="2" y="3" width="20" height="18" rx="2"/>
                     <line x1="8" y1="3" x2="8" y2="21"/>
@@ -60,10 +61,9 @@ use App\models\Empresa;
                     <line x1="12" y1="13" x2="18" y2="13"/>
                     <line x1="12" y1="17" x2="16" y2="17"/>
                 </svg>
-                Currículum
-                <span class="sidebar__badge">Nuevo</span>
+                Curriculum
             </a>
-
+                                
             <div class="sidebar__nav-label">Sistema</div>
 
             <a href="#" class="sidebar__nav-item" data-page="configuraciones">
@@ -172,9 +172,7 @@ use App\models\Empresa;
 
         // --- Nav items active state ---
         navItems.forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.preventDefault();
-
+            item.addEventListener('click', (e) => {                
                 // Remove active from all
                 navItems.forEach(n => n.classList.remove('active'));
                 // Add active to clicked

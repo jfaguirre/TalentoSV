@@ -14,6 +14,7 @@ class PlantillaControlador
             session_start();
         }
 
+        
         // Manejar cierre de sesión
         if (isset($_GET['pagina']) && $_GET['pagina'] === 'salir') {
             AuthControlador::logout();
@@ -78,4 +79,4 @@ class PlantillaControlador
         // Modo usuario
         include 'views/layouts/usuarios.php';       
     }
-}
+}

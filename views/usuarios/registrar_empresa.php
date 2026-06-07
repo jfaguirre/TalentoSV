@@ -7,6 +7,12 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\models\Empresa;
 use App\helpers\Alert;
+use App\models\Ubicacion;
+
+$departamentos = Ubicacion::obtenerDepartamentos();
+// $distritos = Ubicacion::obtenerDistritos();
+// $municipios = Ubicacion::obtenerMunicipios();
+
 
 $id_usuario = $_SESSION['userAuth']['id'] ?? null;
 if (!$id_usuario) {
@@ -14,7 +20,7 @@ if (!$id_usuario) {
     exit;
 }
 
-// Si ya tiene empresa, no tiene sentido registrar otra (se asume 1 usuario -> 1 empresa)
+// Si ya tiene empresa, solo registra una
 $empresaExistente = Empresa::obtenerPorUsuario($id_usuario);
 if ($empresaExistente) {
     // Si ya existe, simplemente redirigir a cambiar a modo empresa
@@ -105,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     <?php endif; ?>
 
-    <!-- Formulario Premium -->
+    <!-- Formulario -->
     <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02); padding: 2rem;">
         <form action="" method="POST" id="form-registrar-empresa" style="display: flex; flex-direction: column; gap: 1.5rem;">
             
@@ -161,7 +167,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <!-- Ubicación -->
-                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <select id="departamento" name="id_departamento">
+                    <option value="">Seleccione un departamento</option>
+                </select>
+                    
+                <select id="distrito" name="id_distrito" disabled>
+                    <option value="">Seleccione un distrito</option>
+                </select>
+
+                <select id="municipio" name="id_municipio" disabled>
+                    <option value="">Seleccione un municipio</option>
+                </select>
+
+
+                <!-- <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                     <label for="ubicacion" style="font-size: 0.875rem; font-weight: 600; color: #475569; margin: 0;">
                         Dirección / Ubicación
                     </label>
@@ -170,7 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                            value="<?= htmlspecialchars($_POST['ubicacion'] ?? ''); ?>"
                            style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; outline: none; transition: border-color 0.2s;"
                            onfocus="this.style.borderColor='#4f46e5'" onblur="this.style.borderColor='#cbd5e1'">
-                </div>
+                </div> -->
 
                 <!-- Sitio Web -->
                 <div style="display: flex; flex-direction: column; gap: 0.5rem;">
@@ -230,4 +249,105 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     window.addEventListener('resize', adjustGrid);
     window.addEventListener('DOMContentLoaded', adjustGrid);
+
+
+    // Cargar departamentos, distritos y municipios
+    document.addEventListener("DOMContentLoaded", () => {
+
+    const departamento = document.getElementById("departamento");
+    const distrito = document.getElementById("distrito");
+    const municipio = document.getElementById("municipio");
+
+    // Cargar departamentos
+    fetch("obtener_departamentos.php")
+        .then(res => res.json())
+        .then(data => {
+
+            data.forEach(dep => {
+
+                departamento.innerHTML += `
+                    <option value="${dep.id_departamento}">
+                        ${dep.departamento}
+                    </option>
+                `;
+
+            });
+
+        });
+
+    // Cambio de departamento
+    departamento.addEventListener("change", () => {
+
+        distrito.innerHTML =
+            '<option value="">Seleccione un distrito</option>';
+
+        municipio.innerHTML =
+            '<option value="">Seleccione un municipio</option>';
+
+        municipio.disabled = true;
+
+        if (!departamento.value) {
+
+            distrito.disabled = true;
+            return;
+
+        }
+
+        fetch(`obtener_distritos.php?id_departamento=${departamento.value}`)
+            .then(res => res.json())
+            .then(data => {
+
+                distrito.disabled = false;
+
+                data.forEach(item => {
+
+                    distrito.innerHTML += `
+                        <option value="${item.id_distrito}">
+                            ${item.distrito}
+                        </option>
+                    `;
+
+                });
+
+            });
+
+    });
+
+    // Cambio de distrito
+    distrito.addEventListener("change", () => {
+
+        municipio.innerHTML =
+            '<option value="">Seleccione un municipio</option>';
+
+        if (!distrito.value) {
+
+            municipio.disabled = true;
+            return;
+
+        }
+
+        fetch(`obtener_municipios.php?id_distrito=${distrito.value}`)
+            .then(res => res.json())
+            .then(data => {
+
+                municipio.disabled = false;
+
+                data.forEach(item => {
+
+                    municipio.innerHTML += `
+                        <option value="${item.id_municipio}">
+                            ${item.municipio}
+                        </option>
+                    `;
+
+                });
+
+            });
+
+    });
+
+});
+
+
+
 </script>

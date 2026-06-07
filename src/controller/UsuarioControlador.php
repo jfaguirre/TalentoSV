@@ -119,8 +119,8 @@ class UsuarioControlador {
     public function mostrarUsuarios()
     {            
         // Solicitamos los usuarios al modelo
-        // $usuarios = Usuario::mostrarUsuarios();
-        // return $usuarios;
+        $usuarios = Usuario::mostrarUsuarios();
+        return $usuarios;
     }        
 
 

@@ -608,3 +608,27 @@ CREATE TABLE estudios (
     descripcion TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Quite la ubicacion de la tablar perfil_empresa, para agregarle departamento, distrito y municipio, para que se pueda filtrar por ubicacion en las ofertas de empleo
+
+ALTER TABLE perfil_empresa
+DROP COLUMN ubicacion,
+
+ADD COLUMN id_departamento INT(11) NULL AFTER sector,
+ADD COLUMN id_distrito INT(11) NULL AFTER id_departamento,
+ADD COLUMN id_municipio INT(11) NULL AFTER id_distrito,
+
+ADD CONSTRAINT fk_perfil_empresa_departamento
+    FOREIGN KEY (id_departamento)
+    REFERENCES departamentos(id_departamento)
+    ON DELETE SET NULL,
+
+ADD CONSTRAINT fk_perfil_empresa_distrito
+    FOREIGN KEY (id_distrito)
+    REFERENCES distritos(id_distrito)
+    ON DELETE SET NULL,
+
+ADD CONSTRAINT fk_perfil_empresa_municipio
+    FOREIGN KEY (id_municipio)
+    REFERENCES municipios(id_municipio)
+    ON DELETE SET NULL;
