@@ -433,6 +433,21 @@
         color: var(--text-muted);
     }
 
+    .nombre_empresa {
+        width: fit-content;        
+        border-radius: 8px;
+        font-size: 0.9rem;        
+        color: var(--primary);        
+        font-weight: 500;
+    }
+
+    .icono-empleo {
+        color: var(--primary);
+        font-size: 1.2rem;        
+    }
+
+
+
 
             /* ===========================
             DESKTOP (≥ 768px)

@@ -175,6 +175,26 @@ class Oferta {
     }
 
 
+    public static function obtenerOfertasEmpleo(int $id_municipio)
+    {
+        $sql = Conexion::conexion()->prepare("
+            SELECT 
+                o.*,
+                e.nombre_empresa AS empresa
+            FROM oferta_empleos o
+            LEFT JOIN empresas e 
+                ON o.id_empresa = e.id_empresa
+            WHERE o.id_municipio = :id
+            ORDER BY o.id_oferta DESC
+        ");
+
+        $sql->bindParam(":id", $id_municipio, PDO::PARAM_INT);
+        $sql->execute();
+
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
     public static function obtenerPorDepartamento(int $id_departamento)
     {
 

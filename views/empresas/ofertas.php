@@ -138,10 +138,10 @@ function formatearContrato($tipo) {
                 <div class="form-group" style="margin-bottom: 1.25rem;">
                     <label class="form-label" for="tipo_contrato_editar">Tipo de Contrato <span style="color:var(--danger)">*</span></label>
                     <select class="form-select" name="tipo_contrato" id="tipo_contrato_editar" required>
-                        <option value="tiempo_completo">Tiempo Completo</option>
-                        <option value="medio_tiempo">Medio Tiempo</option>
-                        <option value="temporal">Temporal</option>
-                        <option value="freelance">Freelance</option>
+                        <option value="Tiempo completo">Tiempo Completo</option>
+                        <option value="Medio tiempo">Medio Tiempo</option>
+                        <option value="Temporal">Temporal</option>
+                        <option value="Freelance">Freelance</option>
                     </select>
                 </div>
 

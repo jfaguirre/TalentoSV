@@ -641,3 +641,14 @@ ADD CONSTRAINT fk_oferta_empleos_distrito
     REFERENCES distritos(id_distrito)
     ON DELETE SET NULL,
 
+-- 08 de junio de 2026 agregar llave foranea a estudios
+ALTER TABLE estudios
+ADD CONSTRAINT fk_estudios_perfil_usuario
+    FOREIGN KEY (id_usuario)
+    REFERENCES usuarios(id_usuario)
+    ON DELETE CASCADE;
+
+ALTER TABLE oferta_empleos
+DROP COLUMN tipo_contrato,
+
+ADD COLUMN tipo_contrato enum('Tiempo completo','Medio tiempo','Temporal','Freelance') DEFAULT NULL

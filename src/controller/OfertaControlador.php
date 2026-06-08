@@ -5,23 +5,30 @@ use App\models\Oferta;
 
 class OfertaControlador {
 
-    // Mostrar departamentos
+    // Obtener cantidad de ofertas por departamento
     public static function obtenerOfertasDepartamento()
     {                   
         return Oferta::obtenerOfertasDepartamento();
     }
 
 
-    // Obtener ofertas por distrito
+    // Obtener cantidad de ofertas por distrito
     public static function obtenerOfertasDestritos(int $id_departamento)
     {
         return Oferta::obtenerOfertasDistritos($id_departamento);
     }
 
-     // Obtener ofertas por municipio
+     // Obtener cantidad de ofertas por distrito
     public static function obtenerOfertasMunicipios(int $id_distrito)
     {
         return Oferta::obtenerOfertasMunicipios($id_distrito);
+    }
+
+
+    // Obtener cantidad de ofertas de empleo
+    public static function obtenerOfertasEmpleo(int $id_municipio)
+    {
+        return Oferta::obtenerOfertasEmpleo($id_municipio);
     }
 
 

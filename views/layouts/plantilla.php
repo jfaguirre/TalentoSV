@@ -22,6 +22,11 @@ if (isset($_GET['pagina'])) {
     <title><?php echo $titulo; ?></title>    
 
     <!-- Estilos -->
+
+    // Bootstrap 
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
+
     <?php if ($is_auth_page): ?>
         <link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/auth.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">

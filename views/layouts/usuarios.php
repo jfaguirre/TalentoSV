@@ -11,7 +11,10 @@ $base_path = (strpos($_SERVER['SCRIPT_NAME'], 'views/') !== false) ? '../../' : 
 
     <!-- Estilos -->
     <link rel="stylesheet" href="../../assets/css/registro.css">
-
+    
+    // Bootstrap 
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
     
     
     <!-- Estilos -->
@@ -58,7 +61,9 @@ $base_path = (strpos($_SERVER['SCRIPT_NAME'], 'views/') !== false) ? '../../' : 
                 'registrar_empresa',
                 'ofertas_departamentos',
                 'ofertas_distritos',
-                'ofertas_municipios'
+                'ofertas_municipios',
+                'ofertas_empleo',
+                'detalle_empleo'
             ];                        
             
             $pagina = $_GET['pagina'] ?? 'inicio';                       
