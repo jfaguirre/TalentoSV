@@ -206,18 +206,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </select>
                 </div>
 
-
-                <!-- <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                    <label for="ubicacion" style="font-size: 0.875rem; font-weight: 600; color: #475569; margin: 0;">
-                        Dirección / Ubicación
-                    </label>
-                    <input type="text" id="ubicacion" name="ubicacion" 
-                           placeholder="Ej. San Salvador, El Salvador" 
-                           value="<?= htmlspecialchars($_POST['ubicacion'] ?? ''); ?>"
-                           style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; outline: none; transition: border-color 0.2s;"
-                           onfocus="this.style.borderColor='#4f46e5'" onblur="this.style.borderColor='#cbd5e1'">
-                </div> -->
-
                 <!-- Sitio Web -->
                 <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                     <label for="sitio_web" style="font-size: 0.875rem; font-weight: 600; color: #475569; margin: 0;">

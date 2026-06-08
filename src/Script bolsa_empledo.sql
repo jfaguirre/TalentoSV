@@ -632,3 +632,12 @@ ADD CONSTRAINT fk_perfil_empresa_municipio
     FOREIGN KEY (id_municipio)
     REFERENCES municipios(id_municipio)
     ON DELETE SET NULL;
+
+-- 07 de junio de 2026 agregar distrieo a oferta_empledos
+ALTER TABLE oferta_empleos
+ADD COLUMN id_distrito INT(11) NULL AFTER id_departamento,
+ADD CONSTRAINT fk_oferta_empleos_distrito
+    FOREIGN KEY (id_distrito)
+    REFERENCES distritos(id_distrito)
+    ON DELETE SET NULL,
+
