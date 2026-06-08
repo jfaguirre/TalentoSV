@@ -29,11 +29,23 @@ $base_path = (strpos($_SERVER['SCRIPT_NAME'], 'views/') !== false) ? '../../' : 
 
 
 <header>
-    <?php include 'views/componentes/menu_usuario.php'; ?>
+    <!-- ===== OVERLAY ===== -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- ===== HEADER MOBILE ===== -->
+    <header class="header">
+        
+        <div class="header__logo">Talento<span>ES</span></div>            
+        <div class="header__avatar" id="headerAvatar">JD</div>
+        
+    </header>
 </header>
 
-<main>
-    <section class="contenido">
+<main class="main" id="mainContent">    
+    
+    <!-- Side bar -->
+    <?php include 'views/componentes/side-bar-usuario.php'; ?>
+    
     <!-- Contenido -->
         <?php             
             // Páginas permitidas
@@ -42,8 +54,11 @@ $base_path = (strpos($_SERVER['SCRIPT_NAME'], 'views/') !== false) ? '../../' : 
                 'inicio',
                 'perfil',
                 'curriculum',
-                'configuracion',
+                'configuraciones',
                 'registrar_empresa',
+                'ofertas_departamentos',
+                'ofertas_distritos',
+                'ofertas_municipios'
             ];                        
             
             $pagina = $_GET['pagina'] ?? 'inicio';                       
@@ -53,9 +68,7 @@ $base_path = (strpos($_SERVER['SCRIPT_NAME'], 'views/') !== false) ? '../../' : 
             } else {
                 include 'views/paginas/error404.php';
             }            
-        ?>
-             
-    </section>
+        ?>                 
 </main>
     
 </body>
