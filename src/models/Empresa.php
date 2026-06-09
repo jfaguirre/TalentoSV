@@ -203,6 +203,7 @@ class Empresa {
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
+    
 
     // Actualizar estado de una postulación
     public static function actualizarEstadoPostulacion(int $id_postulacion, string $estado)

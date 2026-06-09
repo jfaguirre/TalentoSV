@@ -69,6 +69,7 @@ class Oferta {
         return $sql->execute();
     }
 
+
     // Borra una oferta de la base de datos
     public static function eliminarOferta($id_oferta)
     {
@@ -79,8 +80,6 @@ class Oferta {
         $sql->bindParam(":id_oferta", $id_oferta);
         return $sql->execute();
     }
-
-    // DASHBOARD DE EMPRESAS
 
     // Obtener las ofertas de una empresa específica
     public static function obtenerListaPorEmpresa(int $id_empresa)
@@ -94,6 +93,7 @@ class Oferta {
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     // Obtener una oferta por su ID
     public static function obtenerPorId(int $id_oferta)
@@ -109,7 +109,7 @@ class Oferta {
     }
 
  
-    // Obtener departamentos con conteo de ofertas
+    // Obtener ofertas por departamentos
     public static function obtenerOfertasDepartamento(){
 
          $sql = Conexion::conexion()->prepare("
@@ -175,11 +175,15 @@ class Oferta {
     }
 
 
+    // Obtener ofertas por municipio con detalles de la empresa
     public static function obtenerOfertasEmpleo(int $id_municipio)
     {
         $sql = Conexion::conexion()->prepare("
             SELECT 
-                o.*,
+                o.id_oferta,
+                o.titulo,
+                o.descripcion,
+                o.tipo_contrato,
                 e.nombre_empresa AS empresa
             FROM oferta_empleos o
             LEFT JOIN empresas e 
@@ -193,29 +197,7 @@ class Oferta {
 
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
-
-
-    public static function obtenerPorDepartamento(int $id_departamento)
-    {
-
-    
-        $sql = Conexion::conexion()->prepare("
-            SELECT 
-                o.*,
-                e.nombre_empresa AS empresa
-            FROM oferta_empleos o
-            LEFT JOIN empresas e 
-                ON o.id_empresa = e.id_empresa
-            WHERE o.id_departamento = :id
-            ORDER BY o.id_oferta DESC
-        ");
-
-        $sql->bindParam(":id", $id_departamento, PDO::PARAM_INT);
-        $sql->execute();
-
-        return $sql->fetchAll(PDO::FETCH_ASSOC);
-    }
-
+   
     // Aqui podes agregar más métodos relacionados con las ofertas, como buscar por título, filtrar por tipo de contrato, etc.
     
 

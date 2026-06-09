@@ -23,8 +23,8 @@ if (isset($_GET['pagina'])) {
 
     <!-- Estilos -->
 
-    // Bootstrap 
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Bootstrap  -->
+    <!-- <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
 
     <?php if ($is_auth_page): ?>
@@ -45,12 +45,6 @@ if (isset($_GET['pagina'])) {
 
 </head>
 <body>
-
-<?php if (!$is_auth_page): ?>
-<header>
-    <!-- <?php include 'views/componentes/menu.php'; ?> -->
-</header>
-<?php endif; ?>
 
 <main>
     <section class="contenido">

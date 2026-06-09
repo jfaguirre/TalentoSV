@@ -24,9 +24,11 @@ $ofertas = OfertaControlador::obtenerOfertasEmpleo($_GET['id_municipio'] ?? 0);
         <div class="card__trend card__trend--up">
             <?php echo $oferta['descripcion']; ?>             
         </div>
+
         <div class="card__trend card__trend--up">
             <?php echo $oferta['tipo_contrato']; ?>
         </div>
+
         <div class="card__trend card__trend--up nombre_empresa">
             <p><?php echo $oferta['empresa']; ?></p>
         </div>
