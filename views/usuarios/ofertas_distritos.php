@@ -2,7 +2,8 @@
 
 use App\controller\OfertaControlador;
 
-$distritos = OfertaControlador::obtenerOfertasDestritos($_GET['id_distrito'] ?? 0);
+$distritos = OfertaControlador::obtenerOfertasDestritos();
+// die(var_dump("Esto esto recibiendo ---", $distritos));
 
 ?>
 

@@ -1,4 +1,4 @@
-/* ====== RESET ====== */
+
 *{
     margin:0;
     padding:0;
@@ -13,13 +13,13 @@ body{
     padding:40px 15px;
 }
 
-/* ===== CONTENEDOR ===== */
+
 .contenedor-registro{
     width:100%;
     max-width:430px;
 }
 
-/* ===== ICONO ===== */
+
 .logo-box{
     width:95px;
     height:95px;
@@ -58,7 +58,7 @@ h1{
     box-shadow:0 4px 20px rgba(0,0,0,.05);
 }
 
-/* ===== TABS ===== */
+
 .tabs{
     display:flex;
     background:#dfe6f8;
@@ -84,7 +84,7 @@ h1{
     font-weight:600;
 }
 
-/* ===== LABELS ===== */
+
 label{
     display:block;
     margin-bottom:10px;
@@ -94,7 +94,6 @@ label{
     font-weight:500;
 }
 
-/* ===== INPUTS ===== */
 .input-group{
     position:relative;
 }
@@ -130,7 +129,7 @@ label{
     border-color:#1453c8;
 }
 
-/* ===== BOTON ===== */
+
 .btn-registro{
     width:100%;
     height:60px;
@@ -148,7 +147,7 @@ label{
     background:#0f46aa;
 }
 
-/* ===== TERMINOS ===== */
+
 .terminos{
     text-align:center;
     margin-top:22px;
@@ -162,7 +161,7 @@ label{
     text-decoration:none;
 }
 
-/* ===== BANNER ===== */
+
 .banner{
     margin-top:30px;
     height:150px;
@@ -180,7 +179,7 @@ label{
     font-weight:500;
 }
 
-/* ===== LOGIN ===== */
+
 .login-link{
     text-align:center;
     margin-top:30px;
@@ -194,7 +193,7 @@ label{
     font-weight:700;
 }
 
-/* ===== RESPONSIVE ===== */
+
 @media(max-width:500px){
 
     h1{

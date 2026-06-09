@@ -1,7 +1,7 @@
 <?php
 
 use App\controller\OfertaControlador;
-$municipios = OfertaControlador::obtenerOfertasMunicipios($_GET['id_municipio'] ?? 0);
+$municipios = OfertaControlador::obtenerOfertasMunicipios();
 
 ?>
 

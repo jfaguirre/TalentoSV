@@ -69,6 +69,7 @@ class Oferta {
         return $sql->execute();
     }
 
+    
 
     // Borra una oferta de la base de datos
     public static function eliminarOferta($id_oferta)
@@ -80,6 +81,8 @@ class Oferta {
         $sql->bindParam(":id_oferta", $id_oferta);
         return $sql->execute();
     }
+
+
 
     // Obtener las ofertas de una empresa específica
     public static function obtenerListaPorEmpresa(int $id_empresa)
@@ -107,8 +110,12 @@ class Oferta {
         $sql->execute();
         return $sql->fetch(PDO::FETCH_ASSOC);
     }
+    
 
- 
+    /* ***************************************************************************
+        OFERTAS DE EMPLEO
+    //*************************************************************************** */
+
     // Obtener ofertas por departamentos
     public static function obtenerOfertasDepartamento(){
 
@@ -132,7 +139,7 @@ class Oferta {
 
 
     // Obtener ofertas por distrito
-    public static function obtenerOfertasDistritos(int $id_distrito)
+    public static function obtenerOfertasDistritos(int $id_departamento)
     {
         $sql = Conexion::conexion()->prepare("
            SELECT
@@ -142,38 +149,41 @@ class Oferta {
             FROM distritos d
             LEFT JOIN oferta_empleos o
                 ON d.id_distrito = o.id_distrito
+            WHERE d.id_departamento = :id_departamento
             GROUP BY d.id_distrito, d.distrito
             HAVING COUNT(o.id_oferta) > 0
             ORDER BY d.distrito
         ");
         
+        $sql->bindParam(":id_departamento", $id_departamento, PDO::PARAM_INT);
         $sql->execute();
 
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
 
-     // Obtener ofertas por municipio
-    public static function obtenerOfertasMunicipios(int $id_municipio)
+      // Obtener ofertas por municipio
+    public static function obtenerOfertasMunicipios(int $id_distrito)
     {
         $sql = Conexion::conexion()->prepare("
             SELECT
                 m.id_municipio,
                 m.municipio,
-            COUNT(o.id_oferta) AS total_ofertas
+                COUNT(o.id_oferta) AS total_ofertas
             FROM municipios m
             LEFT JOIN oferta_empleos o
                 ON m.id_municipio = o.id_municipio
+            WHERE m.id_distrito = :id_distrito
             GROUP BY m.id_municipio, m.municipio
             HAVING COUNT(o.id_oferta) > 0
             ORDER BY m.municipio;
         ");
         
+        $sql->bindParam(":id_distrito", $id_distrito, PDO::PARAM_INT);
         $sql->execute();
 
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
-
 
     // Obtener ofertas por municipio con detalles de la empresa
     public static function obtenerOfertasEmpleo(int $id_municipio)
@@ -198,7 +208,42 @@ class Oferta {
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
    
-    // Aqui podes agregar más métodos relacionados con las ofertas, como buscar por título, filtrar por tipo de contrato, etc.
-    
+    // Obtenemos el detalle de la oferta, la empresa y perfil de la empresa
+    public static function obtenerDetalleEmpleo(int $id_oferta)
+    {
+        $sql = Conexion::conexion()->prepare("
+             SELECT
+                o.id_oferta,
+                o.titulo,
+                o.descripcion,
+                o.tipo_contrato,
+
+                e.id_empresa,
+                e.nombre_empresa AS empresa,
+                e.correo_empresa AS correo,                
+
+                p.descripcion AS descripcion_empresa,
+                p.sector AS sector_empresa
+
+            FROM oferta_empleos o
+
+            INNER JOIN empresas e
+                ON o.id_empresa = e.id_empresa
+
+            INNER JOIN perfil_empresa p
+                ON e.id_empresa = p.id_perfil_empresa
+
+            WHERE o.id_oferta = :id_oferta
+            LIMIT 1;
+        ");
+
+        $sql->bindParam(":id_oferta", $id_oferta, PDO::PARAM_INT);
+        if($sql->execute())
+        {
+            return $sql->fetch(PDO::FETCH_ASSOC);
+        }        
+
+        return false;
+    }       
 
 }

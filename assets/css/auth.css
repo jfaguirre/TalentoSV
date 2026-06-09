@@ -5,15 +5,14 @@
 }
 
 :root {
-    /* Brand Colors */
+    /* Colors */
     --primary:        #0F52BA;
     --primary-dark:   #0A3D8F;
     --primary-light:  #1E6FE0;
     --primary-50:    #EEF4FF;
     --primary-100:   #D6E4FF;
     --primary-200:   #ADC8FF;
-    
-    /* Neutral & Backgrounds */
+        
     --neutral-900:    #0F172A;
     --neutral-800:    #1E293B;
     --neutral-700:    #334155;
@@ -22,28 +21,24 @@
     --neutral-100:    #F1F5F9;
     --white:          #FFFFFF;
     --bg-app:         #F8FAFC;
-    
-    /* Semantic Colors */
+        
     --error:          #DC2626;
     --error-bg:       #FEF2F2;
     --success:        #16A34A;
     --success-bg:     #F0FDF4;
-    
-    /* Borders & Shadow */
+        
     --border:         #E2E8F0;
     --border-focus:   #0F52BA;
     --shadow-sm:      0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-md:      0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     --shadow-card:    0 10px 25px -5px rgba(15, 82, 186, 0.05), 0 8px 16px -6px rgba(15, 82, 186, 0.05);
-    
-    /* Layout Tokens */
+        
     --radius-sm:      8px;
     --radius-md:      12px;
     --radius-lg:      16px;
     --radius-xl:      24px;
     --transition:     0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    /* Fonts */
+        
     --font-headline:  'Manrope', sans-serif;
     --font-body:      'Inter', sans-serif;
 }
@@ -58,7 +53,7 @@ body {
 }
 
 /* ==========================================================================
-   LAYOUT PRINCIPAL: RESPONSIVE SPLIT-SCREEN
+   PRINCIPAAL
    ========================================================================== */
 
 .contenedor-auth {

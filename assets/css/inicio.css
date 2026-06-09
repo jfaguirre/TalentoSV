@@ -1,6 +1,4 @@
-/* ==========================================================================
-   TALENTOES — HOJA DE ESTILOS DE LA PÁGINA DE INICIO (INICIO.CSS)
-   ========================================================================== */
+
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -9,7 +7,7 @@
 }
 
 :root {
-  /* Primary palette */
+  
   --primary:       #0F52BA;
   --primary-dark:  #0A3D8F;
   --primary-light: #1A6FE0;
@@ -18,7 +16,7 @@
   --primary-200:   #ADC8FF;
   --primary-400:   #5B8EF0;
 
-  /* Secondary palette */
+  
   --secondary:     #64748B;
   --secondary-dark:#475569;
   --secondary-50:  #F1F5F9;
@@ -26,26 +24,26 @@
   --secondary-200: #CBD5E1;
   --secondary-400: #94A3B8;
 
-  /* Tertiary / background */
+ 
   --tertiary:      #F8FAFC;
   --white:         #FFFFFF;
 
-  /* Neutral / text */
+ 
   --neutral:       #1E293B;
   --neutral-700:   #334155;
   --neutral-500:   #64748B;
   --neutral-300:   #CBD5E1;
   --neutral-100:   #F1F5F9;
 
-  /* Semantic */
+  
   --success:       #16A34A;
   --success-bg:    #F0FDF4;
 
-  /* Typography */
+  
   --font-headline: 'Manrope', sans-serif;
   --font-body:     'Inter', sans-serif;
 
-  /* Radii */
+  
   --r-sm:  6px;
   --r:     10px;
   --r-lg:  16px;
@@ -65,7 +63,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── LAYOUT CONTAINERS ── */
+
 .container {
   width: 100%;
   max-width: 1200px;
@@ -73,7 +71,7 @@ body {
   padding: 0 1.5rem;
 }
 
-/* ── ANIMATIONS ── */
+
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(18px); }
   to { opacity: 1; transform: translateY(0); }
@@ -95,7 +93,7 @@ body {
 .d3 { transition-delay: .24s; }
 .d4 { transition-delay: .32s; }
 
-/* ── NAVBAR ── */
+
 nav {
   position: sticky;
   top: 0;
@@ -175,7 +173,7 @@ nav {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* ── HERO ── */
+
 .hero {
   background: var(--primary);
   padding: 4.5rem 0 0;
@@ -461,7 +459,7 @@ nav {
   font-weight: 300;
 }
 
-/* ── CANDIDATES & EMPRESAS RESPONSIVE SPLIT GRID ── */
+
 .split-grid {
   display: flex;
   flex-direction: column;
@@ -705,7 +703,7 @@ nav {
   transform: translateY(-1px);
 }
 
-/* ── CTA FINAL ── */
+
 .cta-section {
   background: var(--neutral);
   padding: 5rem 0;

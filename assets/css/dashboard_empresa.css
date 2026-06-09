@@ -22,7 +22,7 @@
     --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* --- RESET & LAYOUT --- */
+
 * {
     margin: 0;
     padding: 0;
@@ -36,7 +36,7 @@ body {
     min-height: 100vh;
 }
 
-/* Structure: Sidebar + Main Content */
+
 .dashboard-container {
     display: flex;
     flex-direction: column;
@@ -44,8 +44,6 @@ body {
 }
 
 
-
-/* --- MAIN CONTENT AREA --- */
 .main-content {
     flex: 1;    
     padding: 1.5rem;
@@ -70,7 +68,7 @@ body {
     font-size: 0.95rem;
 }
 
-/* --- STATS GRID --- */
+
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -126,7 +124,7 @@ body {
     color: var(--text-muted);
 }
 
-/* --- CARDS & PANELS --- */
+
 .card {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -146,7 +144,7 @@ body {
     justify-content: space-between;
 }
 
-/* --- FORMS & INPUTS --- */
+
 .form-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -195,7 +193,7 @@ body {
     min-height: 120px;
 }
 
-/* --- BUTTONS --- */
+
 .btn {
     display: inline-flex;
     align-items: center;
@@ -300,7 +298,7 @@ body {
     background-color: #f8fafc;
 }
 
-/* Badge States */
+
 .badge {
     display: inline-flex;
     align-items: center;
@@ -318,7 +316,7 @@ body {
 .badge.activo { background-color: #d1fae5; color: #059669; }
 .badge.inactivo { background-color: #fee2e2; color: #dc2626; }
 
-/* Grid of Jobs */
+
 .jobs-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -382,7 +380,6 @@ body {
     gap: 0.5rem;
 }
 
-/* Modals */
 .modal-backdrop {
     position: fixed;
     top: 0;
@@ -455,7 +452,7 @@ body {
     background-color: #f8fafc;
 }
 
-/* Empty State */
+
 .empty-state {
     text-align: center;
     padding: 3rem 1.5rem;

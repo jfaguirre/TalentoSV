@@ -15,7 +15,7 @@
     --shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Side bar */
+
 .sidebar {
     position: fixed;
     top: 0;
@@ -35,7 +35,7 @@
     transform: translateX(0);
 }
 
-/* --- Sidebar Header --- */
+
 .sidebar__header {
     padding: 20px 20px 16px;
     border-bottom: 1px solid var(--bg-dark-lighter);
@@ -77,7 +77,7 @@
     margin-top: 2px;
 }
 
-/* --- Sidebar Nav --- */
+
 .sidebar__nav {
     flex: 1;
     padding: 12px 10px;
@@ -144,7 +144,7 @@
     font-size: 1.1rem;
 }
 
-/* --- Badge --- */
+
 .sidebar__badge {
     margin-left: auto;
     background: var(--accent);
@@ -156,7 +156,7 @@
     line-height: 1.4;
 }
 
-/* --- Sidebar Footer --- */
+
 .sidebar__footer {
     padding: 16px 10px;
     border-top: 1px solid var(--bg-dark-lighter);
@@ -188,9 +188,7 @@
     height: 22px;
 }
 
-/* ==========================================
-   MOBILE HEADER, MENU BUTTON & OVERLAY
-========================================== */
+
 .overlay {
     position: fixed;
     top: 0;
@@ -300,9 +298,7 @@
     margin-top: var(--header-height) !important;
 }
 
-/* ==========================================
-   RESPONSIVE DESIGN (DESKTOP)
-========================================== */
+
 @media (min-width: 768px) {
     .header__menu-btn {
         display: none !important;

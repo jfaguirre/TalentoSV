@@ -55,7 +55,7 @@ $empresa = $id_usuario ? \App\models\Empresa::obtenerPorUsuario($id_usuario) : n
                 Modo empresa
             </a>                        
         <?php else: ?>
-            <a href="index.php?pagina=registrar_empresas" class="sidebar__nav-item" data-page="configuraciones">
+            <a href="index.php?pagina=registrar_empresa" class="sidebar__nav-item" data-page="configuraciones">
             <i class="bi bi-window-plus sidebar__nav-icon"></i>
                 Registrar empresa
             </a>                                    

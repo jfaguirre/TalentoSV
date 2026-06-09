@@ -19,10 +19,10 @@ $ofertas = $controlador->gestionarOfertas($empresa_id);
 // Función auxiliar para formatear el tipo de contrato
 function formatearContrato($tipo) {
     switch ($tipo) {
-        case 'tiempo_completo': return 'Tiempo Completo';
-        case 'medio_tiempo': return 'Medio Tiempo';
-        case 'temporal': return 'Temporal';
-        case 'freelance': return 'Freelance';
+        case 'Tiempo completo': return 'Tiempo Completo';
+        case 'Medio tiempo': return 'Medio Tiempo';
+        case 'Temporal': return 'Temporal';
+        case 'Freelance': return 'Freelance';
         default: return htmlspecialchars($tipo);
     }
 }
@@ -98,10 +98,10 @@ function formatearContrato($tipo) {
                 <div class="form-group" style="margin-bottom: 1.25rem;">
                     <label class="form-label" for="tipo_contrato_crear">Tipo de Contrato <span style="color:var(--danger)">*</span></label>
                     <select class="form-select" name="tipo_contrato" id="tipo_contrato_crear" required>
-                        <option value="tiempo_completo">Tiempo Completo</option>
-                        <option value="medio_tiempo">Medio Tiempo</option>
-                        <option value="temporal">Temporal</option>
-                        <option value="freelance">Freelance</option>
+                        <option value="Tiempo completo">Tiempo Completo</option>
+                        <option value="Medio tiempo">Medio Tiempo</option>
+                        <option value="Temporal">Temporal</option>
+                        <option value="Freelance">Freelance</option>
                     </select>
                 </div>
 
