@@ -189,23 +189,23 @@
       <div>
         <div class="footer-col-title">Empresa</div>
         <ul class="footer-links">
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Sobre nosotros</a></li>
+          <li><a href="#">Politicas de Privacidad</a></li>
+          <li><a href="#">Terminos de Servicio</a></li>
         </ul>
       </div>
       <div>
         <div class="footer-col-title">Recursos</div>
         <ul class="footer-links">
-          <li><a href="#">Find Jobs</a></li>
-          <li><a href="index.php?pagina=registro">Post a Job</a></li>
+          <li><a href="#">Centro de Ayuda</a></li>
+          <li><a href="index.php?pagina=registro">Publicar un Empleo</a></li>
           <li><a href="#">Blog</a></li>
         </ul>
       </div>
     </div>
 
     <div class="footer-bottom">
-      <div class="footer-copy">© 2026 TalentoES. All rights reserved.</div>
+      <div class="footer-copy">© 2026 TalentoES. Todos los derechos reservados.</div>
       <div class="footer-social">
         <div class="social-btn" aria-label="Instagram">
           <a href="#" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; color: inherit; text-decoration: none;" >

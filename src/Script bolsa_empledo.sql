@@ -639,7 +639,7 @@ ADD COLUMN id_distrito INT(11) NULL AFTER id_departamento,
 ADD CONSTRAINT fk_oferta_empleos_distrito
     FOREIGN KEY (id_distrito)
     REFERENCES distritos(id_distrito)
-    ON DELETE SET NULL,
+    ON DELETE SET NULL;
 
 -- 08 de junio de 2026 agregar llave foranea a estudios
 ALTER TABLE estudios
