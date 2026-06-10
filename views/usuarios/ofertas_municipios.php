@@ -11,6 +11,12 @@ $municipios = OfertaControlador::obtenerOfertasMunicipios();
     <p>Aqui encontraras las ofertas de empleo por municipio</p>
 </div>
 
+<div class="acciones">
+    <a href="javascript:history.back()" class="btn-regresar">
+        ← Regresar
+    </a>
+</div>
+
 <div class="cards-grid">
     <?php foreach($municipios as $municipio): ?>
     <a class="card" href="index.php?pagina=ofertas_empleo&id_municipio=<?php echo $municipio['id_municipio']; ?>">            

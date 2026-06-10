@@ -12,6 +12,11 @@ $ofertas = OfertaControlador::obtenerOfertasEmpleo($_GET['id_municipio'] ?? 0);
     <h1>Ofertas de empleo por empresa</h1>
     <p>Aqui encontraras las ofertas de empleo por empresa</p>
 </div>
+<div class="acciones">
+    <a href="javascript:history.back()" class="btn-regresar">
+        ← Regresar
+    </a>
+</div>
 
 <div class="cards-grid">
     <?php foreach($ofertas as $oferta): ?>

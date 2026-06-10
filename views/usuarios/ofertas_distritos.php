@@ -12,7 +12,11 @@ $distritos = OfertaControlador::obtenerOfertasDestritos();
     <h1>Ofertas de Empleo por Distrito</h1>
     <p>Aqui encontraras las ofertas de empleo por distrito</p>
 </div>
-
+<div class="acciones">
+    <a href="javascript:history.back()" class="btn-regresar">
+        ← Regresar
+    </a>
+</div>
 <div class="cards-grid">
     <?php foreach($distritos as $distrito): ?>
     <a class="card" href="index.php?pagina=ofertas_municipios&id_distrito=<?php echo $distrito['id_distrito']; ?>">            

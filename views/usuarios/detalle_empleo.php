@@ -7,7 +7,11 @@ use App\controller\OfertaControlador;
 $oferta = OfertaControlador::obtenerDetalleEmpleo($_GET['id_oferta'] ?? 0);
 
 ?>
-
+<div class="acciones">
+    <a href="javascript:history.back()" class="btn-regresar">
+        ← Regresar
+    </a>
+</div>
 <?php if (!$oferta): ?>
 
     <div class="alerta-error">
