@@ -652,3 +652,26 @@ ALTER TABLE oferta_empleos
 DROP COLUMN tipo_contrato,
 
 ADD COLUMN tipo_contrato enum('Tiempo completo','Medio tiempo','Temporal','Freelance') DEFAULT NULL
+
+
+-- 09 de junio de 2026
+ALTER TABLE estudios
+DROP COLUMN nivel_academico,
+DROP COLUMN carrera,
+DROP COLUMN fecha_inicio,
+DROP COLUMN fecha_fin,
+
+ADD COLUMN id_nivel_academico INT(11) NULL AFTER id_usuario,
+ADD COLUMN titulo VARCHAR(150) NULL AFTER id_nivel_academico,
+ADD COLUMN fecha_logro date NULL AFTER titulo,
+ADD CONSTRAINT fk_estudios_nivel_academico
+    FOREIGN KEY (id_nivel_academico)
+    REFERENCES profesion(id_profesion)
+    ON DELETE SET NULL;
+
+
+ALTER TABLE referencias
+DROP FOREIGN KEY referencias_ibfk_1;
+
+ALTER TABLE referencias
+DROP COLUMN id_postulacion;

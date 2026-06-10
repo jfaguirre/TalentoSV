@@ -63,7 +63,7 @@ class OfertaControlador {
         return Oferta::obtenerOfertasEmpleo((int)$id_municipio);
     }
 
-    // Obtener detalle de oferta las ofertas del municipio
+    // Obtener detalle de la oferta selecionada oferta 
     public static function obtenerDetalleEmpleo($id_oferta = null)
     {
         if ($id_oferta === null) {

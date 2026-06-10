@@ -26,10 +26,8 @@ class Usuario {
 
     // Metodo para crear un nuevo usuario
     public static function crearUsuario(Usuario $usuario)
-    {
-        $conexion = null;
-        
-         try {         
+    {                
+        try {         
 
             $conexion = Conexion::conexion();
             $conexion->beginTransaction();
