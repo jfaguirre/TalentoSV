@@ -208,42 +208,40 @@ class Oferta {
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
    
-    // Obtenemos el detalle de la oferta, la empresa y perfil de la empresa
     public static function obtenerDetalleEmpleo(int $id_oferta)
-    {
-        $sql = Conexion::conexion()->prepare("
-             SELECT
-                o.id_oferta,
-                o.titulo,
-                o.descripcion,
-                o.tipo_contrato,
+{
+    $sql = Conexion::conexion()->prepare("
+        SELECT
+            o.id_oferta,
+            o.titulo,
+            o.descripcion,
+            o.tipo_contrato,
 
-                e.id_empresa,
-                e.nombre_empresa AS empresa,
-                e.correo_empresa AS correo,                
+            e.id_empresa,
+            e.nombre_empresa AS empresa,
+            e.correo_empresa AS correo,
 
-                p.descripcion AS descripcion_empresa,
-                p.sector AS sector_empresa
+            p.descripcion AS descripcion_empresa,
+            p.sector AS sector_empresa
 
-            FROM oferta_empleos o
+        FROM oferta_empleos o
 
-            INNER JOIN empresas e
-                ON o.id_empresa = e.id_empresa
+        INNER JOIN empresas e
+            ON o.id_empresa = e.id_empresa
 
-            INNER JOIN perfil_empresa p
-                ON e.id_empresa = p.id_perfil_empresa
+        INNER JOIN perfil_empresa p
+            ON e.id_empresa = p.id_empresa
 
-            WHERE o.id_oferta = :id_oferta
-            LIMIT 1;
-        ");
+        WHERE o.id_oferta = :id_oferta
+        LIMIT 1
+    ");
 
-        $sql->bindParam(":id_oferta", $id_oferta, PDO::PARAM_INT);
-        if($sql->execute())
-        {
-            return $sql->fetch(PDO::FETCH_ASSOC);
-        }        
+    $sql->bindParam(':id_oferta', $id_oferta, PDO::PARAM_INT);
 
-        return false;
-    }       
+    if ($sql->execute()) {
+        return $sql->fetch(PDO::FETCH_ASSOC);
+    }
 
+    return false;
+}
 }

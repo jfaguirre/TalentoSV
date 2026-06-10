@@ -385,4 +385,154 @@ border: none;
 border-top: 1px solid #eee;
 margin: 10px 0;
 }
-    
+     
+
+
+/* detalle de la oferta css*/
+.oferta-container{
+    max-width:1100px;
+    margin:40px auto;
+    padding:0 20px;
+}
+
+.oferta-card{
+    background:#fff;
+    border-radius:18px;
+    padding:40px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.cabecera{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:20px;
+}
+
+.empresa{
+    margin:0;
+    font-size:2.1rem;
+    font-weight:700;
+    color:#1f2937;
+}
+
+.puesto{
+    margin-top:8px;
+    color:#2563eb;
+    font-size:1.4rem;
+    font-weight:600;
+}
+
+.tipo-contrato{
+    background:#dcfce7;
+    color:#166534;
+    padding:10px 18px;
+    border-radius:30px;
+    font-weight:600;
+    font-size:.9rem;
+    white-space:nowrap;
+}
+
+hr{
+    border:none;
+    border-top:1px solid #e5e7eb;
+    margin:30px 0;
+}
+
+.info-resumen{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.info-box{
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+    padding:18px;
+}
+
+.titulo-info{
+    display:block;
+    color:#6b7280;
+    font-size:.85rem;
+    font-weight:600;
+    margin-bottom:8px;
+}
+
+.seccion{
+    margin-top:35px;
+}
+
+.seccion h3{
+    margin-bottom:15px;
+    color:#111827;
+    font-size:1.2rem;
+    border-left:4px solid #2563eb;
+    padding-left:12px;
+}
+
+.contenido{
+    color:#4b5563;
+    line-height:1.9;
+    text-align:justify;
+    font-size:1rem;
+}
+
+.acciones{
+    margin-top:40px;
+}
+
+.btn-aplicar{
+    display:block;
+    width:100%;
+    text-align:center;
+    text-decoration:none;
+    background:#16a34a;
+    color:#fff;
+    padding:16px;
+    border-radius:12px;
+    font-size:1rem;
+    font-weight:700;
+    transition:.3s;
+}
+
+.btn-aplicar:hover{
+    background:#15803d;
+    transform:translateY(-2px);
+}
+
+.alerta-error{
+    max-width:700px;
+    margin:50px auto;
+    padding:30px;
+    background:#fff;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.alerta-error h2{
+    color:#dc2626;
+    margin-bottom:10px;
+}
+
+@media(max-width:768px){
+
+    .cabecera{
+        flex-direction:column;
+    }
+
+    .empresa{
+        font-size:1.8rem;
+    }
+
+    .puesto{
+        font-size:1.2rem;
+    }
+
+    .oferta-card{
+        padding:25px;
+    }
+
+}
