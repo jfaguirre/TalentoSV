@@ -25,7 +25,8 @@ if (isset($_GET['pagina'])) {
 
     <!-- Bootstrap  -->
     <!-- <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css"> -->
-    <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <!-- <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
     <?php if ($is_auth_page): ?>
         <link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/auth.css">
