@@ -173,4 +173,31 @@ class Usuario {
             return $consultaSQL->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Obtener perfil detallado del usuario (candidato) con ubicaciones y profesión
+    public static function obtenerPerfilDetallado(int $id_usuario)
+    {
+        try {
+            $db = Conexion::conexion();
+            $sql = $db->prepare("
+                SELECT u.nombre, u.apellido, u.correo, 
+                       p.nacionalidad, p.telefono, p.foto, p.genero,
+                       d.departamento, dist.distrito, m.municipio, 
+                       prof.profesion, p.id_departamento, p.id_distrito, p.id_municipio, p.id_profesion
+                FROM usuarios u
+                LEFT JOIN perfil_usuario p ON u.id_usuario = p.id_usuario
+                LEFT JOIN departamentos d ON p.id_departamento = d.id_departamento
+                LEFT JOIN distritos dist ON p.id_distrito = dist.id_distrito
+                LEFT JOIN municipios m ON p.id_municipio = m.id_municipio
+                LEFT JOIN profesion prof ON p.id_profesion = prof.id_profesion
+                WHERE u.id_usuario = :id_usuario
+                LIMIT 1
+            ");
+            $sql->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
+            $sql->execute();
+            return $sql->fetch(PDO::FETCH_ASSOC);
+        } catch (\Throwable $th) {
+            return false;
+        }
+    }
+
 }

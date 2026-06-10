@@ -58,6 +58,7 @@ $base_path = (strpos($_SERVER['SCRIPT_NAME'], 'views/') !== false) ? '../../' : 
                 'perfil',
                 'ofertas',
                 'configuracion',
+                'ver_cv'
             ];                        
             
             $pagina = $_GET['pagina'] ?? 'inicio';                       

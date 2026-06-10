@@ -3,8 +3,20 @@
 namespace App\Views\UsuarioControlador;
 
 use App\controller\OfertaControlador;
+use App\controller\PostulacionesControlador;
+use App\models\Postulaciones;
 
-$oferta = OfertaControlador::obtenerDetalleEmpleo($_GET['id_oferta'] ?? 0);
+// Procesar postulación
+PostulacionesControlador::procesarPostulacion();
+
+$id_oferta = $_GET['id_oferta'] ?? 0;
+$oferta = OfertaControlador::obtenerDetalleEmpleo($id_oferta);
+
+$id_usuario = $_SESSION['userAuth']['id'] ?? 0;
+$yaPostulado = false;
+if ($id_usuario > 0 && $oferta) {
+    $yaPostulado = Postulaciones::verificarPostulacion($id_usuario, $oferta['id_oferta']);
+}
 
 ?>
 <div class="acciones">
@@ -74,12 +86,41 @@ $oferta = OfertaControlador::obtenerDetalleEmpleo($_GET['id_oferta'] ?? 0);
         </section>
 
         <div class="acciones">
-
-            <a href="" class="btn-aplicar"> Aplicar ahora </a>
-
+            <?php if ($yaPostulado): ?>
+                <button class="btn-aplicar" style="background-color: #718096; cursor: not-allowed; opacity: 0.8; border: none; outline: none; padding: 0.75rem 1.5rem; border-radius: 6px; color: white;" disabled>
+                    ✓ Ya te postulaste a esta oferta
+                </button>
+            <?php else: ?>
+                <form id="form-aplicar" method="POST" style="display:none;">
+                    <input type="hidden" name="accion" value="aplicar">
+                    <input type="hidden" name="id_oferta" value="<?= htmlspecialchars($oferta['id_oferta']) ?>">
+                </form>
+                <a href="#" class="btn-aplicar" onclick="confirmarAplicacion(event)"> Aplicar ahora </a>
+            <?php endif; ?>
         </div>
 
     </div>
 
 </div>
+
+<script>
+function confirmarAplicacion(event) {
+    event.preventDefault();
+    Swal.fire({
+        title: '¿Confirmar postulación?',
+        text: '¿Estás seguro de que deseas aplicar a la vacante "<?= htmlspecialchars($oferta['titulo']) ?>" en <?= htmlspecialchars($oferta['empresa']) ?>?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#2b6cb0',
+        cancelButtonColor: '#e53e3e',
+        confirmButtonText: 'Sí, postularme',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('form-aplicar').submit();
+        }
+    });
+}
+</script>
+
 <?php endif; ?>

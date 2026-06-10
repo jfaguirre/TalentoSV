@@ -40,6 +40,11 @@ $empresa = $id_usuario ? \App\models\Empresa::obtenerPorUsuario($id_usuario) : n
                 <i class="bi bi-card-checklist sidebar__nav-icon"></i>
                 Curriculum
             </a>
+
+            <a href="index.php?pagina=postulaciones" class="sidebar__nav-item <?php echo $pagina === 'postulaciones' ? 'active' : ''; ?>" data-page="postulaciones">
+                <i class="bi bi-briefcase-fill sidebar__nav-icon"></i>
+                Mis Postulaciones
+            </a>
                                 
             <div class="sidebar__nav-label">Sistema</div>
 

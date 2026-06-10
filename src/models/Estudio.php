@@ -66,9 +66,11 @@ class Estudio
     // Mostrar estudios
     public static function mostrarEstudios(?int $id_usuario = null)
     {
-        $sql = "SELECT * FROM estudios";
+        $sql = "SELECT e.*, p.profesion AS nivel_academico 
+                FROM estudios e 
+                LEFT JOIN profesion p ON e.id_nivel_academico = p.id_profesion";
         if ($id_usuario !== null) {
-            $sql .= " WHERE id_usuario = :id_usuario";
+            $sql .= " WHERE e.id_usuario = :id_usuario";
         }
         
         $consultaSQL = Conexion::conexion()->prepare($sql);

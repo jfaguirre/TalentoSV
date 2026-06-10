@@ -91,7 +91,14 @@ $datos = $controlador->obtenerDatosInicio($empresa_id);
                     <tbody>
                         <?php foreach($datos['postulaciones'] as $p): ?>
                             <tr>
-                                <td><strong><?= htmlspecialchars($p['nombre'] . ' ' . $p['apellido']); ?></strong></td>
+                                <td>
+                                    <strong><?= htmlspecialchars($p['nombre'] . ' ' . $p['apellido']); ?></strong>
+                                    <div style="margin-top: 4px;">
+                                        <a href="index.php?pagina=ver_cv&id_usuario=<?= $p['id_usuario']; ?>" class="btn btn-secondary btn-sm" style="padding: 2px 6px; font-size: 0.75rem; text-decoration: none;" title="Ver Currículum Vitae del candidato">
+                                            <i class="fa-solid fa-file-pdf"></i> Ver CV
+                                        </a>
+                                    </div>
+                                </td>
                                 <td><?= htmlspecialchars($p['correo']); ?></td>
                                 <td><?= htmlspecialchars($p['titulo']); ?></td>
                                 <td><?= date('d/m/Y g:i a', strtotime($p['fecha_postulacion'])); ?></td>
@@ -121,7 +128,7 @@ $datos = $controlador->obtenerDatosInicio($empresa_id);
                                             </button>
                                         </form>
 
-                                        <?php if($p['estado'] !== 'rechazada'): ?>
+                                        <?php if($p['estado'] === 'aceptada'): ?>
                                             <button type="button" class="btn btn-outline btn-sm" onclick="abrirModalEntrevista(<?= $p['id_postulacion']; ?>, '<?= htmlspecialchars($p['nombre'] . ' ' . $p['apellido']); ?>')">
                                                 <i class="fa-solid fa-calendar"></i> Agendar Entrevista
                                             </button>
