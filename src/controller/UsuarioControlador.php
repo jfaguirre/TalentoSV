@@ -1,121 +1,161 @@
 <?php
+
 namespace App\controller;
 
+use App\Request\UsuarioRequest;
+use App\helpers\Alert;
+use App\controller\AuthControlador;
 use App\models\Usuario;
-use App\models\Conexion;
+use App\Request\LoginRequest;
 
-class UsuarioControlador
-{
-    // ============================================================
-    // ACTUALIZAR PERFIL COMPLETO (usuarios + perfil_usuario)
-    // ============================================================
-    public function actualizarPerfil()
+class UsuarioControlador {
+
+    // Metodo para crear usuario
+    public function crearUsuario() 
+    {   
+    
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombreUsuario']))
+        {            
+        
+            $usuario = new Usuario(
+                $_POST['nombreUsuario'],
+                $_POST['apellidoUsuario'],
+                $_POST['correoUsuario'],
+                $_POST['passwordUsuario']
+            );                      
+
+            
+            // Validamos que los datos sean correctos
+            $validacion = UsuarioRequest::validacion($usuario);               
+                                                
+            if(empty($validacion))
+            {
+                // Aqui enviamos los datos al modelo
+                $respuesta = Usuario::crearUsuario($usuario);
+
+                if($respuesta)
+                {                                        
+                    echo '
+                        <script>
+                            if(window.history.replaceState){
+                                window.history.replaceState(null, null, window.location.href);
+                            }                 
+                        </script>
+                    ';                                          
+                    header("Refresh: 2; url=index.php?pagina=ingreso");
+                    Alert::success('Usuario', "Registro creado con exito."); 
+                    exit;
+                }
+
+                return [];
+            }
+            else
+            {
+                // Mensaje de error para el formulario                
+                return $validacion;
+            }
+        }
+
+    return [];
+    }
+
+
+    // Metodo para iniciar sesion
+    public function login()
+    {     
+
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['correoUsuario'])){
+
+            $usuario = new Usuario( 
+                $nombre = Null,
+                $apellido = Null,
+                $correo = $_POST['correoUsuario'],
+                $password = $_POST['passwordUsuario']
+            );
+                                                
+            $validacion = LoginRequest::validacion($usuario);            
+            
+            if(empty($validacion)){
+                
+                // Solicitamos la informacion al modelo
+                $respuesta = Usuario::autenticar($usuario);
+                        
+                if(isset($respuesta['correo'])){
+                        if($respuesta['correo'] == $usuario->correo && $respuesta['password'] == $usuario->password){                                                 
+
+                        // Consultamos el rol del usuario                        
+                        $user_role = AuthControlador::checkRole($respuesta);  
+                                                                                                
+                        $_SESSION['userAuth'] = [
+                            'id' => $respuesta['id_usuario'],
+                            'nombre' => $respuesta['nombre'],
+                            'correo' => $respuesta['correo'],
+                            'rol' => $user_role['rol'],
+                            'modo' => 'usuario',
+                            'empresa_id' => null
+                        ];                       
+                                                
+                            header("Refresh: 2; url=index.php?pagina=inicio");
+                            exit;
+                                                                            
+                        } else {
+
+                            $validacion['error_credenciales'] = 'El correo o password es incorrectos.';                   
+                            return $validacion;
+                        }
+                } else {       
+
+                        $validacion['error_credenciales'] = 'El correo o password es incorrectos.';                   
+                        return $validacion;
+                }
+            } else {                
+                return $validacion;                
+            }
+        }
+    }
+
+
+    // Metodo para mostrar todos los usuarios
+    public function mostrarUsuarios()
+    {            
+        // Solicitamos los usuarios al modelo
+        $usuarios = Usuario::mostrarUsuarios();
+        return $usuarios;
+    }        
+
+
+    // Metodo para mostrar un solo usuario
+    public function mostrarUsuario(int $id)
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            return;
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && $id > 0) {
+            
+            // Solicitamos el usuario al modelo
+            // $usuario = Usuario::mostrarUsuario($id);    
+            // return $usuario;
         }
 
-        $id_usuario = (int)$_POST['id_usuario'];
+    return false;             
+    }
+ 
 
-        // ============================================================
-        // 1. ACTUALIZAR TABLA usuarios
-        // ============================================================
-        $usuario = new Usuario(
-            $_POST['nombre'],
-            $_POST['apellido'],
-            $_POST['correo'],
-            $_POST['password'] ?: null
-        );
+    // Metodo para actualizar usuario
+    public function actualizarUsuario(int $id)
+    {
+        
 
-        Usuario::actualizarUsuario($id_usuario, $usuario);
+    }
 
-        // ============================================================
-        // 2. VERIFICAR SI EXISTE PERFIL
-        // ============================================================
-        $db = Conexion::conexion()->prepare("
-            SELECT id_usuario FROM perfil_usuario WHERE id_usuario = :id
-        ");
-        $db->execute([':id' => $id_usuario]);
 
-        // ============================================================
-        // 3. SI NO EXISTE → CREAR PERFIL
-        // ============================================================
-        if ($db->rowCount() == 0) {
+    // Metodo para eliminar usuario
+    public function eliminarUsuario(int $id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $id > 0) {
 
-            Usuario::crearPerfil([
-                ':id_usuario'      => $id_usuario,
-                ':id_departamento' => $_POST['id_departamento'] ?: null,
-                ':id_distrito'     => $_POST['id_distrito'] ?: null,
-                ':id_municipio'    => $_POST['id_municipio'] ?: null,
-                ':id_profesion'    => $_POST['id_profesion'] ?: null,
-                ':nacionalidad'    => $_POST['nacionalidad'] ?: '',
-                ':telefono'        => $_POST['telefono'] ?: '',
-                ':foto'            => '', // si luego agregas foto, aquí se cambia
-                ':genero'          => $_POST['genero'] ?: ''
-            ]);
+            // Solicitamos la eliminacion al modelo
+            // return Usuario::eliminarUsuario($id);
         }
 
-        // ============================================================
-        // 4. SI YA EXISTE → ACTUALIZAR PERFIL
-        // ============================================================
-        $sql = Conexion::conexion()->prepare("
-            UPDATE perfil_usuario SET
-                nacionalidad = :nacionalidad,
-                telefono = :telefono,
-                genero = :genero,
-                id_departamento = :id_departamento,
-                id_distrito = :id_distrito,
-                id_municipio = :id_municipio,
-                id_profesion = :id_profesion
-            WHERE id_usuario = :id_usuario
-        ");
-
-        $sql->execute([
-            ':nacionalidad'    => $_POST['nacionalidad'],
-            ':telefono'        => $_POST['telefono'],
-            ':genero'          => $_POST['genero'],
-            ':id_departamento' => $_POST['id_departamento'] ?: null,
-            ':id_distrito'     => $_POST['id_distrito'] ?: null,
-            ':id_municipio'    => $_POST['id_municipio'] ?: null,
-            ':id_profesion'    => $_POST['id_profesion'] ?: null,
-
-            ':id_usuario'      => $id_usuario
-        ]);
-
-        // ============================================================
-        // 5. REDIRECCIÓN
-        // ============================================================
-        header("Location: index.php?pagina=perfil");
-        exit;
+        return false;
     }
-
-    public function actualizarConfiguracion()
-{
-    if ($_POST['actualizar_config'] !== 'perfil') return;
-
-    $id = $_POST['id_usuario'];
-    $correo = $_POST['correo'];
-    $password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null;
-
-    $db = Conexion::conexion()->prepare("
-        UPDATE usuarios SET correo = :correo " . 
-        ($password ? ", password = :password " : "") . "
-        WHERE id_usuario = :id
-    ");
-
-    $db->bindParam(':correo', $correo);
-    $db->bindParam(':id', $id);
-
-    if ($password) {
-        $db->bindParam(':password', $password);
-    }
-
-    $db->execute();
-
-    $_SESSION['userAuth']['correo'] = $correo;
-
-    header("Location: index.php?pagina=configuraciones");
-    exit;
-}
 
 }

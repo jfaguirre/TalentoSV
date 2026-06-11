@@ -1,132 +1,134 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Curriculum - <?= $perfil['nombre'] . ' ' . $perfil['apellido'] ?></title>
+<?php
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+require_once __DIR__ . '/../../vendor/autoload.php';
+?>
 
-    <style>
-        body { background: #f4f6f9; font-family: system-ui, sans-serif; }
-        .cv-container {
-            max-width: 900px; margin: 30px auto; background: #fff;
-            border-radius: 12px; padding: 30px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-        .cv-header { display: flex; align-items: center; gap: 20px; }
-        .cv-photo {
-            width: 110px; height: 110px; border-radius: 50%;
-            background-size: cover; background-position: center;
-            background-color: #ddd;
-        }
-        .section-title {
-            font-size: 1.3rem; font-weight: 700;
-            margin-top: 25px; margin-bottom: 10px; color: #0d6efd;
-        }
-        .item { margin-bottom: 15px; padding-left: 10px; border-left: 3px solid #0d6efd; }
-        .item-title { font-weight: 600; font-size: 1.05rem; }
-        .item-sub { color: #666; font-size: 0.9rem; }
-        .item-desc { margin-top: 5px; font-size: 0.95rem; }
-    </style>
-</head>
 
-<body>
 
 <div class="cv-container">
 
-    <!-- ENCABEZADO -->
-    <div class="cv-header">
-        <div class="cv-photo"
-             style="background-image: url('<?= !empty($perfil['foto']) ? $perfil['foto'] : 'https://via.placeholder.com/110' ?>');">
+    <h2 class="titulo">Crear Currículum</h2>
+
+    <form method="POST" enctype="multipart/form-data" action="index.php?pagina=cv_guardar">
+
+        <!-- ===========================
+             DATOS GENERALES
+        ============================ -->
+        <div class="card2">
+            <h3>Datos Generales</h3>
+
+            <label>Nombre completo</label>
+            <input type="text" name="nombre" required>
+
+            <label>Nacionalidad</label>
+            <input type="text" name="nacionalidad">
+
+            <label>Teléfono</label>
+            <input type="text" name="telefono">
+
+            <label>Género</label>
+            <select name="genero">
+                <option value="">Seleccione</option>
+                <option>Masculino</option>
+                <option>Femenino</option>
+                <option>Otro</option>
+            </select>
         </div>
 
-        <div>
-            <h2 class="mb-1"><?= $perfil['nombre'] . ' ' . $perfil['apellido'] ?></h2>
-            <h5 class="text-muted"><?= $perfil['profesion'] ?? 'Profesión no registrada' ?></h5>
+        <!-- ===========================
+             PROFESIÓN
+        ============================ -->
+        <div class="card2">
+            <h3>Profesión</h3>
 
-            <p class="mb-0">
-                <strong>Correo:</strong> <?= $perfil['correo'] ?><br>
-                <strong>Teléfono:</strong> <?= $perfil['telefono'] ?? 'No registrado' ?><br>
-                <strong>Nacionalidad:</strong> <?= $perfil['nacionalidad'] ?? 'No registrada' ?><br>
-                <strong>Género:</strong> <?= $perfil['genero'] ?? 'No registrado' ?>
-            </p>
+            <label>Profesión</label>
+            <input type="text" name="profesion" required>
         </div>
-    </div>
 
-    <!-- UBICACIÓN -->
-    <div class="section-title">Ubicación</div>
-    <p>
-        <strong>Departamento:</strong> <?= $perfil['departamento'] ?? 'No registrado' ?><br>
-        <strong>Distrito:</strong> <?= $perfil['distrito'] ?? 'No registrado' ?><br>
-        <strong>Municipio:</strong> <?= $perfil['municipio'] ?? 'No registrado' ?>
-    </p>
+        <!-- ===========================
+             EXPERIENCIA
+        ============================ -->
+        <div class="card2">
+            <h3>Experiencia Laboral</h3>
 
-    <!-- EXPERIENCIA -->
-    <div class="section-title">Experiencia Laboral</div>
+            <label>Empresa</label>
+            <input type="text" name="empresa">
 
-    <?php if (!empty($experiencias)): ?>
-        <?php foreach ($experiencias as $exp): ?>
-            <div class="item">
-                <div class="item-title"><?= $exp['puesto'] ?> - <?= $exp['empresa'] ?></div>
-                <div class="item-sub">
-                    <?= $exp['fecha_inicio'] ?> - <?= $exp['fecha_fin'] ?: 'Actual' ?>
-                </div>
-                <div class="item-desc"><?= $exp['descripcion'] ?></div>
-            </div>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <p class="text-muted">No hay experiencia registrada.</p>
-    <?php endif; ?>
+            <label>Puesto</label>
+            <input type="text" name="puesto">
 
-    <!-- ESTUDIOS -->
-    <div class="section-title">Formación Académica</div>
+            <label>Descripción</label>
+            <textarea name="descripcion"></textarea>
 
-    <?php if (!empty($estudios)): ?>
-        <?php foreach ($estudios as $est): ?>
-            <div class="item">
-                <div class="item-title"><?= $est['titulo'] ?> - <?= $est['institucion'] ?></div>
-                <div class="item-sub">
-                    Logrado el: <?= $est['fecha_logro'] ?? 'Sin fecha' ?><br>
-                    Estado: <?= $est['estado'] ?>
-                </div>
-                <div class="item-desc"><?= $est['descripcion'] ?></div>
-            </div>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <p class="text-muted">No hay estudios registrados.</p>
-    <?php endif; ?>
+            <label>Fecha inicio</label>
+            <input type="date" name="fecha_inicio">
 
-    <!-- HABILIDADES -->
-    <div class="section-title">Habilidades</div>
+            <label>Fecha fin</label>
+            <input type="date" name="fecha_fin">
+        </div>
 
-    <?php if (!empty($habilidades)): ?>
-        <ul>
-            <?php foreach ($habilidades as $hab): ?>
-                <li><strong><?= $hab['habilidad'] ?></strong></li>
-            <?php endforeach; ?>
-        </ul>
-    <?php else: ?>
-        <p class="text-muted">No hay habilidades registradas.</p>
-    <?php endif; ?>
+        <!-- ===========================
+             HABILIDADES
+        ============================ -->
+        <div class="card2">
+            <h3>Habilidades</h3>
 
-    <!-- REFERENCIAS -->
-    <div class="section-title">Referencias</div>
+            <label>Habilidad principal</label>
+            <input type="text" name="habilidad">
+        </div>
 
-    <?php if (!empty($referencias)): ?>
-        <?php foreach ($referencias as $ref): ?>
-            <div class="item">
-                <div class="item-title"><?= $ref['nombre_referencia'] ?></div>
-                <div class="item-sub">
-                    Tel: <?= $ref['telefono_contacto'] ?? 'No registrado' ?><br>
-                    Correo: <?= $ref['correo_contacto'] ?? 'No registrado' ?>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <p class="text-muted">No hay referencias registradas.</p>
-    <?php endif; ?>
+        <!-- ===========================
+             ESTUDIOS (lista)
+        ============================ -->
+        <div class="card2">
+            <h3>Estudios</h3>
+
+            <label>Nivel académico</label>
+            <input type="text" name="nivel_academico">
+
+            <label>Carrera</label>
+            <input type="text" name="carrera">
+
+            <label>Institución</label>
+            <input type="text" name="institucion">
+
+            <label>Fecha inicio</label>
+            <input type="date" name="estudio_inicio">
+
+            <label>Fecha fin</label>
+            <input type="date" name="estudio_fin">
+
+            <label>Estado</label>
+            <select name="estado">
+                <option value="">Seleccione</option>
+                <option>En curso</option>
+                <option>Finalizado</option>
+                <option>Incompleto</option>
+            </select>
+
+            <label>Descripción</label>
+            <textarea name="estudio_descripcion"></textarea>
+        </div>
+
+        <!-- ===========================
+             REFERENCIAS
+        ============================ -->
+        <div class="card2">
+            <h3>Referencias</h3>
+
+            <label>Nombre</label>
+            <input type="text" name="ref_nombre">
+
+            <label>Teléfono</label>
+            <input type="text" name="ref_telefono">
+
+            <label>Correo</label>
+            <input type="email" name="ref_correo">
+        </div>
+
+        <button class="btn">Guardar CV</button>
+
+    </form>
 
 </div>
 
-</body>
-</html>
