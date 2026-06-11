@@ -651,7 +651,7 @@ ADD CONSTRAINT fk_estudios_perfil_usuario
 ALTER TABLE oferta_empleos
 DROP COLUMN tipo_contrato,
 
-ADD COLUMN tipo_contrato enum('Tiempo completo','Medio tiempo','Temporal','Freelance') DEFAULT NULL
+ADD COLUMN tipo_contrato enum('Tiempo completo','Medio tiempo','Temporal','Freelance') DEFAULT NULL;
 
 
 -- 09 de junio de 2026
