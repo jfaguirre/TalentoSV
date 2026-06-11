@@ -1041,3 +1041,68 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+
+-- actualizacion 11/06/2026
+
+-- Ajuste de tablas para usar id_perfil
+
+-- ESTUDIOS
+ALTER TABLE estudios
+DROP FOREIGN KEY fk_estudios_perfil_usuario;
+ALTER TABLE estudios
+DROP COLUMN id_usuario;
+ALTER TABLE estudios
+ADD COLUMN id_perfil INT;
+ALTER TABLE estudios
+ADD CONSTRAINT fk_estudios_perfil
+FOREIGN KEY (id_perfil) REFERENCES perfil_usuario(id_perfil);
+
+-- REFERENCIAS
+ALTER TABLE referencias
+DROP FOREIGN KEY fk_referencia_usuario;
+ALTER TABLE referencias
+DROP COLUMN id_usuario;
+ALTER TABLE referencias
+ADD COLUMN id_perfil INT;
+ALTER TABLE referencias
+ADD CONSTRAINT fk_referencias_perfil
+FOREIGN KEY (id_perfil) REFERENCES perfil_usuario(id_perfil);
+
+-- PROFESION (no tenía id_usuario)
+ALTER TABLE profesion
+ADD COLUMN id_perfil INT;
+ALTER TABLE profesion
+ADD CONSTRAINT fk_profesion_perfil
+FOREIGN KEY (id_perfil) REFERENCES perfil_usuario(id_perfil);
+
+-- HABILIDADES
+ALTER TABLE habilidades
+DROP FOREIGN KEY fk_habilidad_usuario;
+ALTER TABLE habilidades
+DROP COLUMN id_usuario;
+ALTER TABLE habilidades
+ADD COLUMN id_perfil INT;
+ALTER TABLE habilidades
+ADD CONSTRAINT fk_habilidades_perfil
+FOREIGN KEY (id_perfil) REFERENCES perfil_usuario(id_perfil);
+
+-- cambiarlas a posición después del las columnas pk
+
+
+-- ESTUDIOS
+ALTER TABLE estudios
+MODIFY COLUMN id_perfil INT AFTER id_estudio;
+
+-- REFERENCIAS
+ALTER TABLE referencias
+MODIFY COLUMN id_perfil INT AFTER id_referencias;
+
+-- PROFESION
+ALTER TABLE profesion
+MODIFY COLUMN id_perfil INT AFTER id_profesion;
+
+-- HABILIDADES
+ALTER TABLE habilidades
+MODIFY COLUMN id_perfil INT AFTER id_habilidad;
