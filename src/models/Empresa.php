@@ -208,6 +208,22 @@ class Empresa {
     // Actualizar estado de una postulación
     public static function actualizarEstadoPostulacion(int $id_postulacion, string $estado)
     {
+
+        // Si el estado es RECHAZADA entonces tambien eliminamos la entrevista
+
+        if($estado == 'rechazada')
+        {
+            $consulta = Conexion::conexion()->prepare("
+                DELETE FROM entrevistas
+                WHERE id_postulacion = :id_postulacion
+            ");
+
+            $consulta->bindParam(":id_postulacion", $id_postulacion, PDO::PARAM_INT);
+            $consulta->execute();
+                
+        }
+
+        // Ahora cambiamos el estado.
         $sql = Conexion::conexion()->prepare("
             UPDATE postulaciones 
             SET estado = :estado 
@@ -220,7 +236,7 @@ class Empresa {
 
     // Programar entrevista
     public static function programarEntrevista(int $id_empresa, int $id_postulacion, string $fecha_hora, string $tipo)
-    {
+    {    
         $sql = Conexion::conexion()->prepare("
             INSERT INTO entrevistas (id_empresa, id_postulacion, fecha_hora, tipo, estado)
             VALUES (:id_empresa, :id_postulacion, :fecha_hora, :tipo, 'programada')

@@ -25,35 +25,71 @@ class Usuario {
 
 
     // Metodo para crear un nuevo usuario
-    public static function crearUsuario(Usuario $usuario)
-    {                
-        try {         
+public static function crearUsuario(Usuario $usuario)
+{
+    $conexion = null;
 
-            $conexion = Conexion::conexion();
-            $conexion->beginTransaction();
-            
-            $consultaSQL = $conexion
-            ->prepare("INSERT INTO usuarios(nombre, apellido, correo, password, id_rol)        
-            VALUES(:nombre, :apellido, :correo, :password, :id_rol)");
+    try {
 
-            $consultaSQL->bindParam(":nombre", $usuario->nombre, PDO::PARAM_STR);
-            $consultaSQL->bindParam(":apellido", $usuario->apellido, PDO::PARAM_STR);
-            $consultaSQL->bindParam(":correo", $usuario->correo, PDO::PARAM_STR);
-            $consultaSQL->bindParam(":password", $usuario->password, PDO::PARAM_STR);
-            $consultaSQL->bindValue(":id_rol", 2, PDO::PARAM_INT);
-            $consultaSQL->execute();
-                        
-            $conexion->commit();
-            return true;
-            
-        } catch (\Throwable $th) {
+        $conexion = Conexion::conexion();
+        $conexion->beginTransaction();
 
-            Conexion::conexion()->rollBack();            
-            
-            Alert::success('Ups!', 'Al parecer hubo un error. Intenta de nuevo.');            
-            return 'Error: '.$th->getMessage();
+        // Crear usuario
+        $consultaSQL = $conexion->prepare("
+            INSERT INTO usuarios(
+                nombre,
+                apellido,
+                correo,
+                password,
+                id_rol
+            )
+            VALUES(
+                :nombre,
+                :apellido,
+                :correo,
+                :password,
+                :id_rol
+            )
+        ");
+
+        $consultaSQL->bindParam(":nombre", $usuario->nombre, PDO::PARAM_STR);
+        $consultaSQL->bindParam(":apellido", $usuario->apellido, PDO::PARAM_STR);
+        $consultaSQL->bindParam(":correo", $usuario->correo, PDO::PARAM_STR);
+        $consultaSQL->bindParam(":password", $usuario->password, PDO::PARAM_STR);
+        $consultaSQL->bindValue(":id_rol", 2, PDO::PARAM_INT);
+
+        $consultaSQL->execute();
+
+        // Obtener el ID del usuario recién creado
+        $idUsuario = $conexion->lastInsertId();
+
+        // Crear automáticamente el perfil del usuario
+        $consultaPerfil = $conexion->prepare("
+            INSERT INTO perfil_usuario(id_usuario)
+            VALUES(:id_usuario)
+        ");
+
+        $consultaPerfil->bindParam(":id_usuario", $idUsuario, PDO::PARAM_INT);
+        $consultaPerfil->execute();
+
+        $conexion->commit();
+
+        return true;
+
+    } catch (\Throwable $th) {
+
+        if ($conexion && $conexion->inTransaction()) {
+            $conexion->rollBack();
         }
+
+        Alert::success(
+            'Ups!',
+            'Al parecer hubo un error. Intenta de nuevo.'
+        );
+
+        return 'Error: ' . $th->getMessage();
     }
+}
 
 
     // Metodo para iniciar sesion de usuario

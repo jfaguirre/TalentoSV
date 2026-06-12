@@ -89,53 +89,53 @@ $datos = $controlador->obtenerDatosInicio($empresa_id);
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($datos['postulaciones'] as $p): ?>
-                            <tr>
-                                <td>
-                                    <strong><?= htmlspecialchars($p['nombre'] . ' ' . $p['apellido']); ?></strong>
-                                    <div style="margin-top: 4px;">
-                                        <a href="index.php?pagina=ver_cv&id_usuario=<?= $p['id_usuario']; ?>" class="btn btn-secondary btn-sm" style="padding: 2px 6px; font-size: 0.75rem; text-decoration: none;" title="Ver Currículum Vitae del candidato">
-                                            <i class="fa-solid fa-file-pdf"></i> Ver CV
-                                        </a>
-                                    </div>
-                                </td>
-                                <td><?= htmlspecialchars($p['correo']); ?></td>
-                                <td><?= htmlspecialchars($p['titulo']); ?></td>
-                                <td><?= date('d/m/Y g:i a', strtotime($p['fecha_postulacion'])); ?></td>
-                                <td>
-                                    <span class="badge <?= htmlspecialchars($p['estado']); ?>">
-                                        <?= htmlspecialchars($p['estado']); ?>
-                                    </span>
-                                </td>
-                                <td>
-                                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                                        <!-- Botones rápidos de cambio de estado -->
-                                        <form method="POST" style="margin:0;">
-                                            <input type="hidden" name="accion" value="cambiar_estado">
-                                            <input type="hidden" name="id_postulacion" value="<?= $p['id_postulacion']; ?>">
-                                            
-                                            <?php if($p['estado'] === 'pendiente'): ?>
-                                                <button type="submit" name="estado" value="revisada" class="btn btn-secondary btn-sm" title="Marcar como Revisada">
-                                                    Revisar
+                        <?php foreach($datos['postulaciones'] as $p): ?>                            
+                                <tr>
+                                    <td>
+                                        <strong><?= htmlspecialchars($p['nombre'] . ' ' . $p['apellido']); ?></strong>
+                                        <div style="margin-top: 4px;">
+                                            <a href="index.php?pagina=ver_cv&id_usuario=<?= $p['id_usuario']; ?>" class="btn btn-secondary btn-sm" style="padding: 2px 6px; font-size: 0.75rem; text-decoration: none;" title="Ver Currículum Vitae del candidato">
+                                                <i class="fa-solid fa-file-pdf"></i> Ver CV
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td><?= htmlspecialchars($p['correo']); ?></td>
+                                    <td><?= htmlspecialchars($p['titulo']); ?></td>
+                                    <td><?= date('d/m/Y g:i a', strtotime($p['fecha_postulacion'])); ?></td>
+                                    <td>
+                                        <span class="badge <?= htmlspecialchars($p['estado']); ?>">
+                                            <?= htmlspecialchars($p['estado']); ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                            <!-- Botones rápidos de cambio de estado -->
+                                            <form method="POST" style="margin:0;">
+                                                <input type="hidden" name="accion" value="cambiar_estado">
+                                                <input type="hidden" name="id_postulacion" value="<?= $p['id_postulacion']; ?>">
+                                                
+                                                <?php if($p['estado'] === 'pendiente'): ?>
+                                                    <button type="submit" name="estado" value="revisada" class="btn btn-secondary btn-sm" title="Marcar como Revisada">
+                                                        Revisar
+                                                    </button>
+                                                <?php endif; ?>
+                                                
+                                                <button type="submit" name="estado" value="aceptada" class="btn btn-success btn-sm <?= ($p['estado'] === 'aceptada') ? 'disabled' : ''; ?>" <?= ($p['estado'] === 'aceptada') ? 'disabled' : ''; ?>>
+                                                    Aceptar
+                                                </button>
+                                                <button type="submit" name="estado" value="rechazada" class="btn btn-danger btn-sm <?= ($p['estado'] === 'rechazada') ? 'disabled' : ''; ?>" <?= ($p['estado'] === 'rechazada') ? 'disabled' : ''; ?>>
+                                                    Rechazar
+                                                </button>
+                                            </form>
+
+                                            <?php if($p['estado'] === 'aceptada'): ?>
+                                                <button type="button" class="btn btn-outline btn-sm" onclick="abrirModalEntrevista(<?= $p['id_postulacion']; ?>, '<?= htmlspecialchars($p['nombre'] . ' ' . $p['apellido']); ?>')">
+                                                    <i class="fa-solid fa-calendar"></i> Agendar Entrevista
                                                 </button>
                                             <?php endif; ?>
-                                            
-                                            <button type="submit" name="estado" value="aceptada" class="btn btn-success btn-sm <?= ($p['estado'] === 'aceptada') ? 'disabled' : ''; ?>" <?= ($p['estado'] === 'aceptada') ? 'disabled' : ''; ?>>
-                                                Aceptar
-                                            </button>
-                                            <button type="submit" name="estado" value="rechazada" class="btn btn-danger btn-sm <?= ($p['estado'] === 'rechazada') ? 'disabled' : ''; ?>" <?= ($p['estado'] === 'rechazada') ? 'disabled' : ''; ?>>
-                                                Rechazar
-                                            </button>
-                                        </form>
-
-                                        <?php if($p['estado'] === 'aceptada'): ?>
-                                            <button type="button" class="btn btn-outline btn-sm" onclick="abrirModalEntrevista(<?= $p['id_postulacion']; ?>, '<?= htmlspecialchars($p['nombre'] . ' ' . $p['apellido']); ?>')">
-                                                <i class="fa-solid fa-calendar"></i> Agendar Entrevista
-                                            </button>
-                                        <?php endif; ?>
-                                    </div>
-                                </td>
-                            </tr>
+                                        </div>
+                                    </td>
+                                </tr>                            
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -188,7 +188,7 @@ $datos = $controlador->obtenerDatosInicio($empresa_id);
     </div>
 </div>
 
-<!-- MODAL PARA AGENDAR ENTREVISTA (CSS Puro + JS ligero) -->
+<!-- Modal para entrevistas -->
 <div class="modal-backdrop" id="modalEntrevista">
     <div class="modal-container">
         <div class="modal-header">

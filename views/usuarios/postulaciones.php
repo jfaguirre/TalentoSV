@@ -7,7 +7,7 @@ $postulaciones = PostulacionesControlador::obtenerHistorialUsuario();
 ?>
 
 <div class="main__welcome">
-    <h1>Mis <span>Postulaciones</span> 💼</h1>
+    <h1>Mis <span>Postulaciones</span> <i class="bi bi-briefcase-fill sidebar__nav-icon"></i></h1>
     <p>Aquí puedes llevar el seguimiento de los puestos a los que has aplicado.</p>
 </div>
 

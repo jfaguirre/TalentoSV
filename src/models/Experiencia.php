@@ -66,10 +66,11 @@ class Experiencia
             $consultaSQL->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
         }
 
+            // die(var_dump($id_usuario));
+
         if ($consultaSQL->execute()) {
             return $consultaSQL->fetchAll(PDO::FETCH_ASSOC);
-        }
-        return [];
+        }                
     }
         
     // Eliminar experiencia
