@@ -8,7 +8,7 @@ class Estudio
 {    
     public function __construct(
         public ?int $id_usuario,
-        public ?int $id_nivel_academico,        
+        public ?string $nivel_academico,        
         public ?string $titulo,
         public ?string $institucion,
         public ?string $fecha_logro,
@@ -17,7 +17,7 @@ class Estudio
         public ?int $id_estudio = null
     ) {
         $this->id_usuario = $id_usuario;
-        $this->id_nivel_academico = $id_nivel_academico;
+        $this->nivel_academico = $nivel_academico;
         $this->titulo = $titulo;
         $this->institucion = $institucion;
         $this->fecha_logro = $fecha_logro;
@@ -33,22 +33,28 @@ class Estudio
     {
         try {   
             $conexion = Conexion::conexion();
+            $id_perfil = Usuario::obtenerIdPerfil($estudio->id_usuario);
+            if (!$id_perfil) {
+                return false;
+            }
             $conexion->beginTransaction();
 
             $consultaSQL = $conexion->prepare("
-                INSERT INTO estudios(id_usuario, id_nivel_academico, titulo, institucion, fecha_logro, estado, descripcion)        
-                VALUES(:id_usuario, :id_nivel_academico, :titulo, :institucion, :fecha_logro, :estado, :descripcion)
+                INSERT INTO estudios(id_perfil, nivel_academico, titulo, institucion, fecha_logro, estado, descripcion)        
+                VALUES(:id_perfil, :nivel_academico, :titulo, :institucion, :fecha_logro, :estado, :descripcion)
             ");
 
-            $consultaSQL->bindParam(":id_usuario", $estudio->id_usuario, PDO::PARAM_INT);
-            if ($estudio->id_nivel_academico === null) {
-                $consultaSQL->bindValue(":id_nivel_academico", null, PDO::PARAM_NULL);
-            } else {
-                $consultaSQL->bindParam(":id_nivel_academico", $estudio->id_nivel_academico, PDO::PARAM_INT);
-            }
+            $consultaSQL->bindParam(":id_perfil", $id_perfil, PDO::PARAM_INT);
+            $consultaSQL->bindParam(":nivel_academico", $estudio->nivel_academico, PDO::PARAM_STR);
             $consultaSQL->bindParam(":titulo", $estudio->titulo, PDO::PARAM_STR);
             $consultaSQL->bindParam(":institucion", $estudio->institucion, PDO::PARAM_STR);
-            $consultaSQL->bindParam(":fecha_logro", $estudio->fecha_logro, PDO::PARAM_STR);
+            
+            if ($estudio->fecha_logro === '' || $estudio->fecha_logro === null) {
+                $consultaSQL->bindValue(":fecha_logro", null, PDO::PARAM_NULL);
+            } else {
+                $consultaSQL->bindParam(":fecha_logro", $estudio->fecha_logro, PDO::PARAM_STR);
+            }
+            
             $consultaSQL->bindParam(":estado", $estudio->estado, PDO::PARAM_STR);
             $consultaSQL->bindParam(":descripcion", $estudio->descripcion, PDO::PARAM_STR);
             $consultaSQL->execute();  
@@ -66,17 +72,17 @@ class Estudio
     // Mostrar estudios
     public static function mostrarEstudios(?int $id_usuario = null)
     {
-        $sql = "SELECT e.*, p.profesion AS nivel_academico 
-                FROM estudios e 
-                LEFT JOIN profesion p ON e.id_nivel_academico = p.id_profesion";
-        if ($id_usuario !== null) {
-            $sql .= " WHERE e.id_usuario = :id_usuario";
+        if ($id_usuario === null) {
+            return [];
         }
+        $id_perfil = Usuario::obtenerIdPerfil($id_usuario);
+        if (!$id_perfil) {
+            return [];
+        }
+        $sql = "SELECT * FROM estudios WHERE id_perfil = :id_perfil";
         
         $consultaSQL = Conexion::conexion()->prepare($sql);
-        if ($id_usuario !== null) {
-            $consultaSQL->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
-        }
+        $consultaSQL->bindParam(":id_perfil", $id_perfil, PDO::PARAM_INT);
 
         if ($consultaSQL->execute()) {
             return $consultaSQL->fetchAll(PDO::FETCH_ASSOC);
@@ -104,8 +110,7 @@ class Estudio
         $consultaSQL = Conexion::conexion()->prepare("
             UPDATE estudios
             SET
-                id_usuario = :id_usuario,
-                id_nivel_academico = :id_nivel_academico,
+                nivel_academico = :nivel_academico,
                 titulo = :titulo,
                 institucion = :institucion,
                 fecha_logro = :fecha_logro,
@@ -115,15 +120,16 @@ class Estudio
         ");
 
         $consultaSQL->bindParam(":id_estudio", $id_estudio, PDO::PARAM_INT);
-        $consultaSQL->bindParam(":id_usuario", $estudio->id_usuario, PDO::PARAM_INT);
-        if ($estudio->id_nivel_academico === null) {
-            $consultaSQL->bindValue(":id_nivel_academico", null, PDO::PARAM_NULL);
-        } else {
-            $consultaSQL->bindParam(":id_nivel_academico", $estudio->id_nivel_academico, PDO::PARAM_INT);
-        }
+        $consultaSQL->bindParam(":nivel_academico", $estudio->nivel_academico, PDO::PARAM_STR);
         $consultaSQL->bindParam(":titulo", $estudio->titulo, PDO::PARAM_STR);
         $consultaSQL->bindParam(":institucion", $estudio->institucion, PDO::PARAM_STR);
-        $consultaSQL->bindParam(":fecha_logro", $estudio->fecha_logro, PDO::PARAM_STR);
+        
+        if ($estudio->fecha_logro === '' || $estudio->fecha_logro === null) {
+            $consultaSQL->bindValue(":fecha_logro", null, PDO::PARAM_NULL);
+        } else {
+            $consultaSQL->bindParam(":fecha_logro", $estudio->fecha_logro, PDO::PARAM_STR);
+        }
+        
         $consultaSQL->bindParam(":estado", $estudio->estado, PDO::PARAM_STR);
         $consultaSQL->bindParam(":descripcion", $estudio->descripcion, PDO::PARAM_STR);
         

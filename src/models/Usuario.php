@@ -209,6 +209,133 @@ public static function crearUsuario(Usuario $usuario)
             return $consultaSQL->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Obtener id_perfil a partir de id_usuario
+    public static function obtenerIdPerfil(int $id_usuario): ?int
+    {
+        try {
+            $db = Conexion::conexion();
+            $sql = $db->prepare("SELECT id_perfil FROM perfil_usuario WHERE id_usuario = :id_usuario LIMIT 1");
+            $sql->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
+            $sql->execute();
+            $res = $sql->fetch(PDO::FETCH_ASSOC);
+            return $res ? (int)$res['id_perfil'] : null;
+        } catch (\Throwable $th) {
+            return null;
+        }
+    }
+
+    // Actualizar perfil completo transaccionalmente
+    public static function actualizarPerfilCompleto(int $id_usuario, array $data)
+    {
+        $conexion = null;
+        try {
+            $conexion = Conexion::conexion();
+            $conexion->beginTransaction();
+
+            // 1. Actualizar tabla usuarios
+            if (!empty($data['password'])) {
+                $sqlUser = $conexion->prepare("
+                    UPDATE usuarios
+                    SET nombre = :nombre, apellido = :apellido, correo = :correo, password = :password
+                    WHERE id_usuario = :id_usuario
+                ");
+                $sqlUser->bindParam(":password", $data['password'], PDO::PARAM_STR);
+            } else {
+                $sqlUser = $conexion->prepare("
+                    UPDATE usuarios
+                    SET nombre = :nombre, apellido = :apellido, correo = :correo
+                    WHERE id_usuario = :id_usuario
+                ");
+            }
+            $sqlUser->bindParam(":nombre", $data['nombre'], PDO::PARAM_STR);
+            $sqlUser->bindParam(":apellido", $data['apellido'], PDO::PARAM_STR);
+            $sqlUser->bindParam(":correo", $data['correo'], PDO::PARAM_STR);
+            $sqlUser->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
+            $sqlUser->execute();
+
+            // 2. Obtener o crear id_perfil
+            $id_perfil = self::obtenerIdPerfil($id_usuario);
+            if (!$id_perfil) {
+                $sqlCreatePerfil = $conexion->prepare("INSERT INTO perfil_usuario(id_usuario) VALUES(:id_usuario)");
+                $sqlCreatePerfil->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
+                $sqlCreatePerfil->execute();
+                $id_perfil = $conexion->lastInsertId();
+            }
+
+            // 3. Actualizar tabla perfil_usuario
+            $sqlPerfil = $conexion->prepare("
+                UPDATE perfil_usuario
+                SET telefono = :telefono,
+                    nacionalidad = :nacionalidad,
+                    genero = :genero,
+                    id_departamento = :id_departamento,
+                    id_distrito = :id_distrito,
+                    id_municipio = :id_municipio
+                WHERE id_perfil = :id_perfil
+            ");
+
+            $sqlPerfil->bindParam(":telefono", $data['telefono'], PDO::PARAM_STR);
+            $sqlPerfil->bindParam(":nacionalidad", $data['nacionalidad'], PDO::PARAM_STR);
+            $sqlPerfil->bindParam(":genero", $data['genero'], PDO::PARAM_STR);
+            
+            $id_dep = $data['id_departamento'] ? (int)$data['id_departamento'] : null;
+            $id_dist = $data['id_distrito'] ? (int)$data['id_distrito'] : null;
+            $id_mun = $data['id_municipio'] ? (int)$data['id_municipio'] : null;
+
+            if ($id_dep === null) $sqlPerfil->bindValue(":id_departamento", null, PDO::PARAM_NULL);
+            else $sqlPerfil->bindParam(":id_departamento", $id_dep, PDO::PARAM_INT);
+
+            if ($id_dist === null) $sqlPerfil->bindValue(":id_distrito", null, PDO::PARAM_NULL);
+            else $sqlPerfil->bindParam(":id_distrito", $id_dist, PDO::PARAM_INT);
+
+            if ($id_mun === null) $sqlPerfil->bindValue(":id_municipio", null, PDO::PARAM_NULL);
+            else $sqlPerfil->bindParam(":id_municipio", $id_mun, PDO::PARAM_INT);
+
+            $sqlPerfil->bindParam(":id_perfil", $id_perfil, PDO::PARAM_INT);
+            $sqlPerfil->execute();
+
+            // 4. Actualizar tabla profesion
+            if (isset($data['profesion'])) {
+                $sqlCheck = $conexion->prepare("SELECT id_profesion FROM profesion WHERE id_perfil = :id_perfil LIMIT 1");
+                $sqlCheck->bindParam(":id_perfil", $id_perfil, PDO::PARAM_INT);
+                $sqlCheck->execute();
+                $prof_row = $sqlCheck->fetch(PDO::FETCH_ASSOC);
+
+                if ($prof_row) {
+                    $sqlUpdateProf = $conexion->prepare("
+                        UPDATE profesion
+                        SET profesion = :profesion
+                        WHERE id_perfil = :id_perfil
+                    ");
+                    $sqlUpdateProf->bindParam(":profesion", $data['profesion'], PDO::PARAM_STR);
+                    $sqlUpdateProf->bindParam(":id_perfil", $id_perfil, PDO::PARAM_INT);
+                    $sqlUpdateProf->execute();
+                } else {
+                    $sqlInsertProf = $conexion->prepare("
+                        INSERT INTO profesion(id_perfil, profesion)
+                        VALUES(:id_perfil, :profesion)
+                    ");
+                    $sqlInsertProf->bindParam(":id_perfil", $id_perfil, PDO::PARAM_INT);
+                    $sqlInsertProf->bindParam(":profesion", $data['profesion'], PDO::PARAM_STR);
+                    $sqlInsertProf->execute();
+                }
+            }
+
+            $conexion->commit();
+            
+            // Actualizar la sesión
+            $_SESSION['userAuth']['nombre'] = $data['nombre'];
+            $_SESSION['userAuth']['correo'] = $data['correo'];
+
+            return true;
+        } catch (\Throwable $th) {
+            if ($conexion && $conexion->inTransaction()) {
+                $conexion->rollBack();
+            }
+            return 'Error: ' . $th->getMessage();
+        }
+    }
+
     // Obtener perfil detallado del usuario (candidato) con ubicaciones y profesión
     public static function obtenerPerfilDetallado(int $id_usuario)
     {
@@ -218,13 +345,13 @@ public static function crearUsuario(Usuario $usuario)
                 SELECT u.nombre, u.apellido, u.correo, 
                        p.nacionalidad, p.telefono, p.foto, p.genero,
                        d.departamento, dist.distrito, m.municipio, 
-                       prof.profesion, p.id_departamento, p.id_distrito, p.id_municipio, p.id_profesion
+                       prof.profesion, p.id_departamento, p.id_distrito, p.id_municipio, prof.id_profesion
                 FROM usuarios u
                 LEFT JOIN perfil_usuario p ON u.id_usuario = p.id_usuario
                 LEFT JOIN departamentos d ON p.id_departamento = d.id_departamento
                 LEFT JOIN distritos dist ON p.id_distrito = dist.id_distrito
                 LEFT JOIN municipios m ON p.id_municipio = m.id_municipio
-                LEFT JOIN profesion prof ON p.id_profesion = prof.id_profesion
+                LEFT JOIN profesion prof ON p.id_perfil = prof.id_perfil
                 WHERE u.id_usuario = :id_usuario
                 LIMIT 1
             ");

@@ -29,19 +29,29 @@ class Experiencia
     {
         try {   
             $conexion = Conexion::conexion();
+            $id_perfil = Usuario::obtenerIdPerfil($experiencia->id_usuario);
+            if (!$id_perfil) {
+                return false;
+            }
             $conexion->beginTransaction();
 
             $consultaSQL = $conexion->prepare("
-                INSERT INTO experiencia(id_usuario, empresa, puesto, descripcion, fecha_inicio, fecha_fin)        
-                VALUES(:id_usuario, :empresa, :puesto, :descripcion, :fecha_inicio, :fecha_fin)
+                INSERT INTO experiencia(id_perfil, empresa, puesto, descripcion, fecha_inicio, fecha_fin)        
+                VALUES(:id_perfil, :empresa, :puesto, :descripcion, :fecha_inicio, :fecha_fin)
             ");
 
-            $consultaSQL->bindParam(":id_usuario", $experiencia->id_usuario, PDO::PARAM_INT);
+            $consultaSQL->bindParam(":id_perfil", $id_perfil, PDO::PARAM_INT);
             $consultaSQL->bindParam(":empresa", $experiencia->empresa, PDO::PARAM_STR);
             $consultaSQL->bindParam(":puesto", $experiencia->puesto, PDO::PARAM_STR);
             $consultaSQL->bindParam(":descripcion", $experiencia->descripcion, PDO::PARAM_STR);
             $consultaSQL->bindParam(":fecha_inicio", $experiencia->fecha_inicio, PDO::PARAM_STR);
-            $consultaSQL->bindParam(":fecha_fin", $experiencia->fecha_fin, PDO::PARAM_STR);
+            
+            if ($experiencia->fecha_fin === '' || $experiencia->fecha_fin === null) {
+                $consultaSQL->bindValue(":fecha_fin", null, PDO::PARAM_NULL);
+            } else {
+                $consultaSQL->bindParam(":fecha_fin", $experiencia->fecha_fin, PDO::PARAM_STR);
+            }
+            
             $consultaSQL->execute();  
             
             $conexion->commit();
@@ -56,21 +66,22 @@ class Experiencia
     // Mostrar experiencia
     public static function mostrarExperiencias(?int $id_usuario = null)
     {
-        $sql = "SELECT * FROM experiencia";
-        if ($id_usuario !== null) {
-            $sql .= " WHERE id_usuario = :id_usuario";
+        if ($id_usuario === null) {
+            return [];
         }
+        $id_perfil = Usuario::obtenerIdPerfil($id_usuario);
+        if (!$id_perfil) {
+            return [];
+        }
+        $sql = "SELECT * FROM experiencia WHERE id_perfil = :id_perfil";
         
         $consultaSQL = Conexion::conexion()->prepare($sql);
-        if ($id_usuario !== null) {
-            $consultaSQL->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
-        }
-
-            // die(var_dump($id_usuario));
+        $consultaSQL->bindParam(":id_perfil", $id_perfil, PDO::PARAM_INT);
 
         if ($consultaSQL->execute()) {
             return $consultaSQL->fetchAll(PDO::FETCH_ASSOC);
         }                
+        return [];
     }
         
     // Eliminar experiencia
@@ -93,7 +104,6 @@ class Experiencia
         $consultaSQL = Conexion::conexion()->prepare("
             UPDATE experiencia
             SET
-                id_usuario = :id_usuario,
                 empresa = :empresa,
                 puesto = :puesto,
                 descripcion = :descripcion,
@@ -103,12 +113,16 @@ class Experiencia
         ");
 
         $consultaSQL->bindParam(":id_experiencia", $id_experiencia, PDO::PARAM_INT);
-        $consultaSQL->bindParam(":id_usuario", $experiencia->id_usuario, PDO::PARAM_INT);
         $consultaSQL->bindParam(":empresa", $experiencia->empresa, PDO::PARAM_STR);
         $consultaSQL->bindParam(":puesto", $experiencia->puesto, PDO::PARAM_STR);
         $consultaSQL->bindParam(":descripcion", $experiencia->descripcion, PDO::PARAM_STR);
         $consultaSQL->bindParam(":fecha_inicio", $experiencia->fecha_inicio, PDO::PARAM_STR);
-        $consultaSQL->bindParam(":fecha_fin", $experiencia->fecha_fin, PDO::PARAM_STR);
+        
+        if ($experiencia->fecha_fin === '' || $experiencia->fecha_fin === null) {
+            $consultaSQL->bindValue(":fecha_fin", null, PDO::PARAM_NULL);
+        } else {
+            $consultaSQL->bindParam(":fecha_fin", $experiencia->fecha_fin, PDO::PARAM_STR);
+        }
         
         if ($consultaSQL->execute()) {
             return true;

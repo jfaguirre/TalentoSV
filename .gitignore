@@ -30,7 +30,7 @@ temp/
 desktop.ini
 
 #Archivos de pruebas o dumps
-# *.sql
+*.sql
 *.bak
 
 #PHPUnit (si lo usas después)

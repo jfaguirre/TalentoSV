@@ -32,10 +32,12 @@ class HabilidadControlador
                         <script>
                             if(window.history.replaceState){
                                 window.history.replaceState(null, null, window.location.href);
-                            }                 
+                            }
+                            setTimeout(function(){
+                                window.location.href = "index.php?pagina=perfil";
+                            }, 2000);
                         </script>
                     ';                                          
-                    header("Refresh: 2; url=index.php?pagina=perfil");
                     Alert::success('Perfil de usuario', "Habilidad agregada correctamente."); 
                     exit;
                 }
@@ -97,10 +99,12 @@ class HabilidadControlador
                         <script>
                             if(window.history.replaceState){
                                 window.history.replaceState(null, null, window.location.href);
-                            }                 
+                            }
+                            setTimeout(function(){
+                                window.location.href = "index.php?pagina=perfil";
+                            }, 2000);
                         </script>
                     ';                                          
-                    header("Refresh: 2; url=index.php?pagina=perfil");
                     Alert::success('Perfil de usuario', "La habilidad se actualizó correctamente."); 
                     exit;
                 }

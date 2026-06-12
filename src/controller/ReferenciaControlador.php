@@ -39,10 +39,12 @@ class ReferenciaControlador
                         <script>
                             if(window.history.replaceState){
                                 window.history.replaceState(null, null, window.location.href);
-                            }                 
+                            }
+                            setTimeout(function(){
+                                window.location.href = "index.php?pagina=perfil";
+                            }, 2000);
                         </script>
                     ';                                          
-                    header("Refresh: 2; url=index.php?pagina=perfil");
                     Alert::success('Perfil de usuario', "Referencia agregada correctamente."); 
                     exit;
                 }
@@ -111,10 +113,12 @@ class ReferenciaControlador
                         <script>
                             if(window.history.replaceState){
                                 window.history.replaceState(null, null, window.location.href);
-                            }                 
+                            }
+                            setTimeout(function(){
+                                window.location.href = "index.php?pagina=perfil";
+                            }, 2000);
                         </script>
                     ';                                          
-                    header("Refresh: 2; url=index.php?pagina=perfil");
                     Alert::success('Perfil de usuario', "La referencia se actualizó correctamente."); 
                     exit;
                 }

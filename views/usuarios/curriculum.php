@@ -1,8 +1,34 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+require_once __DIR__ . '/../../vendor/autoload.php';
+
+use App\models\Usuario;
+use App\controller\ExperienciaControlador;
+use App\controller\EstudioControlador;
+use App\controller\HabilidadControlador;
+use App\controller\ReferenciaControlador;
+
+$id_usuario = $_SESSION['userAuth']['id'] ?? null;
+if (!$id_usuario) {
+    header("Location: index.php?pagina=ingreso");
+    exit;
+}
+
+// Cargar datos
+$perfil = Usuario::obtenerPerfilDetallado($id_usuario);
+$experiencias = ExperienciaControlador::mostrarExperiencias();
+$estudios = EstudioControlador::mostrarEstudios();
+$habilidades = HabilidadControlador::mostrarHabilidades();
+$referencias = ReferenciaControlador::mostrarReferencias();
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Curriculum - <?= $perfil['nombre'] . ' ' . $perfil['apellido'] ?></title>
+    <title>Curriculum - <?= htmlspecialchars(($perfil['nombre'] ?? '') . ' ' . ($perfil['apellido'] ?? '')) ?></title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -41,14 +67,21 @@
         </div>
 
         <div>
-            <h2 class="mb-1"><?= $perfil['nombre'] . ' ' . $perfil['apellido'] ?></h2>
-            <h5 class="text-muted"><?= $perfil['profesion'] ?? 'Profesión no registrada' ?></h5>
+            <h2 class="mb-1"><?= htmlspecialchars(($perfil['nombre'] ?? '') . ' ' . ($perfil['apellido'] ?? '')) ?></h2>
+            <h5 class="text-muted"><?= htmlspecialchars($perfil['profesion'] ?? 'Profesión no registrada') ?></h5>
 
             <p class="mb-0">
-                <strong>Correo:</strong> <?= $perfil['correo'] ?><br>
-                <strong>Teléfono:</strong> <?= $perfil['telefono'] ?? 'No registrado' ?><br>
-                <strong>Nacionalidad:</strong> <?= $perfil['nacionalidad'] ?? 'No registrada' ?><br>
-                <strong>Género:</strong> <?= $perfil['genero'] ?? 'No registrado' ?>
+                <strong>Correo:</strong> <?= htmlspecialchars($perfil['correo'] ?? '') ?><br>
+                <strong>Teléfono:</strong> <?= htmlspecialchars($perfil['telefono'] ?? 'No registrado') ?><br>
+                <strong>Nacionalidad:</strong> <?= htmlspecialchars($perfil['nacionalidad'] ?? 'No registrada') ?><br>
+                <strong>Género:</strong> 
+                <?php 
+                    $gen = $perfil['genero'] ?? '';
+                    if ($gen === 'M') echo 'Masculino';
+                    elseif ($gen === 'F') echo 'Femenino';
+                    elseif ($gen === 'O') echo 'Otro';
+                    else echo 'No registrado';
+                ?>
             </p>
         </div>
     </div>
@@ -56,9 +89,9 @@
     <!-- UBICACIÓN -->
     <div class="section-title">Ubicación</div>
     <p>
-        <strong>Departamento:</strong> <?= $perfil['departamento'] ?? 'No registrado' ?><br>
-        <strong>Distrito:</strong> <?= $perfil['distrito'] ?? 'No registrado' ?><br>
-        <strong>Municipio:</strong> <?= $perfil['municipio'] ?? 'No registrado' ?>
+        <strong>Departamento:</strong> <?= htmlspecialchars($perfil['departamento'] ?? 'No registrado') ?><br>
+        <strong>Distrito:</strong> <?= htmlspecialchars($perfil['distrito'] ?? 'No registrado') ?><br>
+        <strong>Municipio:</strong> <?= htmlspecialchars($perfil['municipio'] ?? 'No registrado') ?>
     </p>
 
     <!-- EXPERIENCIA -->
@@ -67,11 +100,11 @@
     <?php if (!empty($experiencias)): ?>
         <?php foreach ($experiencias as $exp): ?>
             <div class="item">
-                <div class="item-title"><?= $exp['puesto'] ?> - <?= $exp['empresa'] ?></div>
+                <div class="item-title"><?= htmlspecialchars($exp['puesto'] ?? '') ?> - <?= htmlspecialchars($exp['empresa'] ?? '') ?></div>
                 <div class="item-sub">
-                    <?= $exp['fecha_inicio'] ?> - <?= $exp['fecha_fin'] ?: 'Actual' ?>
+                    <?= htmlspecialchars($exp['fecha_inicio'] ?? '') ?> a <?= htmlspecialchars($exp['fecha_fin'] ?: 'Actual') ?>
                 </div>
-                <div class="item-desc"><?= $exp['descripcion'] ?></div>
+                <div class="item-desc"><?= nl2br(htmlspecialchars($exp['descripcion'] ?? '')) ?></div>
             </div>
         <?php endforeach; ?>
     <?php else: ?>
@@ -84,12 +117,13 @@
     <?php if (!empty($estudios)): ?>
         <?php foreach ($estudios as $est): ?>
             <div class="item">
-                <div class="item-title"><?= $est['titulo'] ?> - <?= $est['institucion'] ?></div>
+                <div class="item-title"><?= htmlspecialchars($est['titulo'] ?? '') ?> - <?= htmlspecialchars($est['institucion'] ?? '') ?></div>
                 <div class="item-sub">
-                    Logrado el: <?= $est['fecha_logro'] ?? 'Sin fecha' ?><br>
-                    Estado: <?= $est['estado'] ?>
+                    <strong>Nivel:</strong> <?= htmlspecialchars($est['nivel_academico'] ?? 'No especificado') ?><br>
+                    <strong>Fecha Logro:</strong> <?= htmlspecialchars($est['fecha_logro'] ?? 'Sin fecha') ?><br>
+                    <strong>Estado:</strong> <?= htmlspecialchars($est['estado'] ?? 'Finalizado') ?>
                 </div>
-                <div class="item-desc"><?= $est['descripcion'] ?></div>
+                <div class="item-desc"><?= nl2br(htmlspecialchars($est['descripcion'] ?? '')) ?></div>
             </div>
         <?php endforeach; ?>
     <?php else: ?>
@@ -102,7 +136,7 @@
     <?php if (!empty($habilidades)): ?>
         <ul>
             <?php foreach ($habilidades as $hab): ?>
-                <li><strong><?= $hab['habilidad'] ?></strong></li>
+                <li><strong><?= htmlspecialchars($hab['habilidad'] ?? '') ?></strong></li>
             <?php endforeach; ?>
         </ul>
     <?php else: ?>
@@ -115,10 +149,10 @@
     <?php if (!empty($referencias)): ?>
         <?php foreach ($referencias as $ref): ?>
             <div class="item">
-                <div class="item-title"><?= $ref['nombre_referencia'] ?></div>
+                <div class="item-title"><?= htmlspecialchars($ref['nombre_referencia'] ?? '') ?></div>
                 <div class="item-sub">
-                    Tel: <?= $ref['telefono_contacto'] ?? 'No registrado' ?><br>
-                    Correo: <?= $ref['correo_contacto'] ?? 'No registrado' ?>
+                    Tel: <?= htmlspecialchars($ref['telefono_contacto'] ?? 'No registrado') ?><br>
+                    Correo: <?= htmlspecialchars($ref['correo_contacto'] ?? 'No registrado') ?>
                 </div>
             </div>
         <?php endforeach; ?>

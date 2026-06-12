@@ -23,14 +23,18 @@ class Habilidad
     {
         try {   
             $conexion = Conexion::conexion();
+            $id_perfil = Usuario::obtenerIdPerfil($habilidad->id_usuario);
+            if (!$id_perfil) {
+                return false;
+            }
             $conexion->beginTransaction();
 
             $consultaSQL = $conexion->prepare("
-                INSERT INTO habilidades(id_usuario, habilidad)        
-                VALUES(:id_usuario, :habilidad)
+                INSERT INTO habilidades(id_perfil, habilidad)        
+                VALUES(:id_perfil, :habilidad)
             ");
 
-            $consultaSQL->bindParam(":id_usuario", $habilidad->id_usuario, PDO::PARAM_INT);
+            $consultaSQL->bindParam(":id_perfil", $id_perfil, PDO::PARAM_INT);
             $consultaSQL->bindParam(":habilidad", $habilidad->habilidad, PDO::PARAM_STR);
             $consultaSQL->execute();  
             
@@ -46,15 +50,17 @@ class Habilidad
     // Mostrar habilidades
     public static function mostrarHabilidades(?int $id_usuario = null)
     {
-        $sql = "SELECT * FROM habilidades";
-        if ($id_usuario !== null) {
-            $sql .= " WHERE id_usuario = :id_usuario";
+        if ($id_usuario === null) {
+            return [];
         }
+        $id_perfil = Usuario::obtenerIdPerfil($id_usuario);
+        if (!$id_perfil) {
+            return [];
+        }
+        $sql = "SELECT * FROM habilidades WHERE id_perfil = :id_perfil";
         
         $consultaSQL = Conexion::conexion()->prepare($sql);
-        if ($id_usuario !== null) {
-            $consultaSQL->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
-        }
+        $consultaSQL->bindParam(":id_perfil", $id_perfil, PDO::PARAM_INT);
 
         if ($consultaSQL->execute()) {
             return $consultaSQL->fetchAll(PDO::FETCH_ASSOC);
@@ -82,13 +88,11 @@ class Habilidad
         $consultaSQL = Conexion::conexion()->prepare("
             UPDATE habilidades
             SET
-                id_usuario = :id_usuario,
                 habilidad = :habilidad
             WHERE id_habilidad = :id_habilidad
         ");
 
         $consultaSQL->bindParam(":id_habilidad", $id_habilidad, PDO::PARAM_INT);
-        $consultaSQL->bindParam(":id_usuario", $habilidad->id_usuario, PDO::PARAM_INT);
         $consultaSQL->bindParam(":habilidad", $habilidad->habilidad, PDO::PARAM_STR);
         
         if ($consultaSQL->execute()) {

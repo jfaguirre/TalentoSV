@@ -141,8 +141,48 @@ class UsuarioControlador {
     // Metodo para actualizar usuario
     public function actualizarUsuario(int $id)
     {
-        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar_perfil'])) {
+            $data = [
+                'nombre' => trim($_POST['nombre'] ?? ''),
+                'apellido' => trim($_POST['apellido'] ?? ''),
+                'correo' => trim($_POST['correo'] ?? ''),
+                'password' => !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_BCRYPT) : null,
+                'telefono' => trim($_POST['telefono'] ?? ''),
+                'nacionalidad' => trim($_POST['nacionalidad'] ?? ''),
+                'genero' => trim($_POST['genero'] ?? ''),
+                'id_departamento' => isset($_POST['id_departamento']) && $_POST['id_departamento'] !== '' ? (int)$_POST['id_departamento'] : null,
+                'id_distrito' => isset($_POST['id_distrito']) && $_POST['id_distrito'] !== '' ? (int)$_POST['id_distrito'] : null,
+                'id_municipio' => isset($_POST['id_municipio']) && $_POST['id_municipio'] !== '' ? (int)$_POST['id_municipio'] : null,
+                'profesion' => trim($_POST['profesion'] ?? '')
+            ];
 
+            // Validamos que los datos básicos sean correctos
+            if (empty($data['nombre']) || empty($data['apellido']) || empty($data['correo'])) {
+                Alert::success('Ups!', "Los campos Nombre, Apellido y Correo son obligatorios.");
+                return false;
+            }
+
+            $respuesta = Usuario::actualizarPerfilCompleto($id, $data);
+
+            if ($respuesta === true) {
+                echo '
+                    <script>
+                        if(window.history.replaceState){
+                            window.history.replaceState(null, null, window.location.href);
+                        }
+                        setTimeout(function(){
+                            window.location.href = "index.php?pagina=perfil";
+                        }, 2000);
+                    </script>
+                ';
+                Alert::success('Perfil de usuario', "Datos actualizados correctamente.");
+                exit;
+            } else {
+                Alert::success('Ups!', "Error al actualizar: " . $respuesta);
+                return false;
+            }
+        }
+        return false;
     }
 
 

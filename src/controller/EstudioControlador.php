@@ -45,10 +45,12 @@ class EstudioControlador
                         <script>
                             if(window.history.replaceState){
                                 window.history.replaceState(null, null, window.location.href);
-                            }                 
+                            }
+                            setTimeout(function(){
+                                window.location.href = "index.php?pagina=perfil";
+                            }, 2000);
                         </script>
                     ';                                          
-                    header("Refresh: 2; url=index.php?pagina=perfil");
                     Alert::success('Perfil de usuario', "Estudio académico agregado correctamente."); 
                     exit;
                 }
@@ -123,10 +125,12 @@ class EstudioControlador
                         <script>
                             if(window.history.replaceState){
                                 window.history.replaceState(null, null, window.location.href);
-                            }                 
+                            }
+                            setTimeout(function(){
+                                window.location.href = "index.php?pagina=perfil";
+                            }, 2000);
                         </script>
                     ';                                          
-                    header("Refresh: 2; url=index.php?pagina=perfil");
                     Alert::success('Perfil de usuario', "Los datos del estudio se actualizaron correctamente."); 
                     exit;
                 }
