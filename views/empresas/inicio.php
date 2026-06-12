@@ -120,7 +120,7 @@ $datos = $controlador->obtenerDatosInicio($empresa_id);
                                                     </button>
                                                 <?php endif; ?>
                                                 
-                                                <button type="submit" name="estado" value="aceptada" class="btn btn-success btn-sm <?= ($p['estado'] === 'aceptada') ? 'disabled' : ''; ?>" <?= ($p['estado'] === 'aceptada') ? 'disabled' : ''; ?>>
+                                                <button type="submit" name="estado" value="aceptada" class="btn btn-success btn-sm <?= ($p['estado'] === 'aceptada' || !empty($p['id_entrevista'])) ? 'disabled' : ''; ?>" <?= ($p['estado'] === 'aceptada' || !empty($p['id_entrevista'])) ? 'disabled' : ''; ?>>
                                                     Aceptar
                                                 </button>
                                                 <button type="submit" name="estado" value="rechazada" class="btn btn-danger btn-sm <?= ($p['estado'] === 'rechazada') ? 'disabled' : ''; ?>" <?= ($p['estado'] === 'rechazada') ? 'disabled' : ''; ?>>

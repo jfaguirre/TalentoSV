@@ -192,10 +192,15 @@ class Empresa {
     public static function obtenerPostulaciones(int $id_empresa)
     {
         $sql = Conexion::conexion()->prepare("
-            SELECT p.*, u.nombre, u.apellido, u.correo, o.titulo 
+            SELECT p.*, u.nombre, u.apellido, u.correo, o.titulo, ent.id_entrevista
             FROM postulaciones p
             JOIN usuarios u ON p.id_usuario = u.id_usuario
             JOIN oferta_empleos o ON p.id_oferta = o.id_oferta
+            LEFT JOIN (
+                SELECT id_postulacion, MIN(id_entrevista) as id_entrevista 
+                FROM entrevistas 
+                GROUP BY id_postulacion
+            ) ent ON p.id_postulacion = ent.id_postulacion
             WHERE o.id_empresa = :id_empresa
             ORDER BY p.fecha_postulacion DESC
         ");
@@ -208,23 +213,31 @@ class Empresa {
     // Actualizar estado de una postulación
     public static function actualizarEstadoPostulacion(int $id_postulacion, string $estado)
     {
+        $db = Conexion::conexion();
+
+        // Si el estado es ACEPTADA, verificar si ya tiene una entrevista programada
+        if ($estado == 'aceptada') {
+            $stmt = $db->prepare("SELECT COUNT(*) FROM entrevistas WHERE id_postulacion = :id_postulacion");
+            $stmt->execute([':id_postulacion' => $id_postulacion]);
+            if ($stmt->fetchColumn() > 0) {
+                return false;
+            }
+        }
 
         // Si el estado es RECHAZADA entonces tambien eliminamos la entrevista
-
         if($estado == 'rechazada')
         {
-            $consulta = Conexion::conexion()->prepare("
+            $consulta = $db->prepare("
                 DELETE FROM entrevistas
                 WHERE id_postulacion = :id_postulacion
             ");
 
             $consulta->bindParam(":id_postulacion", $id_postulacion, PDO::PARAM_INT);
             $consulta->execute();
-                
         }
 
         // Ahora cambiamos el estado.
-        $sql = Conexion::conexion()->prepare("
+        $sql = $db->prepare("
             UPDATE postulaciones 
             SET estado = :estado 
             WHERE id_postulacion = :id_postulacion
@@ -237,7 +250,16 @@ class Empresa {
     // Programar entrevista
     public static function programarEntrevista(int $id_empresa, int $id_postulacion, string $fecha_hora, string $tipo)
     {    
-        $sql = Conexion::conexion()->prepare("
+        $db = Conexion::conexion();
+        
+        // Verificar si ya existe una entrevista para esta postulación
+        $stmt = $db->prepare("SELECT COUNT(*) FROM entrevistas WHERE id_postulacion = :id_postulacion");
+        $stmt->execute([':id_postulacion' => $id_postulacion]);
+        if ($stmt->fetchColumn() > 0) {
+            return false;
+        }
+
+        $sql = $db->prepare("
             INSERT INTO entrevistas (id_empresa, id_postulacion, fecha_hora, tipo, estado)
             VALUES (:id_empresa, :id_postulacion, :fecha_hora, :tipo, 'programada')
         ");
