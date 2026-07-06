@@ -1,0 +1,299 @@
+/* TalentoSV Landing Page Stylesheet */
+
+:root {
+    --primario:        #0F52BA;
+    --primario-oscuro: #0A3D8F;
+    --primario-claro:  #1E6FE0;
+    --primario-50:     #EEF4FF;
+    --primario-100:    #D6E4FF;
+    --primario-200:    #ADC8FF;
+        
+    --neutro-900:      #0F172A;
+    --neutro-800:      #1E293B;
+    --neutro-700:      #334155;
+    --neutro-500:      #64748B;
+    --neutro-300:      #CBD5E1;
+    --neutro-100:      #F1F5F9;
+    --blanco:          #FFFFFF;
+    --bg-app:          #F8FAFC;
+        
+    --error:           #DC2626;
+    --error-bg:        #FEF2F2;
+    --success:         #16A34A;
+    --success-bg:      #F0FDF4;
+        
+    --border:          #E2E8F0;
+    --border-focus:    #0F52BA;
+    --sombra-sm:       0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --sombra-md:       0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --sombra-card:     0 12px 30px -5px rgba(15, 82, 186, 0.08), 0 8px 20px -6px rgba(15, 82, 186, 0.06);
+    --sombra-lg:       0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        
+    --radius-sm:       8px;
+    --radius-md:       12px;
+    --radius-lg:       16px;
+    --radius-xl:       24px;
+    --radius-full:     9999px;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        opacity: 0.4;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.05);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+
+/* Grid Background */
+.bg-grid {
+    background-size: 30px 30px;
+    background-image: 
+        linear-gradient(to right, rgba(15, 82, 186, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(15, 82, 186, 0.04) 1px, transparent 1px);
+}
+
+/* Ambient glow circles */
+.blur-circle {
+    position: absolute;
+    border-radius: var(--radius-full);
+    filter: blur(80px);
+    z-index: 0;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.blur-circle-primary {
+    background: radial-gradient(circle, var(--primario-claro) 0%, rgba(30, 111, 224, 0) 70%);
+    animation: pulseGlow 8s ease-in-out infinite;
+}
+
+.blur-circle-secondary {
+    background: radial-gradient(circle, var(--primario-200) 0%, rgba(173, 200, 255, 0) 70%);
+    animation: pulseGlow 12s ease-in-out infinite;
+}
+
+/* Typography settings */
+body {
+    background-color: var(--bg-app);
+    color: var(--neutro-800);
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, var(--neutro-900) 20%, var(--primario) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.text-gradient-primary {
+    background: linear-gradient(135deg, var(--primario-claro) 0%, var(--primario) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Navigation */
+.glass-nav {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--primario);
+    color: var(--blanco);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1.5rem;
+    box-shadow: var(--sombra-md);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--primario);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-primary:hover {
+    background-color: var(--primario-oscuro);
+    border-color: var(--primario-oscuro);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(15, 82, 186, 0.25);
+}
+
+.btn-secondary {
+    background-color: var(--blanco);
+    color: var(--primario);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--primario-200);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-secondary:hover {
+    background-color: var(--primario-50);
+    border-color: var(--primario);
+    transform: translateY(-2px);
+}
+
+.btn-tertiary {
+    color: var(--neutro-700);
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-tertiary:hover {
+    color: var(--primario);
+}
+
+/* Card */
+.talento-card {
+    background: var(--blanco);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--sombra-sm);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.talento-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--sombra-card);
+    border-color: var(--primario-200);
+}
+
+/* Role Specific Cards */
+.role-card-candidato::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: var(--primario);
+}
+
+.role-card-empresario::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: var(--primario-claro);
+}
+
+.role-card-admin::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: var(--neutro-800);
+}
+
+/* Badges */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-full);
+}
+
+.badge-primary {
+    background-color: var(--primario-50);
+    color: var(--primario);
+}
+
+.badge-success {
+    background-color: var(--success-bg);
+    color: var(--success);
+}
+
+.badge-neutral {
+    background-color: var(--neutro-100);
+    color: var(--neutro-700);
+}
+
+/* Custom Search Bar */
+.search-container {
+    background: var(--blanco);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--sombra-md);
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.search-container:focus-within {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 4px rgba(15, 82, 186, 0.15);
+}
+
+/* Stats Card */
+.stat-item {
+    border-right: 1px solid var(--border);
+}
+@media (max-width: 768px) {
+    .stat-item {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .stat-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+}

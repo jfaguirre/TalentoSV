@@ -240,73 +240,73 @@ CREATE INDEX idx_oferta_municipio ON oferta_empleos(id_municipio);
 
 -- DEPARTAMENTOS
 INSERT INTO `departamentos` (`departamento`) VALUES
-('Ahuachapán'),     
-('Cabañas'),         
-('Chalatenango'),    
-('Cuscatlán'),      
-('La Libertad'),     
-('La Paz'),         
-('La Unión'),      
-('Morazán'),         
-('San Miguel'),      
-('San Salvador'),   
-('San Vicente'),     
-('Santa Ana'),       
-('Sonsonate'),       
-('Usulután');        
+('Ahuachapán'),
+('Cabañas'),
+('Chalatenango'),
+('Cuscatlán'),
+('La Libertad'),
+('La Paz'),
+('La Unión'),
+('Morazán'),
+('San Miguel'),
+('San Salvador'),
+('San Vicente'),
+('Santa Ana'),
+('Sonsonate'),
+('Usulután');
 
 -- DISTRITOS
 INSERT INTO `distritos` (`id_departamento`, `distrito`) VALUES
--- Ahuachapán 
+-- Ahuachapán
 (1, 'Ahuachapán Norte'),
 (1, 'Ahuachapán Centro'),
 (1, 'Ahuachapán Sur'),
--- Cabañas 
+-- Cabañas
 (2, 'Cabañas Oeste'),
 (2, 'Cabañas Este'),
--- Chalatenango 
+-- Chalatenango
 (3, 'Chalatenango Norte'),
 (3, 'Chalatenango Centro'),
 (3, 'Chalatenango Sur'),
--- Cuscatlán 
+-- Cuscatlán
 (4, 'Cojutepeque'),
 (4, 'Suchitoto'),
--- La Libertad 
+-- La Libertad
 (5, 'La Libertad Norte'),
 (5, 'La Libertad Centro'),
 (5, 'La Libertad Este'),
 (5, 'La Libertad Oeste'),
 (5, 'La Libertad Sur'),
 (5, 'Nueva San Salvador'),
--- La Paz 
+-- La Paz
 (6, 'La Paz Oeste'),
 (6, 'La Paz Centro'),
 (6, 'La Paz Este'),
--- La Unión 
+-- La Unión
 (7, 'La Unión Norte'),
 (7, 'La Unión Centro'),
 (7, 'La Unión Sur'),
--- Morazán 
+-- Morazán
 (8, 'Morazán Norte'),
 (8, 'Morazán Centro'),
 (8, 'Morazán Sur'),
--- San Miguel 
+-- San Miguel
 (9, 'San Miguel Norte'),
 (9, 'San Miguel Centro'),
 (9, 'San Miguel Oeste'),
--- San Salvador 
+-- San Salvador
 (10, 'San Salvador Norte'),
 (10, 'San Salvador Oeste'),
 (10, 'San Salvador Este'),
 (10, 'San Salvador Centro'),
--- San Vicente 
+-- San Vicente
 (11, 'San Vicente Norte'),
 (11, 'San Vicente Sur'),
--- Santa Ana 
+-- Santa Ana
 (12, 'Santa Ana Norte'),
 (12, 'Santa Ana Centro'),
 (12, 'Santa Ana Este'),
--- Sonsonate 
+-- Sonsonate
 (13, 'Sonsonate Norte'),
 (13, 'Sonsonate Centro'),
 (13, 'Sonsonate Sur'),
@@ -395,7 +395,7 @@ INSERT INTO `municipios` (`id_distrito`, `municipio`) VALUES
 (9, 'Santa Cruz Michapa'),
 (9, 'Suchitoto'),
 (9, 'San José Guayabal'),
--- Suchitoto 
+-- Suchitoto
 (10, 'Suchitoto'),
 (10, 'San Bartolomé Perulapía'),
 
@@ -404,13 +404,13 @@ INSERT INTO `municipios` (`id_distrito`, `municipio`) VALUES
 (11, 'San Pablo Tacachico'),
 (11, 'San Juan Opico'),
 (11, 'Ciudad Arce'),
--- La Libertad Centro 
+-- La Libertad Centro
 (12, 'Colón'),
 (12, 'Jayaque'),
 (12, 'Sacacoyo'),
 (12, 'Tepecoyo'),
 (12, 'Talnique'),
--- La Libertad Este 
+-- La Libertad Este
 (13, 'Antiguo Cuscatlán'),
 (13, 'Huizúcar'),
 (13, 'San José Villanueva'),
@@ -421,14 +421,14 @@ INSERT INTO `municipios` (`id_distrito`, `municipio`) VALUES
 (14, 'La Libertad'),
 (14, 'Tamanique'),
 (14, 'Teotepeque'),
--- La Libertad Sur 
+-- La Libertad Sur
 (15, 'San Luis Talpa'),
 (15, 'Comasagua'),
--- Nueva San Salvador 
+-- Nueva San Salvador
 (16, 'Santa Tecla'),
 (16, 'Nuevo Cuscatlán'),
 
--- La Paz Oeste 
+-- La Paz Oeste
 (17, 'Cuyultitán'),
 (17, 'El Rosario'),
 (17, 'Olocuilta'),
@@ -437,12 +437,12 @@ INSERT INTO `municipios` (`id_distrito`, `municipio`) VALUES
 (17, 'San Pedro Masahuat'),
 (17, 'Santa María Ostuma'),
 (17, 'Santiago Nonualco'),
--- La Paz Centro 
+-- La Paz Centro
 (18, 'San Juan Nonualco'),
 (18, 'San Rafael Obrajuelo'),
 (18, 'Santa Lucía'),
 (18, 'Zacatecoluca'),
--- La Paz Este 
+-- La Paz Este
 (19, 'Jerusalén'),
 (19, 'Mercedes La Ceiba'),
 (19, 'San Antonio Masahuat'),
@@ -452,14 +452,14 @@ INSERT INTO `municipios` (`id_distrito`, `municipio`) VALUES
 (19, 'San Pedro Nonualco'),
 (19, 'Santa Elena'),
 
--- La Unión Norte 
+-- La Unión Norte
 (20, 'Concepción de Oriente'),
 (20, 'El Sauce'),
 (20, 'Lislique'),
 (20, 'Nueva Esparta'),
 (20, 'Polorós'),
 (20, 'Santa Rosa de Lima'),
--- La Unión Centro 
+-- La Unión Centro
 (21, 'Anamorós'),
 (21, 'Bolívar'),
 (21, 'El Carmen'),
@@ -467,14 +467,14 @@ INSERT INTO `municipios` (`id_distrito`, `municipio`) VALUES
 (21, 'San José La Fuente'),
 (21, 'Yayantique'),
 (21, 'Yucuaiquín'),
--- La Unión Sur 
+-- La Unión Sur
 (22, 'Conchagua'),
 (22, 'Intipucá'),
 (22, 'La Unión'),
 (22, 'Meanguera del Golfo'),
 (22, 'San Alejo'),
 
--- Morazán Norte 
+-- Morazán Norte
 (23, 'Arambala'),
 (23, 'Cacaopera'),
 (23, 'Corinto'),
@@ -486,7 +486,7 @@ INSERT INTO `municipios` (`id_distrito`, `municipio`) VALUES
 (23, 'San Fernando'),
 (23, 'San Isidro'),
 (23, 'Torola'),
--- Morazán Centro 
+-- Morazán Centro
 (24, 'Chilanga'),
 (24, 'Delicias de Concepción'),
 (24, 'El Divisadero'),
@@ -501,17 +501,17 @@ INSERT INTO `municipios` (`id_distrito`, `municipio`) VALUES
 (24, 'Sociedad'),
 (24, 'Yamabal'),
 (24, 'Yoloaiquín'),
--- Morazán Sur 
+-- Morazán Sur
 (25, 'Chapeltique'),
 (25, 'San Augusto'),
 
--- San Miguel Norte 
+-- San Miguel Norte
 (26, 'Ciudad Barrios'),
 (26, 'Nuevo Edén de San Juan'),
 (26, 'San Antonio'),
 (26, 'San Luis de la Reina'),
 (26, 'Sesori'),
--- San Miguel Centro 
+-- San Miguel Centro
 (27, 'Carolina'),
 (27, 'Chapeltique'),
 (27, 'Chinameca'),
@@ -526,22 +526,22 @@ INSERT INTO `municipios` (`id_distrito`, `municipio`) VALUES
 (28, 'Comacarán'),
 (28, 'Uluazapa'),
 
--- San Salvador Norte 
+-- San Salvador Norte
 (29, 'Apopa'),
 (29, 'Guazapa'),
 (29, 'Nejapa'),
--- San Salvador Oeste 
+-- San Salvador Oeste
 (30, 'Cuscatancingo'),
 (30, 'El Paisnal'),
 (30, 'Mejicanos'),
 (30, 'San Marcos'),
 (30, 'San Martín'),
 (30, 'Tonacatepeque'),
--- San Salvador Este 
+-- San Salvador Este
 (31, 'Ilopango'),
 (31, 'San Salvador'),
 (31, 'Soyapango'),
--- San Salvador Centro 
+-- San Salvador Centro
 (32, 'Aguilares'),
 (32, 'Ayutuxtepeque'),
 (32, 'Delgado'),
@@ -552,7 +552,7 @@ INSERT INTO `municipios` (`id_distrito`, `municipio`) VALUES
 (32, 'Santo Tomás'),
 (32, 'Santo Tomás'),
 
--- San Vicente Norte 
+-- San Vicente Norte
 (33, 'Apastepeque'),
 (33, 'Guadalupe'),
 (33, 'San Cayetano Istepeque'),
@@ -562,30 +562,30 @@ INSERT INTO `municipios` (`id_distrito`, `municipio`) VALUES
 (33, 'San Sebastián'),
 (33, 'Santa Clara'),
 (33, 'Santo Domingo'),
--- San Vicente Sur 
+-- San Vicente Sur
 (34, 'San Vicente'),
 (34, 'Tecoluca'),
 (34, 'Tepetitán'),
 (34, 'Verapaz'),
 
--- Santa Ana Norte 
+-- Santa Ana Norte
 (35, 'Metapán'),
 (35, 'Santa Rosa Guachipilín'),
 (35, 'Texistepeque'),
--- Santa Ana Centro 
+-- Santa Ana Centro
 (36, 'Candelaria de la Frontera'),
 (36, 'Coatepeque'),
 (36, 'El Congo'),
 (36, 'El Porvenir'),
 (36, 'Masahuat'),
 (36, 'Santa Ana'),
--- Santa Ana Este 
+-- Santa Ana Este
 (37, 'Chalchuapa'),
 (37, 'San Antonio Pajonal'),
 (37, 'San Sebastián Salitrillo'),
 (37, 'Santiago de la Frontera'),
 
--- Sonsonate Norte 
+-- Sonsonate Norte
 (38, 'Armenia'),
 (38, 'Caluco'),
 (38, 'Cuisnahuat'),
@@ -600,16 +600,16 @@ INSERT INTO `municipios` (`id_distrito`, `municipio`) VALUES
 (38, 'Santo Domingo de Guzmán'),
 (38, 'Sonsonate'),
 (38, 'Sonzacate'),
--- Sonsonate Centro 
+-- Sonsonate Centro
 (39, 'Acajutla'),
--- Sonsonate Sur 
+-- Sonsonate Sur
 (40, 'Cuisnahuat'),
 (40, 'San Pedro Puxtla'),
--- Sonsonate Este 
+-- Sonsonate Este
 (41, 'Juayúa'),
 (41, 'Apaneca'),
 
--- Usulután Norte 
+-- Usulután Norte
 (42, 'Alegría'),
 (42, 'Berlín'),
 (42, 'California'),
@@ -619,7 +619,7 @@ INSERT INTO `municipios` (`id_distrito`, `municipio`) VALUES
 (42, 'San Buenaventura'),
 (42, 'Santiago de María'),
 (42, 'Tecapán'),
--- Usulután Centro 
+-- Usulután Centro
 (43, 'Concepción Batres'),
 (43, 'El Triunfo'),
 (43, 'Ereguayquín'),
@@ -631,11 +631,11 @@ INSERT INTO `municipios` (`id_distrito`, `municipio`) VALUES
 (43, 'San Dionisio'),
 (43, 'Santa Elena'),
 (43, 'Usulután'),
--- Usulután Este 
+-- Usulután Este
 (44, 'Chirilagua'),
 (44, 'Jucuarán'),
 (44, 'San Francisco Javier'),
--- Usulután Oeste 
+-- Usulután Oeste
 (45, 'Colomoncagua'),
 (45, 'Santa María');
 
