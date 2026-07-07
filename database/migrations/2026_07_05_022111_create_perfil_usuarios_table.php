@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('titulo_profesional', 100)->nullable();
             $table->text('resumen')->nullable();
             $table->boolean('disponible')->default(true);
-            $table->enum('modalidad_preferida', ['presencial', 'hibrido', 'remoto'])->nullable();
+            $table->enum('modalidad_preferida', ['presencial', 'remoto', 'hibrido'])->nullable();
             // Privacidad
             $table->boolean('perfil_publico')->default(true);
             $table->boolean('mostrar_telefono')->default(false);
