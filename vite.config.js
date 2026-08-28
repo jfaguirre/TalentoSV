@@ -5,10 +5,16 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/app.css', 
-                'resources/css/landing.css', 
+                'resources/css/app.css',
                 'resources/js/app.js',
-                'resources/js/landing.js'
+
+                // CSS
+                'resources/css/main.css',
+                'resources/css/landing.css',
+                'resources/css/auth.css',
+
+                // JS
+                'resources/js/landing.js',
             ],
             refresh: true,
         }),

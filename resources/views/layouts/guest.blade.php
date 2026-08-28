@@ -6,7 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ $title ?? config('app.name', 'TalentoSV') }}</title>
+        <title>
+            @yield('title')
+        </title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,27 +16,23 @@
         <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite([
+            'resources/css/app.css',
+            'resources/js/app.js',
+            'resources/css/main.css'
+        ])
+
         @stack('styles')
 
-    </head>
-    <body class="font-sans text-[#0F172A] antialiased bg-[#F8FAFC]">
-        @if($raw ?? false)
-            {{ $slot }}
-        @else
-            <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-[#F1F5F9]">
-                <div>
-                    <a href="/">
-                        <x-application-logo class="w-20 h-20 fill-current text-[#0F52BA]" />
-                    </a>
-                </div>
+</head>
+<body class="font-sans text-[#0F172A] antialiased bg-[#F8FAFC]">
 
-                <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg border border-[#E2E8F0]">
-                    {{ $slot }}
-                </div>
-            </div>
-        @endif
+    <header></header>
+    <main>
+        @yield('contenido')
+    </main>
 
-        @stack('scripts')
-    </body>
+
+    @stack('scripts')
+</body>
 </html>

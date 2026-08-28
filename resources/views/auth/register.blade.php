@@ -1,52 +1,207 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+@extends('layouts.guest')
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
+@section('title', 'Registro')
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+@push('styles')
+    @vite(['resources/css/auth.css'])
+@endpush
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+@section('contenido')
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
+<div class="contenedor-auth">
+    <!-- Left Side: Promo Panel (Desktop only) -->
+    <div class="auth-promo-panel">
+        <div class="promo-content">
+            <a href="index.php" class="promo-logo" style="color: white; text-decoration: none;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="7" width="20" height="14" rx="2"/>
+                    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+                </svg>
+                <span>Talento<span>ES</span></span>
             </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
+            <h1>Conecta con el futuro profesional</h1>
+            <p>La plataforma líder en El Salvador para encontrar el talento idóneo o el empleo de tus sueños.</p>
+            <div class="promo-features">
+                <div class="promo-feature">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Conexión directa entre talento y empresas</span>
+                </div>
+                <div class="promo-feature">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Búsqueda avanzada y perfiles optimizados</span>
+                </div>
+                <div class="promo-feature">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Plataforma 100% segura y verificada</span>
+                </div>
+            </div>
         </div>
-    </form>
-</x-guest-layout>
+    </div>
+
+    <!-- Right Side: Form Panel -->
+    <div class="auth-form-panel">
+
+        <div class="auth-card-wrapper">
+            <!-- Hero -->
+            <div class="hero">
+                <h2>Crea tu cuenta</h2>
+                <p>Únete a la mayor red de oportunidades profesionales en El Salvador.</p>
+            </div>
+
+            <!-- Form card -->
+            <div class="card" id="form-card">
+                <!-- FORM -->
+                <form method="POST" action="{{ route('register') }}" id="register-form">
+                @csrf
+
+                    <div class="form-body">
+                        <div class="form-panel active" id="panel-candidato" role="tabpanel" aria-labelledby="tab-candidato">
+
+                            <!-- Nombre -->
+                            <div class="field">
+                                <label for="name">Nombre <span class="req">*</span></label>
+                                <div class="input-wrap">
+                                    <span class="icon" aria-hidden="true">
+                                        <i class="bi bi-person-fill"></i>
+                                    </span>
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        name="name"
+                                        placeholder="Tu nombre"
+                                        autocomplete="name"
+                                        maxlength="100"
+                                        class="{{ $errors->has('name') ? 'error-field' : '' }}"
+                                        value="{{ old('name') }}"
+                                    >
+                                </div>
+                                @error('name')
+                                    <span class="field-error visible" id="err-name">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <!-- Apellido -->
+                            <div class="field">
+                                <label for="lastName">Apellido <span class="req">*</span></label>
+                                <div class="input-wrap">
+                                    <span class="icon" aria-hidden="true">
+                                        <i class="bi bi-person-fill"></i>
+                                    </span>
+                                    <input
+                                        type="text"
+                                        id="lastName"
+                                        name="lastName"
+                                        placeholder="Tu apellido"
+                                        autocomplete="lastName"
+                                        maxlength="100"
+                                        class="{{ $errors->has('lastName') ? 'error-field' : '' }}"
+                                        value="{{ old('lastName') }}"
+                                    >
+                                </div>
+                                @error('lastName')
+                                    <span class="field-error visible" id="err-lastName">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <!-- Email -->
+                            <div class="field">
+                                <label for="email">Correo Electrónico <span class="req">*</span></label>
+                                <div class="input-wrap">
+                                    <span class="icon" aria-hidden="true">
+                                        <i class="bi bi-envelope-fill"></i>
+                                    </span>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        placeholder="Tu correo electrónico"
+                                        autocomplete="email"
+                                        maxlength="100"
+                                        class="{{ $errors->has('email') ? 'error-field' : '' }}"
+                                        value="{{ old('email') }}"
+                                    >
+                                </div>
+                                @error('email')
+                                    <span class="field-error visible" id="err-email">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <!-- Password -->
+                            <div class="field">
+                                <label for="password">Crea tu contraseña <span class="req">*</span></label>
+                                <div class="input-wrap">
+                                    <span class="icon" aria-hidden="true">
+                                        <i class="bi bi-person-fill-lock"></i>
+                                    </span>
+                                    <input
+                                        type="password"
+                                        id="password"
+                                        name="password"
+                                        placeholder="Tu contraseña"
+                                        autocomplete="password"
+                                        maxlength="100"
+                                        class="{{ $errors->has('password') ? 'error-field' : '' }}"
+                                        value="{{ old('password') }}"
+                                    >
+                                </div>
+                                @error('password')
+                                    <span class="field-error visible" id="err-password">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <!-- Password confirmar-->
+                            <div class="field">
+                                <label for="password_confirmation">Confirma tu contraseña <span class="req">*</span></label>
+                                <div class="input-wrap">
+                                    <span class="icon" aria-hidden="true">
+                                        <i class="bi bi-person-fill-lock"></i>
+                                    </span>
+                                    <input
+                                        type="password"
+                                        id="password_confirmation"
+                                        name="password_confirmation"
+                                        placeholder="Confirma tu contraseña"
+                                        autocomplete="password"
+                                        maxlength="100"
+                                        class="{{ $errors->has('password_confirmation') ? 'error-field' : '' }}"
+                                        value="{{ old('password_confirmation') }}"
+                                    >
+                                </div>
+                                @error('password_confirmation')
+                                    <span class="field-error visible" id="err-password_confirmation">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Submit -->
+                        <button type="submit" class="btn-primary" id="btn-submit">
+                            Registrarse
+                        </button>
+
+                    </div>
+                </form>
+            </div>
+
+            <!-- Login Link -->
+            <div class="login-row">
+                ¿Ya tienes cuenta? <a href="{{ route('login') }}">Iniciar Sesión</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@endsection
+
+
+

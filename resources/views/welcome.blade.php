@@ -1,9 +1,11 @@
-<x-guest-layout :raw="true">
-    <x-slot name="title">TalentoSV - Conectando el Talento de El Salvador</x-slot>
+@extends('layouts.guest')
+@section('title', 'TalentoSV')
 
-    @push('styles')
-        @vite(['resources/css/landing.css'])
-    @endpush
+@push('styles')
+    @vite(['resources/css/landing.css'])
+@endpush
+
+@section('contenido')
 
     <!-- Ambient Glow Backgrounds -->
     <div class="relative overflow-hidden min-h-screen bg-grid">
@@ -542,4 +544,5 @@
     @push('scripts')
         @vite(['resources/js/landing.js'])
     @endpush
-</x-guest-layout>
+@endsection
+
