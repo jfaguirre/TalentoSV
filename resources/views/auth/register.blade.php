@@ -32,12 +32,12 @@
                 </div>
                 <div class="promo-feature">
                     <i class="fa-solid fa-circle-check"></i>
-                    <span>Plataforma 100% segura y verificada</span>
-                </div>
+                    <span>Plataforma 100% segura y verificada</span>                                        
+                </div>                
             </div>
         </div>
-    </div>
-
+    </div>    
+    
     <!-- Right Side: Form Panel -->
     <div class="auth-form-panel">
 

@@ -11,7 +11,7 @@
     <div class="relative overflow-hidden min-h-screen bg-grid">
         <div class="blur-circle blur-circle-primary w-96 h-96 -top-20 -left-20"></div>
         <div class="blur-circle blur-circle-secondary w-96 h-96 top-1/3 -right-20"></div>
-
+        
         <!-- 1. Header / Navbar -->
         <header id="main-navbar" class="fixed top-0 left-0 right-0 z-50 py-5 transition-all duration-300 glass-nav" x-data="{ mobileMenuOpen: false }">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

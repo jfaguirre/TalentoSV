@@ -37,12 +37,12 @@ return new class extends Migration
             $table->boolean('perfil_publico')->default(true);
             $table->boolean('mostrar_telefono')->default(false);
             // Ubicación
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
             $table->foreignId('id_departamento')->nullable()->constrained('departamentos')->onDelete('set null');
             $table->foreignId('id_distrito')->nullable()->constrained('distritos')->onDelete('set null');
             $table->foreignId('id_municipio')->nullable()->constrained('municipios')->onDelete('set null');
             // Relaciones
-            $table->foreignId('nivel_academicos_id')->nullable()->constrained('niveles_academicos')->onDelete('set null');
+            $table->foreignId('id_nivel_academicos')->nullable()->constrained('niveles_academicos')->onDelete('set null');
             // Indices
             $table->index(['disponible', 'modalidad_preferida']);
             $table->index('titulo_profesional');

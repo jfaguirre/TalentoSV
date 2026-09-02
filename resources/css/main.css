@@ -42,3 +42,52 @@
     --font-headline:  'Manrope', sans-serif;
     --font-body:      'Inter', sans-serif;
 }
+
+/* Sidebar Nav Styles */
+.sidebar__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.sidebar__nav-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--neutral-500);
+    padding: 1.25rem 0.75rem 0.375rem 0.75rem;
+}
+
+.sidebar__nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--neutral-300);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.sidebar__nav-item:hover {
+    color: var(--white);
+    background-color: var(--neutral-800);
+}
+
+.sidebar__nav-item.active {
+    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: var(--white);
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(15, 82, 186, 0.25);
+}
+
+.sidebar__nav-icon {
+    font-size: 1.1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
